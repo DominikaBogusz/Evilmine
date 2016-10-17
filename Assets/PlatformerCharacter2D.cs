@@ -32,7 +32,6 @@ namespace UnityStandardAssets._2D
             sprite = GetComponent<SpriteRenderer>();
         }
 
-
         private void FixedUpdate()
         {
             grounded = false;
@@ -46,8 +45,7 @@ namespace UnityStandardAssets._2D
             animator.SetBool("Ground", grounded);
         }
 
-
-        public void MoveHorizontal(float move, bool jump)
+        public void Move(float move, bool jump)
         {
             if (grounded || airControl)
             {
@@ -73,14 +71,13 @@ namespace UnityStandardAssets._2D
             }
         }
 
-
         private void Flip()
         {
             facingRight = !facingRight;
             sprite.flipX = !sprite.flipX;
         }
 
-        public bool isGrounded()
+        public bool IsGrounded()
         {
             if (grounded)
                 return true;

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: db3ae47c3309a264b8df2a7636750467
-timeCreated: 1476258935
+timeCreated: 1476709194
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -62,7 +62,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

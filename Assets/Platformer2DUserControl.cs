@@ -24,9 +24,8 @@ namespace UnityStandardAssets._2D
 
         private void FixedUpdate()
         {
-            float h = CrossPlatformInputManager.GetAxis("Horizontal");
-
-            character.MoveHorizontal(h, jump);
+            float h = CrossPlatformInputManager.GetAxis("Horizontal");          
+            character.Move(h, jump);
             jump = false;
         }
     }

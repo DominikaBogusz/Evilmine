@@ -69,7 +69,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Ladder.cs" />
     <Compile Include="Assets\Platformer2DUserControl.cs" />
     <Compile Include="Assets\PlatformerCharacter2D.cs" />
   </ItemGroup>

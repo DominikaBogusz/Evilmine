@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: f1b097f75bb83594699f103ed14a6871
-timeCreated: 1476258989
+timeCreated: 1476707449
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Ladder_0
+    21300002: Ladder_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,11 +59,24 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
+        y: 17
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Ladder_1
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
