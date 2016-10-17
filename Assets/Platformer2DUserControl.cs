@@ -26,7 +26,7 @@ namespace UnityStandardAssets._2D
         {
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
 
-            character.Move(h, jump);
+            character.MoveHorizontal(h, jump);
             jump = false;
         }
     }

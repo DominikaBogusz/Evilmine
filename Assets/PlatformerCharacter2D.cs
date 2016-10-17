@@ -47,7 +47,7 @@ namespace UnityStandardAssets._2D
         }
 
 
-        public void Move(float move, bool jump)
+        public void MoveHorizontal(float move, bool jump)
         {
             if (grounded || airControl)
             {

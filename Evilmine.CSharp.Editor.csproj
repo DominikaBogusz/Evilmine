@@ -103,6 +103,10 @@
       <Project>{EA178995-9740-F4A2-426B-55057EB5FB51}</Project>
       <Name>Evilmine.CSharp.Plugins</Name>
     </ProjectReference>
+    <ProjectReference Include="Evilmine.CSharp.csproj">
+      <Project>{282629E5-E5B0-3C4B-FBFC-AA3A518BC071}</Project>
+      <Name>Evilmine.CSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
