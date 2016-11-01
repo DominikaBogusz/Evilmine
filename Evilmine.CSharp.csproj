@@ -69,9 +69,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AttackBehavior.cs" />
-    <Compile Include="Assets\JumpBehavior.cs" />
-    <Compile Include="Assets\LandBehavior.cs" />
+    <Compile Include="Assets\AttackBehaviour.cs" />
+    <Compile Include="Assets\BlockBehaviour.cs" />
+    <Compile Include="Assets\JumpBehaviour.cs" />
+    <Compile Include="Assets\LandBehaviour.cs" />
     <Compile Include="Assets\Platformer2DUserControl.cs" />
     <Compile Include="Assets\PlatformerCharacter2D.cs" />
     <Compile Include="Assets\Player.cs" />

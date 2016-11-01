@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
     public Rigidbody2D MyRigidbody2D { get; set; }
     public bool Attack { get; set; }
     public bool Jump { get; set; }
+    public bool Block { get; set; }
     public bool OnGround { get; set; }
 
     void Start ()
@@ -65,6 +66,14 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && !Jump)
         {
             myAnimator.SetTrigger("jump");
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !Block)
+        {
+            myAnimator.SetBool("block", true);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            myAnimator.SetBool("block", false);
         }
     }
 
