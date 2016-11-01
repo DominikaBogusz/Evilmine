@@ -63,23 +63,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Evilmine.CSharp.Plugins.csproj">
-      <Project>{EA178995-9740-F4A2-426B-55057EB5FB51}</Project>
-      <Name>Evilmine.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\AttackBehaviour.cs" />
-    <Compile Include="Assets\BlockBehaviour.cs" />
-    <Compile Include="Assets\JumpBehaviour.cs" />
-    <Compile Include="Assets\LandBehaviour.cs" />
-    <Compile Include="Assets\Platformer2DUserControl.cs" />
-    <Compile Include="Assets\PlatformerCharacter2D.cs" />
-    <Compile Include="Assets\Player.cs" />
+    <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
+    <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
+    <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
+    <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Editor\CM Tools\TileMasterReadme.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
