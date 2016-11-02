@@ -88,6 +88,7 @@ public class Player : MonoBehaviour {
 
         if (OnGround && Jump)
         {
+            Jump = false;
             MyRigidbody2D.AddForce(new Vector2(0, jumpForce));
         }
 
