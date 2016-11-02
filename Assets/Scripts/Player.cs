@@ -27,14 +27,18 @@ public class Player : MonoBehaviour {
     private bool airControl;
     [SerializeField]
     private float jumpForce;
+    [SerializeField]
+    private float climbSpeed = 5;
     private Animator myAnimator;
     private bool facingRight;
+    private IUseable useable;
 
     public Rigidbody2D MyRigidbody2D { get; set; }
     public bool Attack { get; set; }
     public bool Jump { get; set; }
     public bool Block { get; set; }
     public bool OnGround { get; set; }
+    public bool OnLadder { get; set; }
 
     void Start ()
     {
@@ -54,7 +58,8 @@ public class Player : MonoBehaviour {
         HandleLayers();        
 
         float horizontal = Input.GetAxis("Horizontal");
-        HandleMovement(horizontal);
+        float vertical = Input.GetAxis("Vertical");
+        HandleMovement(horizontal, vertical);
     }
 
     private void HandleInput()
@@ -75,9 +80,13 @@ public class Player : MonoBehaviour {
         {
             myAnimator.SetBool("block", false);
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Use();
+        }
     }
 
-    private void HandleMovement(float horizontalMove)
+    private void HandleMovement(float horizontalMove, float verticalMove)
     {
         if ((OnGround || airControl) && !Attack)
         {
@@ -97,6 +106,11 @@ public class Player : MonoBehaviour {
             myAnimator.SetBool("land", true);
         }
 
+        if (OnLadder)
+        {
+            MyRigidbody2D.velocity = new Vector2(horizontalMove * climbSpeed, verticalMove * climbSpeed); 
+        }
+
         if (horizontalMove > 0 && !facingRight || horizontalMove < 0 && facingRight)
         {
             Flip();
@@ -107,7 +121,7 @@ public class Player : MonoBehaviour {
     {
         facingRight = !facingRight;
         Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
+        theScale.x *= -1; 
         transform.localScale = theScale;  
     }
 
@@ -137,6 +151,30 @@ public class Player : MonoBehaviour {
         else
         {
             myAnimator.SetLayerWeight(1, 0);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Useable")
+        {
+            useable = other.GetComponent<IUseable>();
+        } 
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Useable")
+        {
+            useable = null;
+        }
+    }
+
+    void Use()
+    {
+        if(useable != null)
+        {
+            useable.Use();
         }
     }
 }

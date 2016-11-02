@@ -68,6 +68,8 @@
     <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
+    <Compile Include="Assets\Scripts\Useables\Ladder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Editor\CM Tools\TileMasterReadme.txt" />
