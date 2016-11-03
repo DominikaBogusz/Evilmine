@@ -5,16 +5,6 @@ public class Ladder : MonoBehaviour, IUseable {
     [SerializeField]
     private Collider2D platformCollider;
 
-	void Start ()
-    {
-	
-	}
-	
-	void Update ()
-    {
-	
-	}
-
     public void Use()
     {
         if (Player.Instance.OnLadder)

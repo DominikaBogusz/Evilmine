@@ -84,6 +84,10 @@ public class Player : MonoBehaviour {
         {
             Use();
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            myAnimator.SetTrigger("dig");
+        }
     }
 
     private void HandleMovement(float horizontalMove, float verticalMove)
