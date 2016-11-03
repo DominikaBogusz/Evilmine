@@ -108,7 +108,8 @@ public class Player : MonoBehaviour {
 
         if (OnLadder)
         {
-            MyRigidbody2D.velocity = new Vector2(horizontalMove * climbSpeed, verticalMove * climbSpeed); 
+            myAnimator.speed = Mathf.Abs(verticalMove);
+            MyRigidbody2D.velocity = new Vector2(horizontalMove * climbSpeed, verticalMove * climbSpeed);
         }
 
         if (horizontalMove > 0 && !facingRight || horizontalMove < 0 && facingRight)
@@ -151,6 +152,14 @@ public class Player : MonoBehaviour {
         else
         {
             myAnimator.SetLayerWeight(1, 0);
+        }
+        if (OnLadder)
+        {
+            myAnimator.SetLayerWeight(2, 1);
+        }
+        else
+        {
+            myAnimator.SetLayerWeight(2, 0);
         }
     }
 
