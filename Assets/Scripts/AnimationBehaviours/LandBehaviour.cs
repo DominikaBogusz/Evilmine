@@ -6,6 +6,7 @@ public class LandBehaviour : StateMachineBehaviour {
     {
         if (Player.Instance.OnGround)
         {
+            Debug.Log("OnStateUpdate, land=false");
             animator.SetBool("land", false);
         }
     }

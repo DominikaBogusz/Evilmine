@@ -29,9 +29,12 @@ public class Player : MonoBehaviour {
     private float jumpForce;
     [SerializeField]
     private float climbSpeed = 5;
-    private Animator myAnimator;
     private bool facingRight;
     private IUseable useable;
+
+    private Animator myAnimator;
+    private enum animLayer { GROUND, AIR, LADDER };
+    private animLayer currentAnimLayer;
 
     public Rigidbody2D MyRigidbody2D { get; set; }
     public bool Attack { get; set; }
@@ -45,17 +48,15 @@ public class Player : MonoBehaviour {
         MyRigidbody2D = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         facingRight = true;
+        currentAnimLayer = animLayer.GROUND;
     }
 
     void Update()
     {
-        HandleInput();
-    }
-	
-	void FixedUpdate ()
-    {
         OnGround = IsGrounded();
-        HandleLayers();        
+        HandleLayers();
+
+        HandleInput();
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -68,10 +69,13 @@ public class Player : MonoBehaviour {
         {
             myAnimator.SetTrigger("attack");
         }
+
         if (Input.GetKeyDown(KeyCode.Space) && !Jump && !OnLadder)
         {
-            myAnimator.SetTrigger("jump");
+            Debug.Log("HandleInput, jump triggered");
+            myAnimator.SetBool("jump", true);
         }
+
         if (Input.GetKeyDown(KeyCode.LeftControl) && !Block)
         {
             myAnimator.SetBool("block", true);
@@ -80,6 +84,7 @@ public class Player : MonoBehaviour {
         {
             myAnimator.SetBool("block", false);
         }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             Use();
@@ -115,16 +120,18 @@ public class Player : MonoBehaviour {
             }
         }
 
+        if (!OnGround && MyRigidbody2D.velocity.y < 0)
+        {
+            Debug.Log("HandleMovement, land=true");
+            myAnimator.SetBool("land", true);
+        }
+
         if (OnGround && Jump)
         {
+            Debug.Log("HandleMovement, Jump=false");
             Jump = false;
             MyRigidbody2D.AddForce(new Vector2(0, jumpForce));
         }
-
-        if (!OnGround && MyRigidbody2D.velocity.y < 0)
-        {
-            myAnimator.SetBool("land", true);
-        }     
 
         if (horizontalMove > 0 && !facingRight || horizontalMove < 0 && facingRight)
         {
@@ -159,22 +166,44 @@ public class Player : MonoBehaviour {
 
     private void HandleLayers()
     {
-        if (!OnGround)
+        switch (currentAnimLayer)
         {
-            myAnimator.SetLayerWeight(1, 1);
+            case animLayer.GROUND:
+                if (!OnGround && !OnLadder)
+                {
+                    SwitchToLayer(animLayer.AIR);
+                }
+                if (OnLadder)
+                {
+                    SwitchToLayer(animLayer.LADDER);
+                }
+                break;
+            case animLayer.AIR:
+                if (OnGround && !OnLadder)
+                {
+                    myAnimator.SetBool("jump", false);
+                    SwitchToLayer(animLayer.GROUND);
+                }
+                if (OnLadder)
+                {
+                    SwitchToLayer(animLayer.LADDER);
+                }
+                break;
+            case animLayer.LADDER:
+                if (!OnLadder)
+                {
+                    SwitchToLayer(animLayer.GROUND);
+                }
+                break;
         }
-        else
-        {
-            myAnimator.SetLayerWeight(1, 0);
-        }
-        if (OnLadder)
-        {
-            myAnimator.SetLayerWeight(2, 1);
-        }
-        else
-        {
-            myAnimator.SetLayerWeight(2, 0);
-        }
+    }
+
+    private void SwitchToLayer(animLayer nextAnimLayer)
+    {
+        Debug.Log((int)currentAnimLayer + " -> " + (int)nextAnimLayer);
+        myAnimator.SetLayerWeight((int)currentAnimLayer, 0);
+        myAnimator.SetLayerWeight((int)nextAnimLayer, 1);
+        currentAnimLayer = nextAnimLayer;
     }
 
     void OnTriggerEnter2D(Collider2D other)
