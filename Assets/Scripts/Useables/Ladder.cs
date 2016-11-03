@@ -19,26 +19,33 @@ public class Ladder : MonoBehaviour, IUseable {
     {
         if (Player.Instance.OnLadder)
         {
-            UseLadder(false, 1.5f);
+            GetOffLadder();
         }
         else
         {
-            UseLadder(true, 0f);
-            Physics2D.IgnoreCollision(Player.Instance.GetComponent<Collider2D>(), platformCollider, true); 
+            GetOnLadder();
+            Physics2D.IgnoreCollision(Player.Instance.GetComponent<Collider2D>(), platformCollider, true);
         }
     }
 
-    private void UseLadder(bool onLadder, float gravity)
+    private void GetOnLadder()
     {
-        Player.Instance.OnLadder = onLadder;
-        Player.Instance.MyRigidbody2D.gravityScale = gravity;
+        Player.Instance.OnLadder = true;
+        Player.Instance.MyRigidbody2D.gravityScale = 0f;
+        Player.Instance.MyRigidbody2D.MovePosition(new Vector2(transform.position.x, Player.Instance.MyRigidbody2D.position.y));
+    }
+
+    private void GetOffLadder()
+    {
+        Player.Instance.OnLadder = false;
+        Player.Instance.MyRigidbody2D.gravityScale = 1.5f;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if(other.tag == "Player")
         {
-            UseLadder(false, 1.5f);
+            GetOffLadder();
             Physics2D.IgnoreCollision(Player.Instance.GetComponent<Collider2D>(), platformCollider, false);
         }
     }

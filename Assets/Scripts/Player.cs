@@ -68,7 +68,7 @@ public class Player : MonoBehaviour {
         {
             myAnimator.SetTrigger("attack");
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !Jump)
+        if (Input.GetKeyDown(KeyCode.Space) && !Jump && !OnLadder)
         {
             myAnimator.SetTrigger("jump");
         }
@@ -88,12 +88,21 @@ public class Player : MonoBehaviour {
 
     private void HandleMovement(float horizontalMove, float verticalMove)
     {
-        if ((OnGround || airControl) && !Attack)
+        if ((OnGround || airControl) && !Attack && !OnLadder)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
         }
-
         myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
+
+        if (OnLadder)
+        { 
+            MyRigidbody2D.velocity = new Vector2(0f, verticalMove * climbSpeed);
+            if (OnGround && horizontalMove != 0)
+            {
+                OnLadder = false;
+            }
+        }
+        myAnimator.SetFloat("climbSpeed", Mathf.Abs(verticalMove));
 
         if (OnGround && Jump)
         {
@@ -104,13 +113,7 @@ public class Player : MonoBehaviour {
         if (!OnGround && MyRigidbody2D.velocity.y < 0)
         {
             myAnimator.SetBool("land", true);
-        }
-
-        if (OnLadder)
-        {
-            myAnimator.speed = Mathf.Abs(verticalMove);
-            MyRigidbody2D.velocity = new Vector2(horizontalMove * climbSpeed, verticalMove * climbSpeed);
-        }
+        }     
 
         if (horizontalMove > 0 && !facingRight || horizontalMove < 0 && facingRight)
         {
