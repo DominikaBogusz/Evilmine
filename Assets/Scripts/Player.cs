@@ -91,9 +91,9 @@ public class Player : MonoBehaviour {
         if ((OnGround || airControl) && !Attack && !OnLadder)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
+            myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
         }
-        myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
-
+        
         if (OnLadder)
         { 
             MyRigidbody2D.velocity = new Vector2(0f, verticalMove * climbSpeed);
@@ -101,8 +101,15 @@ public class Player : MonoBehaviour {
             {
                 OnLadder = false;
             }
+            if (OnGround)
+            {
+                myAnimator.SetFloat("climbSpeed", 0f);
+            }
+            else
+            {
+                myAnimator.SetFloat("climbSpeed", Mathf.Abs(verticalMove));
+            }
         }
-        myAnimator.SetFloat("climbSpeed", Mathf.Abs(verticalMove));
 
         if (OnGround && Jump)
         {
