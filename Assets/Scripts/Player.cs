@@ -40,6 +40,7 @@ public class Player : MonoBehaviour {
     public bool Attack { get; set; }
     public bool Jump { get; set; }
     public bool Block { get; set; }
+    public bool Dig { get; set; }
     public bool OnGround { get; set; }
     public bool OnLadder { get; set; }
 
@@ -72,7 +73,6 @@ public class Player : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space) && !Jump && !OnLadder)
         {
-            Debug.Log("HandleInput, jump triggered");
             myAnimator.SetBool("jump", true);
         }
 
@@ -89,15 +89,11 @@ public class Player : MonoBehaviour {
         {
             Use();
         }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            myAnimator.SetTrigger("dig");
-        }
     }
 
     private void HandleMovement(float horizontalMove, float verticalMove)
     {
-        if ((OnGround || airControl) && !Attack && !OnLadder)
+        if ((OnGround || airControl) && !Attack && !OnLadder && !Dig)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
             myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
@@ -122,15 +118,19 @@ public class Player : MonoBehaviour {
 
         if (!OnGround && MyRigidbody2D.velocity.y < 0)
         {
-            Debug.Log("HandleMovement, land=true");
             myAnimator.SetBool("land", true);
         }
 
         if (OnGround && Jump)
         {
-            Debug.Log("HandleMovement, Jump=false");
             Jump = false;
             MyRigidbody2D.AddForce(new Vector2(0, jumpForce));
+        }
+
+        if (Dig)
+        {
+            Dig = false;
+            myAnimator.SetTrigger("dig");
         }
 
         if (horizontalMove > 0 && !facingRight || horizontalMove < 0 && facingRight)
@@ -200,7 +200,6 @@ public class Player : MonoBehaviour {
 
     private void SwitchToLayer(animLayer nextAnimLayer)
     {
-        Debug.Log((int)currentAnimLayer + " -> " + (int)nextAnimLayer);
         myAnimator.SetLayerWeight((int)currentAnimLayer, 0);
         myAnimator.SetLayerWeight((int)nextAnimLayer, 1);
         currentAnimLayer = nextAnimLayer;
