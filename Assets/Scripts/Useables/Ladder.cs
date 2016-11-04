@@ -36,6 +36,7 @@ public class Ladder : MonoBehaviour, IUseable {
         if(other.tag == "Player")
         {
             GetOffLadder();
+            Player.Instance.Useable = null;
             Physics2D.IgnoreCollision(Player.Instance.GetComponent<Collider2D>(), platformCollider, false);
         }
     }

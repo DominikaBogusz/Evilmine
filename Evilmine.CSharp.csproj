@@ -63,15 +63,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DigBehaviour.cs" />
-    <Compile Include="Assets\Gem.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
+    <Compile Include="Assets\Scripts\AnimationBehaviours\DigBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
     <Compile Include="Assets\Scripts\Useables\Ladder.cs" />
   </ItemGroup>

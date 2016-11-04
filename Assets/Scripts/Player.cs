@@ -29,8 +29,10 @@ public class Player : MonoBehaviour {
     private float jumpForce;
     [SerializeField]
     private float climbSpeed = 5;
-    private bool facingRight;
-    private IUseable useable;
+    
+    public IUseable Useable { get; set; }
+
+    public bool FacingRight { get; set; }
 
     private Animator myAnimator;
     private enum animLayer { GROUND, AIR, LADDER };
@@ -43,13 +45,15 @@ public class Player : MonoBehaviour {
     public bool Dig { get; set; }
     public bool OnGround { get; set; }
     public bool OnLadder { get; set; }
+    public bool CanMove { get; set; }
 
     void Start ()
     {
         MyRigidbody2D = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
-        facingRight = true;
+        FacingRight = true;
         currentAnimLayer = animLayer.GROUND;
+        CanMove = true;  
     }
 
     void Update()
@@ -93,10 +97,15 @@ public class Player : MonoBehaviour {
 
     private void HandleMovement(float horizontalMove, float verticalMove)
     {
-        if ((OnGround || airControl) && !Attack && !OnLadder && !Dig)
+        if ((OnGround || airControl) && !Attack && !OnLadder && CanMove)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
             myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
+
+            if (horizontalMove > 0 && !FacingRight || horizontalMove < 0 && FacingRight)
+            {
+                Flip();
+            }
         }
         
         if (OnLadder)
@@ -132,16 +141,11 @@ public class Player : MonoBehaviour {
             Dig = false;
             myAnimator.SetTrigger("dig");
         }
-
-        if (horizontalMove > 0 && !facingRight || horizontalMove < 0 && facingRight)
-        {
-            Flip();
-        }
     }
 
-    private void Flip()
+    public void Flip()
     {
-        facingRight = !facingRight;
+        FacingRight = !FacingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1; 
         transform.localScale = theScale;  
@@ -209,23 +213,15 @@ public class Player : MonoBehaviour {
     {
         if(other.tag == "Useable")
         {
-            useable = other.GetComponent<IUseable>();
+            Useable = other.GetComponent<IUseable>();
         } 
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Useable")
-        {
-            useable = null;
-        }
     }
 
     void Use()
     {
-        if(useable != null)
+        if(Useable != null)
         {
-            useable.Use();
+            Useable.Use();
         }
     }
 }
