@@ -2,23 +2,28 @@
 
 public class Gem : MonoBehaviour, IUseable {
 
-    [SerializeField]
-    private BoxCollider2D leftTrigger;
-    [SerializeField]
-    private BoxCollider2D rightTrigger;
+    private Player player;
+
+    [SerializeField] private BoxCollider2D leftTrigger;
+    [SerializeField] private BoxCollider2D rightTrigger;
+
+    void Start()
+    {
+        player = Player.Instance;
+    }
 
     public void Use()
     {
-        if (leftTrigger.IsTouching(Player.Instance.GetComponent<Collider2D>()) && !Player.Instance.FacingRight)
+        if (leftTrigger.IsTouching(player.GetComponent<Collider2D>()) && !player.FacingRight)
         {
-            Player.Instance.Flip();
+            player.AnimationController.Flip();
         }
-        else if (rightTrigger.IsTouching(Player.Instance.GetComponent<Collider2D>()) && Player.Instance.FacingRight)
+        else if (rightTrigger.IsTouching(player.GetComponent<Collider2D>()) && player.FacingRight)
         {
-            Player.Instance.Flip();
+            player.AnimationController.Flip();
         }
-        Player.Instance.Dig = true;
-        Player.Instance.Useable = null;
+        player.Dig = true;
+        player.UseManager.Useable = null;
         GetComponent<Collider2D>().enabled = false;
     }
 }

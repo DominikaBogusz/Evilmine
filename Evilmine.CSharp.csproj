@@ -72,6 +72,8 @@
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\PlayerAnimationController.cs" />
+    <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
     <Compile Include="Assets\Scripts\Useables\Ladder.cs" />

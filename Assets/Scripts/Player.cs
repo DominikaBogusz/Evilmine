@@ -15,28 +15,18 @@ public class Player : MonoBehaviour {
         }
     }
 
-    [SerializeField]
-    private float movementSpeed = 5;
-    [SerializeField]
-    private Transform[] groundPoints;
-    [SerializeField]
-    private float groundRadius;
-    [SerializeField]
-    private LayerMask whatIsGround;
-    [SerializeField]
-    private bool airControl;
-    [SerializeField]
-    private float jumpForce;
-    [SerializeField]
-    private float climbSpeed = 5;
-    
-    public IUseable Useable { get; set; }
+    [SerializeField] private float movementSpeed = 5;
+    [SerializeField] private Transform[] groundPoints;
+    [SerializeField] private float groundRadius;
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private bool airControl;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float climbSpeed = 5;
 
     public bool FacingRight { get; set; }
 
-    private Animator myAnimator;
-    private enum animLayer { GROUND, AIR, LADDER };
-    private animLayer currentAnimLayer;
+    public PlayerAnimationController AnimationController { get; set; }
+    public PlayerUseManager UseManager { get; set; }
 
     public Rigidbody2D MyRigidbody2D { get; set; }
     public bool Attack { get; set; }
@@ -49,17 +39,16 @@ public class Player : MonoBehaviour {
 
     void Start ()
     {
+        AnimationController = GetComponent<PlayerAnimationController>();
+        UseManager = GetComponentInChildren<PlayerUseManager>();
         MyRigidbody2D = GetComponent<Rigidbody2D>();
-        myAnimator = GetComponent<Animator>();
         FacingRight = true;
-        currentAnimLayer = animLayer.GROUND;
         CanMove = true;  
     }
 
     void Update()
     {
         OnGround = IsGrounded();
-        HandleLayers();
 
         HandleInput();
 
@@ -72,26 +61,26 @@ public class Player : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && !Attack)
         {
-            myAnimator.SetTrigger("attack");
+            AnimationController.Attack();
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && !Jump && !OnLadder)
         {
-            myAnimator.SetBool("jump", true);
+            AnimationController.StartJump();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && !Block)
         {
-            myAnimator.SetBool("block", true);
+            AnimationController.StartBlock();
         }
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
-            myAnimator.SetBool("block", false);
+            AnimationController.StopBlock();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Use();
+            UseManager.Use();
         }
     }
 
@@ -100,11 +89,11 @@ public class Player : MonoBehaviour {
         if ((OnGround || airControl) && !Attack && !OnLadder && CanMove)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
-            myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
+            AnimationController.SetMovementSpeed(horizontalMove);
 
             if (horizontalMove > 0 && !FacingRight || horizontalMove < 0 && FacingRight)
             {
-                Flip();
+                AnimationController.Flip();
             }
         }
         
@@ -117,17 +106,17 @@ public class Player : MonoBehaviour {
             }
             if (OnGround)
             {
-                myAnimator.SetFloat("climbSpeed", 0f);
+                AnimationController.SetClimbSpeed(0f);
             }
             else
             {
-                myAnimator.SetFloat("climbSpeed", Mathf.Abs(verticalMove));
+                AnimationController.SetClimbSpeed(verticalMove);
             }
         }
 
         if (!OnGround && MyRigidbody2D.velocity.y < 0)
         {
-            myAnimator.SetBool("land", true);
+            AnimationController.StartLand();
         }
 
         if (OnGround && Jump)
@@ -139,16 +128,8 @@ public class Player : MonoBehaviour {
         if (Dig)
         {
             Dig = false;
-            myAnimator.SetTrigger("dig");
+            AnimationController.Dig();
         }
-    }
-
-    public void Flip()
-    {
-        FacingRight = !FacingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1; 
-        transform.localScale = theScale;  
     }
 
     private bool IsGrounded()
@@ -166,62 +147,5 @@ public class Player : MonoBehaviour {
             }
         }
         return false;
-    }
-
-    private void HandleLayers()
-    {
-        switch (currentAnimLayer)
-        {
-            case animLayer.GROUND:
-                if (!OnGround && !OnLadder)
-                {
-                    SwitchToLayer(animLayer.AIR);
-                }
-                if (OnLadder)
-                {
-                    SwitchToLayer(animLayer.LADDER);
-                }
-                break;
-            case animLayer.AIR:
-                if (OnGround && !OnLadder)
-                {
-                    myAnimator.SetBool("jump", false);
-                    SwitchToLayer(animLayer.GROUND);
-                }
-                if (OnLadder)
-                {
-                    SwitchToLayer(animLayer.LADDER);
-                }
-                break;
-            case animLayer.LADDER:
-                if (!OnLadder)
-                {
-                    SwitchToLayer(animLayer.GROUND);
-                }
-                break;
-        }
-    }
-
-    private void SwitchToLayer(animLayer nextAnimLayer)
-    {
-        myAnimator.SetLayerWeight((int)currentAnimLayer, 0);
-        myAnimator.SetLayerWeight((int)nextAnimLayer, 1);
-        currentAnimLayer = nextAnimLayer;
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.tag == "Useable")
-        {
-            Useable = other.GetComponent<IUseable>();
-        } 
-    }
-
-    void Use()
-    {
-        if(Useable != null)
-        {
-            Useable.Use();
-        }
     }
 }

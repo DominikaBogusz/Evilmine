@@ -2,8 +2,7 @@
 
 public class CameraFollow : MonoBehaviour {
 
-    [SerializeField]
-    private Transform target;
+    [SerializeField] private Transform target;
 
     void LateUpdate ()
     {

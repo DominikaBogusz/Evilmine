@@ -2,42 +2,49 @@
 
 public class Ladder : MonoBehaviour, IUseable {
 
-    [SerializeField]
-    private Collider2D platformCollider;
+    private Player player;
+
+    [SerializeField] private Collider2D platformCollider;
+
+    void Start()
+    {
+        player = Player.Instance;
+    }
 
     public void Use()
     {
-        if (Player.Instance.OnLadder)
+        if (player.OnLadder)
         {
             GetOffLadder();
         }
         else
         {
             GetOnLadder();
-            Physics2D.IgnoreCollision(Player.Instance.GetComponent<Collider2D>(), platformCollider, true);
+            Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), platformCollider, true);
         }
     }
 
     private void GetOnLadder()
     {
-        Player.Instance.OnLadder = true;
-        Player.Instance.MyRigidbody2D.gravityScale = 0f;
-        Player.Instance.MyRigidbody2D.MovePosition(new Vector2(transform.position.x, Player.Instance.MyRigidbody2D.position.y));
+        player.OnLadder = true;
+        player.MyRigidbody2D.gravityScale = 0f;
+        player.MyRigidbody2D.MovePosition(new Vector2(transform.position.x, player.MyRigidbody2D.position.y));
     }
 
     private void GetOffLadder()
     {
-        Player.Instance.OnLadder = false;
-        Player.Instance.MyRigidbody2D.gravityScale = 1.5f;
+        player.OnLadder = false;
+        player.MyRigidbody2D.gravityScale = 1.5f;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.tag == "Player")
+        if(other.tag == "EventManager")
         {
+            Debug.Log("tu");
             GetOffLadder();
-            Player.Instance.Useable = null;
-            Physics2D.IgnoreCollision(Player.Instance.GetComponent<Collider2D>(), platformCollider, false);
+            player.UseManager.Useable = null;
+            Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), platformCollider, false);
         }
     }
 }
