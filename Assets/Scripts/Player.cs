@@ -19,16 +19,15 @@ public class Player : MonoBehaviour {
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
     [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private bool airControl;
     [SerializeField] private float jumpForce;
     [SerializeField] private float climbSpeed = 5;
 
-    public bool FacingRight { get; set; }
-
-    public PlayerAnimationController AnimationController { get; set; }
+    public Rigidbody2D MyRigidbody2D { get; set; }
+    
+    public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
 
-    public Rigidbody2D MyRigidbody2D { get; set; }
+    public bool FacingRight { get; set; }
     public bool Attack { get; set; }
     public bool Jump { get; set; }
     public bool Block { get; set; }
@@ -39,9 +38,9 @@ public class Player : MonoBehaviour {
 
     void Start ()
     {
-        AnimationController = GetComponent<PlayerAnimationController>();
-        UseManager = GetComponentInChildren<PlayerUseManager>();
         MyRigidbody2D = GetComponent<Rigidbody2D>();
+        AnimationManager = GetComponent<PlayerAnimationManager>();
+        UseManager = GetComponentInChildren<PlayerUseManager>();
         FacingRight = true;
         CanMove = true;  
     }
@@ -49,51 +48,18 @@ public class Player : MonoBehaviour {
     void Update()
     {
         OnGround = IsGrounded();
-
-        HandleInput();
-
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        HandleMovement(horizontal, vertical);
     }
 
-    private void HandleInput()
+    public void Move(float horizontalMove, float verticalMove)
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !Attack)
-        {
-            AnimationController.Attack();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && !Jump && !OnLadder)
-        {
-            AnimationController.StartJump();
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !Block)
-        {
-            AnimationController.StartBlock();
-        }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            AnimationController.StopBlock();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UseManager.Use();
-        }
-    }
-
-    private void HandleMovement(float horizontalMove, float verticalMove)
-    {
-        if ((OnGround || airControl) && !Attack && !OnLadder && CanMove)
+        if (!Attack && !OnLadder && CanMove)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
-            AnimationController.SetMovementSpeed(horizontalMove);
+            AnimationManager.SetMovementSpeed(horizontalMove);
 
             if (horizontalMove > 0 && !FacingRight || horizontalMove < 0 && FacingRight)
             {
-                AnimationController.Flip();
+                AnimationManager.Flip();
             }
         }
         
@@ -106,17 +72,17 @@ public class Player : MonoBehaviour {
             }
             if (OnGround)
             {
-                AnimationController.SetClimbSpeed(0f);
+                AnimationManager.SetClimbSpeed(0f);
             }
             else
             {
-                AnimationController.SetClimbSpeed(verticalMove);
+                AnimationManager.SetClimbSpeed(verticalMove);
             }
         }
 
         if (!OnGround && MyRigidbody2D.velocity.y < 0)
         {
-            AnimationController.StartLand();
+            AnimationManager.StartLand();
         }
 
         if (OnGround && Jump)
@@ -128,7 +94,7 @@ public class Player : MonoBehaviour {
         if (Dig)
         {
             Dig = false;
-            AnimationController.Dig();
+            AnimationManager.Dig();
         }
     }
 

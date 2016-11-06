@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour {
+public class PlayerAnimationManager : MonoBehaviour {
 
     private Player player;
 
