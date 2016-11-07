@@ -41,7 +41,6 @@ public class Ladder : MonoBehaviour, IUseable {
     {
         if(other.tag == "EventManager")
         {
-            Debug.Log("tu");
             GetOffLadder();
             player.UseManager.Useable = null;
             Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), platformCollider, false);
