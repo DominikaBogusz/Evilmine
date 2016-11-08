@@ -39,7 +39,7 @@ public class Ladder : MonoBehaviour, IUseable {
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.tag == "EventManager")
+        if(other.tag == "UseManager")
         {
             GetOffLadder();
             player.UseManager.Useable = null;
