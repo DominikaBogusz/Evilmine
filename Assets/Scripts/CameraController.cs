@@ -29,7 +29,6 @@ public class CameraController : MonoBehaviour {
 
     void LateUpdate()
     {
-        //FollowTarget();
         if (touchingLeft)
         {
             x = Mathf.Clamp(transform.position.x, target.position.x, left + width / 2);
@@ -58,11 +57,6 @@ public class CameraController : MonoBehaviour {
 
         transform.position = new Vector3(x, y, transform.position.z);
         Camera.main.transform.position = new Vector3(x, y, transform.position.z);
-    }
-
-    private void FollowTarget()
-    {
-        transform.position = new Vector3(target.position.x, target.position.y, transform.position.z);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
