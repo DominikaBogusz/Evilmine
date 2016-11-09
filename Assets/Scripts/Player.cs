@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : Character {
 
     private static Player instance;
     public static Player Instance
@@ -14,8 +14,7 @@ public class Player : MonoBehaviour {
             return instance;
         }
     }
-
-    [SerializeField] private float movementSpeed = 5;
+    
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
     [SerializeField] private LayerMask whatIsGround;
@@ -27,8 +26,6 @@ public class Player : MonoBehaviour {
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
 
-    public bool FacingRight { get; set; }
-    public bool Attack { get; set; }
     public bool Jump { get; set; }
     public bool Block { get; set; }
     public bool Dig { get; set; }
@@ -36,12 +33,12 @@ public class Player : MonoBehaviour {
     public bool OnLadder { get; set; }
     public bool CanMove { get; set; }
 
-    void Start ()
+    public override void Start ()
     {
+        base.Start(); 
         MyRigidbody2D = GetComponent<Rigidbody2D>();
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
-        FacingRight = true;
         CanMove = true;  
     }
 
@@ -59,7 +56,7 @@ public class Player : MonoBehaviour {
 
             if (horizontalMove > 0 && !FacingRight || horizontalMove < 0 && FacingRight)
             {
-                AnimationManager.Flip();
+                Flip();
             }
         }
         

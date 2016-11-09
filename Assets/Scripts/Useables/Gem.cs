@@ -16,11 +16,11 @@ public class Gem : MonoBehaviour, IUseable {
     {
         if (leftTrigger.IsTouching(player.GetComponent<Collider2D>()) && !player.FacingRight)
         {
-            player.AnimationManager.Flip();
+            player.Flip();
         }
         else if (rightTrigger.IsTouching(player.GetComponent<Collider2D>()) && player.FacingRight)
         {
-            player.AnimationManager.Flip();
+            player.Flip();
         }
         player.Dig = true;
         player.UseManager.Useable = null;

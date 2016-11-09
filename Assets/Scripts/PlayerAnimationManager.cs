@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 
-public class PlayerAnimationManager : MonoBehaviour {
+public class PlayerAnimationManager : AnimationManager {
 
     private Player player;
-
-    private Animator animator;
+    
     private enum animLayer { GROUND, AIR, LADDER };
     private animLayer currentAnimLayer;
 
-    void Start ()
+    public override void Start ()
     {
+        base.Start();
         player = Player.Instance;
-        animator = GetComponent<Animator>();
         currentAnimLayer = animLayer.GROUND;
     }
 	
@@ -19,14 +18,6 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         HandleLayers();
 	}
-
-    public void Flip()
-    {
-        player.FacingRight = !player.FacingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
 
     public void HandleLayers()
     {
