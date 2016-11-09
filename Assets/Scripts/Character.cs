@@ -2,6 +2,9 @@
 
 public abstract class Character : MonoBehaviour {
 
+    public Animator MyAnimator { get; private set; }
+    public Rigidbody2D MyRigidbody2D { get; private set; }
+
     [SerializeField] protected float movementSpeed;
 
     public bool FacingRight { get; set; }
@@ -9,6 +12,8 @@ public abstract class Character : MonoBehaviour {
 
     public virtual void Start()
     {
+        MyAnimator = GetComponent<Animator>();
+        MyRigidbody2D = GetComponent<Rigidbody2D>();
         FacingRight = true;
     }
 

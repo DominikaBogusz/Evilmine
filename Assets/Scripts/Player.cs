@@ -21,8 +21,6 @@ public class Player : Character {
     [SerializeField] private float jumpForce;
     [SerializeField] private float climbSpeed = 5;
 
-    public Rigidbody2D MyRigidbody2D { get; set; }
-    
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
 
@@ -35,8 +33,7 @@ public class Player : Character {
 
     public override void Start ()
     {
-        base.Start(); 
-        MyRigidbody2D = GetComponent<Rigidbody2D>();
+        base.Start();
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
         CanMove = true;  
