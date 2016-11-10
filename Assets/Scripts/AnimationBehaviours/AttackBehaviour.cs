@@ -4,16 +4,20 @@ public class AttackBehaviour : StateMachineBehaviour {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Player.Instance.Attack = true;
+        animator.GetComponent<Character>().Attack = true;
+        animator.SetFloat("speed", 0f);
 
-        if (Player.Instance.OnGround)
+        if(animator.tag == "Player")
         {
-            Player.Instance.MyRigidbody2D.velocity = Vector2.zero;
-        }
+            if (Player.Instance.OnGround)
+            {
+                Player.Instance.MyRigidbody2D.velocity = Vector2.zero;
+            }
+        }        
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Player.Instance.Attack = false;
+        animator.GetComponent<Character>().Attack = false;
     }
 }

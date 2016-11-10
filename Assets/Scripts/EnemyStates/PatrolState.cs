@@ -5,17 +5,27 @@ public class PatrolState : IEnemyState {
     private Enemy enemy;
 
     private float patrolTimer;
-    private float patrolDuration = 10f;
+    private float patrolDuration = 5f;
 
     public void Enter(Enemy enemy)
     {
+        Debug.Log("Patrol enter");
         this.enemy = enemy;
     }
 
     public void Execute()
     {
         Patrol();
-        enemy.Move();
+
+        if (!enemy.Attack)
+        {
+            enemy.Move();
+        }
+        
+        if(enemy.Target != null)
+        {
+            enemy.ChangeState(new RangedState());
+        }
     }
 
     public void Exit()
@@ -25,12 +35,15 @@ public class PatrolState : IEnemyState {
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-
+        if(other.tag == "Edge")
+        {
+            enemy.Flip();
+        }
     }
 
     private void Patrol()
     {
-        enemy.MyAnimator.SetFloat("speed", 1f);
+        enemy.MyAnimator.SetFloat("speed", 0.5f);
 
         patrolTimer += Time.deltaTime;
         if (patrolTimer >= patrolDuration)

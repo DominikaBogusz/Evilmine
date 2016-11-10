@@ -4,7 +4,24 @@ public class Enemy : Character {
 
     private IEnemyState currentState;
 
-	public override void Start ()
+    public GameObject Target { get; set; }
+
+    [SerializeField] private float meleeRange = 1f;
+
+    public bool InMeleeRange
+    {
+        get
+        {
+            if(Target != null)
+            {
+                float distance = Vector2.Distance(transform.position, Target.transform.position);
+                return distance <= meleeRange;
+            }
+            return false;
+        }
+    }
+
+    public override void Start ()
     {
         base.Start();
         ChangeState(new IdleState());
@@ -13,6 +30,8 @@ public class Enemy : Character {
 	void Update ()
     {
         currentState.Execute();
+
+        LookAtTarget();
 	}
 
     public void ChangeState(IEnemyState newState)
@@ -29,12 +48,30 @@ public class Enemy : Character {
 
     public void Move()
     {
-        MyAnimator.SetFloat("speed", 1f);
-        transform.Translate(GetDirection() * movementSpeed * Time.deltaTime);
+        transform.Translate(GetDirection() * (movementSpeed * Time.deltaTime), Space.World);
     }
 
     private Vector2 GetDirection()
-    {
+    { 
         return FacingRight ? Vector2.right : Vector2.left;
+    }
+
+    private void LookAtTarget()
+    {
+        if(Target != null)
+        {
+            float xDir = Target.transform.position.x - transform.position.x;
+
+            if(xDir < 0 && FacingRight || xDir > 0 && !FacingRight)
+            {
+                Flip();
+            }
+        }
+        
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        currentState.OnTriggerEnter2D(other);
     }
 }

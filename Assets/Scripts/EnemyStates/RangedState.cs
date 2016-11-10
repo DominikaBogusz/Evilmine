@@ -2,14 +2,29 @@
 
 public class RangedState : IEnemyState {
 
+    private Enemy enemy;
+
     public void Enter(Enemy enemy)
     {
-
+        Debug.Log("Ranged enter");
+        this.enemy = enemy;
     }
 
     public void Execute()
     {
-
+        if (enemy.InMeleeRange)
+        {
+            enemy.ChangeState(new MeleeState());
+        }
+        else if(enemy.Target != null)
+        {
+            enemy.MyAnimator.SetFloat("speed", 1f);
+            enemy.Move();
+        }
+        else
+        {
+            enemy.ChangeState(new IdleState());
+        }
     }
 
     public void Exit()

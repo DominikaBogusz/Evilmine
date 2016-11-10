@@ -5,16 +5,22 @@ public class IdleState : IEnemyState {
     private Enemy enemy;
 
     private float idleTimer;
-    private float idleDuration = 5f;
+    private float idleDuration = 2f;
 
     public void Enter(Enemy enemy)
     {
+        Debug.Log("Idle enter");
         this.enemy = enemy;
     }
 
     public void Execute()
     {
         Idle();
+
+        if(enemy.Target != null)
+        {
+            enemy.ChangeState(new PatrolState());
+        }
     }
 
     public void Exit()
