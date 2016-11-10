@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour {
     {
         Physics2D.IgnoreLayerCollision(20, 8, true);
         Physics2D.IgnoreLayerCollision(20, 9, true);
+        Physics2D.IgnoreLayerCollision(20, 11, true);
         Physics2D.IgnoreLayerCollision(20, 15, false);
     }
 

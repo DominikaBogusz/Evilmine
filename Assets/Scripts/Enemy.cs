@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Enemy : Character {
 
@@ -21,6 +22,14 @@ public class Enemy : Character {
         }
     }
 
+    public override bool IsDead
+    {
+        get
+        {
+            return health <= 0;
+        }
+    }
+
     public override void Start ()
     {
         base.Start();
@@ -29,9 +38,11 @@ public class Enemy : Character {
 	
 	void Update ()
     {
-        currentState.Execute();
-
-        LookAtTarget();
+        if (!IsDead && !TakingDamage)
+        {
+            currentState.Execute();
+            LookAtTarget();
+        }
 	}
 
     public void ChangeState(IEnemyState newState)
@@ -70,8 +81,24 @@ public class Enemy : Character {
         
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public override void OnTriggerEnter2D(Collider2D other)
     {
+        base.OnTriggerEnter2D(other);
         currentState.OnTriggerEnter2D(other);
+    }
+
+    public override IEnumerator TakeDamage()
+    {
+        health -= 10;
+
+        if (!IsDead)
+        {
+            MyAnimator.SetTrigger("hurt");
+        }
+        else
+        {
+            MyAnimator.SetTrigger("die");
+            yield return null;
+        }
     }
 }

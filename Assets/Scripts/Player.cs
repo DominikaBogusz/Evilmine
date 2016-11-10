@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Player : Character {
 
@@ -30,6 +31,14 @@ public class Player : Character {
     public bool OnGround { get; set; }
     public bool OnLadder { get; set; }
     public bool CanMove { get; set; }
+
+    public override bool IsDead
+    {
+        get
+        {
+            return health <= 0;
+        }
+    }
 
     public override void Start ()
     {
@@ -107,5 +116,10 @@ public class Player : Character {
             }
         }
         return false;
+    }
+
+    public override IEnumerator TakeDamage()
+    {
+        yield return null;
     }
 }
