@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+
+public delegate void DeadEventHandler();
 
 public class Player : Character {
 
@@ -24,12 +27,17 @@ public class Player : Character {
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
 
+    private SpriteRenderer spriteRenderer;
+
     public bool Jump { get; set; }
     public bool Block { get; set; }
     public bool Dig { get; set; }
     public bool OnGround { get; set; }
     public bool OnLadder { get; set; }
     public bool CanMove { get; set; }
+
+    private bool isImmortal = false;
+    [SerializeField] private float immortalTime = 1f;
 
     public override bool IsDead
     {
@@ -44,6 +52,7 @@ public class Player : Character {
         base.Start();
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         CanMove = true;  
     }
 
@@ -71,7 +80,7 @@ public class Player : Character {
             if (OnGround && horizontalMove != 0)
             {
                 OnLadder = false;
-            }
+            } 
             if (OnGround)
             {
                 AnimationManager.SetClimbSpeed(0f);
@@ -117,18 +126,47 @@ public class Player : Character {
         return false;
     }
 
-    public override void TakeDamage()
+    public override IEnumerator TakeDamage()
     {
-        health -= 10;
+        if (!isImmortal)
+        {
+            health -= 10;
 
-        if (!IsDead && OnGround)
-        {
-            AnimationManager.Hurt();
+            if (!IsDead && OnGround)
+            {
+                AnimationManager.Hurt();
+
+                isImmortal = true;
+                StartCoroutine(IndicateImmortal());
+                yield return new WaitForSeconds(immortalTime);
+                isImmortal = false;
+            }
+            else if (IsDead)
+            {
+                OnDeadEvent();
+                AnimationManager.Die();
+            }
         }
-        else if(IsDead)
+    }
+
+    private IEnumerator IndicateImmortal()
+    {
+        while (isImmortal)
         {
-            AnimationManager.Die();
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(0.2f);
         }
-        //yield return null;
+    }
+
+    public event DeadEventHandler DeadEvent;
+
+    public void OnDeadEvent()
+    {
+        if(DeadEvent != null)
+        {
+            DeadEvent();
+        }
     }
 }

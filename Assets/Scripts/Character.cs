@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public abstract class Character : MonoBehaviour {
 
@@ -51,10 +52,9 @@ public abstract class Character : MonoBehaviour {
     {
         if (damageSources.Contains(other.tag))
         {
-            //StartCoroutine(TakeDamage());
-            TakeDamage();
+            StartCoroutine(TakeDamage());
         }
     }
 
-    public abstract void TakeDamage();
+    public abstract IEnumerator TakeDamage();
 }

@@ -33,6 +33,7 @@ public class Enemy : Character {
     public override void Start ()
     {
         base.Start();
+        Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
         ChangeState(new IdleState());
 	}
 	
@@ -81,13 +82,19 @@ public class Enemy : Character {
         
     }
 
+    public void RemoveTarget()
+    {
+        Target = null;
+        ChangeState(new IdleState());
+    }
+
     public override void OnTriggerEnter2D(Collider2D other)
     {
         base.OnTriggerEnter2D(other);
         currentState.OnTriggerEnter2D(other);
     }
 
-    public override void TakeDamage()
+    public override IEnumerator TakeDamage()
     {
         health -= 10;
 
@@ -97,8 +104,9 @@ public class Enemy : Character {
         }
         else
         {
-            MyAnimator.SetTrigger("die");
-            //yield return null;
+            MyAnimator.SetTrigger("die");       
         }
+
+        yield return null;
     }
 }

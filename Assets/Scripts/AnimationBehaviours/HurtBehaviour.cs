@@ -6,7 +6,7 @@ public class HurtBehaviour : StateMachineBehaviour {
     {
         animator.GetComponent<Character>().TakingDamage = true;
 
-        if(animator.tag == "Player")
+        if (animator.tag == "Player")
         {
             if (Player.Instance.OnGround)
             {
