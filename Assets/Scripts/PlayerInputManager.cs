@@ -11,11 +11,14 @@ public class PlayerInputManager : MonoBehaviour {
 	
 	void Update ()
     {
-        HandleInput();
+        if(!player.TakingDamage && !player.IsDead)
+        {
+            HandleInput();
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        player.Move(horizontal, vertical);
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            player.Move(horizontal, vertical);
+        } 
     }
 
     private void HandleInput()

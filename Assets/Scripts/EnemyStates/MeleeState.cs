@@ -10,7 +10,6 @@ public class MeleeState : IEnemyState {
 
     public void Enter(Enemy enemy)
     {
-        Debug.Log("Melee enter");
         this.enemy = enemy;
     }
 

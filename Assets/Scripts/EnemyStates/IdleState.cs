@@ -9,7 +9,6 @@ public class IdleState : IEnemyState {
 
     public void Enter(Enemy enemy)
     {
-        Debug.Log("Idle enter");
         this.enemy = enemy;
     }
 

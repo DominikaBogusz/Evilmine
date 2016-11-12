@@ -87,7 +87,7 @@ public class Enemy : Character {
         currentState.OnTriggerEnter2D(other);
     }
 
-    public override IEnumerator TakeDamage()
+    public override void TakeDamage()
     {
         health -= 10;
 
@@ -98,7 +98,7 @@ public class Enemy : Character {
         else
         {
             MyAnimator.SetTrigger("die");
-            yield return null;
+            //yield return null;
         }
     }
 }

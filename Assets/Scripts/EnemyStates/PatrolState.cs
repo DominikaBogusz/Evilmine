@@ -9,7 +9,6 @@ public class PatrolState : IEnemyState {
 
     public void Enter(Enemy enemy)
     {
-        Debug.Log("Patrol enter");
         this.enemy = enemy;
     }
 

@@ -100,4 +100,12 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         player.MyAnimator.SetTrigger("dig");
     }
+    public void Hurt()
+    {
+        player.MyAnimator.SetTrigger("hurt");
+    }
+    public void Die()
+    {
+        player.MyAnimator.SetTrigger("die");
+    }
 }

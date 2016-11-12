@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public abstract class Character : MonoBehaviour {
@@ -8,16 +7,14 @@ public abstract class Character : MonoBehaviour {
     public Rigidbody2D MyRigidbody2D { get; private set; }
 
     [SerializeField] protected float movementSpeed;
+    [SerializeField] protected int health;
 
     public bool FacingRight { get; set; }
     public bool Attack { get; set; }
     public bool TakingDamage { get; set; }
-
-    [SerializeField] protected int health;
     public abstract bool IsDead { get; }
-
+  
     [SerializeField] private List<string> damageSources = new List<string>();
-
     [SerializeField] private PolygonCollider2D swordCollider;
 
     public virtual void Start()
@@ -33,13 +30,16 @@ public abstract class Character : MonoBehaviour {
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-    }
-
-    public abstract IEnumerator TakeDamage();
+    }    
 
     public void SwordPullOut()
     {
         swordCollider.enabled = true;
+
+        Vector3 tmpPos = swordCollider.transform.position;
+        swordCollider.transform.position = new Vector3(swordCollider.transform.position.x + 0, 01, swordCollider.transform.position.y);
+        swordCollider.transform.position = tmpPos;
+
     }
 
     public void SwordHide()
@@ -51,7 +51,10 @@ public abstract class Character : MonoBehaviour {
     {
         if (damageSources.Contains(other.tag))
         {
-            StartCoroutine(TakeDamage());
+            //StartCoroutine(TakeDamage());
+            TakeDamage();
         }
     }
+
+    public abstract void TakeDamage();
 }

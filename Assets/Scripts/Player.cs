@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Player : Character {
 
@@ -118,8 +117,18 @@ public class Player : Character {
         return false;
     }
 
-    public override IEnumerator TakeDamage()
+    public override void TakeDamage()
     {
-        yield return null;
+        health -= 10;
+
+        if (!IsDead && OnGround)
+        {
+            AnimationManager.Hurt();
+        }
+        else if(IsDead)
+        {
+            AnimationManager.Die();
+        }
+        //yield return null;
     }
 }
