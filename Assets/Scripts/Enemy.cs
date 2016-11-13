@@ -109,4 +109,9 @@ public class Enemy : Character {
 
         yield return null;
     }
+    
+    public override void Die()
+    {
+        Destroy(gameObject);
+    }
 }

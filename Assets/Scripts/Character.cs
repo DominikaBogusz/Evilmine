@@ -57,4 +57,6 @@ public abstract class Character : MonoBehaviour {
     }
 
     public abstract IEnumerator TakeDamage();
+
+    public abstract void Die();
 }

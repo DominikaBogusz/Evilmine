@@ -17,6 +17,7 @@ public class Player : Character {
             return instance;
         }
     }
+    [SerializeField] private Transform startPoint;
     
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
@@ -26,7 +27,6 @@ public class Player : Character {
 
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
-
     private SpriteRenderer spriteRenderer;
 
     public bool Jump { get; set; }
@@ -168,5 +168,11 @@ public class Player : Character {
         {
             DeadEvent();
         }
+    }
+
+    public override void Die()
+    {
+        health = 50;
+        transform.position = startPoint.position;
     }
 }
