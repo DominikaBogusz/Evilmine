@@ -5,10 +5,11 @@ public class PatrolState : IEnemyState {
     private Enemy enemy;
 
     private float patrolTimer;
-    private float patrolDuration = 5f;
+    private float patrolDuration;
 
     public void Enter(Enemy enemy)
     {
+        patrolDuration = Random.Range(1f, 5f);
         this.enemy = enemy;
     }
 
@@ -34,10 +35,7 @@ public class PatrolState : IEnemyState {
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Edge")
-        {
-            enemy.Flip();
-        }
+        
     }
 
     private void Patrol()

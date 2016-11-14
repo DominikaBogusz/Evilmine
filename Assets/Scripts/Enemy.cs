@@ -7,6 +7,9 @@ public class Enemy : Character {
 
     public GameObject Target { get; set; }
 
+    public Transform LeftEdge { get; set; }
+    public Transform RightEdge { get; set; }
+
     [SerializeField] private float meleeRange = 1f;
 
     public bool InMeleeRange
@@ -60,7 +63,14 @@ public class Enemy : Character {
 
     public void Move()
     {
-        transform.Translate(GetDirection() * (movementSpeed * Time.deltaTime), Space.World);
+        if ((GetDirection().x > 0 && transform.position.x < RightEdge.position.x) || (GetDirection().x < 0 && transform.position.x > LeftEdge.position.x))
+        {
+            transform.Translate(GetDirection() * (MyAnimator.GetFloat("speed") * movementSpeed * Time.deltaTime), Space.World);
+        }
+        else if(currentState is PatrolState)
+        {
+            Flip();
+        }
     }
 
     private Vector2 GetDirection()
@@ -91,7 +101,10 @@ public class Enemy : Character {
     public override void OnTriggerEnter2D(Collider2D other)
     {
         base.OnTriggerEnter2D(other);
-        currentState.OnTriggerEnter2D(other);
+        if(currentState != null)
+        {
+            currentState.OnTriggerEnter2D(other);
+        }       
     }
 
     public override IEnumerator TakeDamage()

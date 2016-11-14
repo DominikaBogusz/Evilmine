@@ -5,10 +5,11 @@ public class IdleState : IEnemyState {
     private Enemy enemy;
 
     private float idleTimer;
-    private float idleDuration = 2f;
+    private float idleDuration;
 
     public void Enter(Enemy enemy)
     {
+        idleDuration = Random.Range(1f, 3f);
         this.enemy = enemy;
     }
 
@@ -35,6 +36,7 @@ public class IdleState : IEnemyState {
     private void Idle()
     {
         enemy.MyAnimator.SetFloat("speed", 0f);
+        enemy.MyRigidbody2D.velocity = new Vector2(0f, 0f);
 
         idleTimer += Time.deltaTime;
 
