@@ -3,6 +3,12 @@ using System.Collections;
 
 public class Enemy : Character {
 
+    [System.Serializable]
+    public class EnemyStats : Stats
+    {
+    }
+    public EnemyStats stats = new EnemyStats();
+
     private IEnemyState currentState;
 
     public GameObject Target { get; set; }
@@ -29,13 +35,14 @@ public class Enemy : Character {
     {
         get
         {
-            return health <= 0;
+            return stats.CurHealth <= 0;
         }
     }
 
     public override void Start ()
     {
         base.Start();
+        stats.Init();
         Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
         ChangeState(new IdleState());
 	}
@@ -98,18 +105,24 @@ public class Enemy : Character {
         ChangeState(new IdleState());
     }
 
-    public override void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
-        base.OnTriggerEnter2D(other);
+        if(other.tag == "Sword")
+        {
+            StartCoroutine(TakeDamage(10));
+        }
+
         if(currentState != null)
         {
             currentState.OnTriggerEnter2D(other);
         }       
     }
 
-    public override IEnumerator TakeDamage()
+    public override IEnumerator TakeDamage(int damage)
     {
-        health -= 10;
+        SwordHide();
+
+        stats.CurHealth -= damage;
 
         if (!IsDead)
         {

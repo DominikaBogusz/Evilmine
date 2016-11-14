@@ -5,6 +5,12 @@ public delegate void DeadEventHandler();
 
 public class Player : Character {
 
+    [System.Serializable]
+    public class PlayerStats : Stats
+    { 
+    }
+    public PlayerStats stats = new PlayerStats();
+
     private static Player instance;
     public static Player Instance
     {
@@ -17,13 +23,13 @@ public class Player : Character {
             return instance;
         }
     }
-    [SerializeField] private Transform startPoint;
-    
+
+    [SerializeField] private Transform startPoint;   
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float jumpForce;
-    [SerializeField] private float climbSpeed = 5;
+    [SerializeField] private float climbSpeed;
 
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
@@ -36,6 +42,8 @@ public class Player : Character {
     public bool OnLadder { get; set; }
     public bool CanMove { get; set; }
 
+    [SerializeField] private Collider2D shieldCollider;
+
     private bool isImmortal = false;
     [SerializeField] private float immortalTime = 1f;
 
@@ -43,13 +51,14 @@ public class Player : Character {
     {
         get
         {
-            return health <= 0;
+            return stats.CurHealth <= 0;
         }
     }
 
     public override void Start ()
     {
         base.Start();
+        stats.Init();
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -107,6 +116,17 @@ public class Player : Character {
             Dig = false;
             AnimationManager.Dig();
         }
+
+        if (Block)
+        {
+            shieldCollider.enabled = true;
+            GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 1.55f);
+        }
+        else
+        {
+            shieldCollider.enabled = false;
+            GetComponent<BoxCollider2D>().size = new Vector2(1f, 1.55f);
+        }
     }
 
     private bool IsGrounded()
@@ -126,26 +146,55 @@ public class Player : Character {
         return false;
     }
 
-    public override IEnumerator TakeDamage()
+    public void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.tag == "Sword")
+        {
+            TakeEnemyDamage(10);
+        }
+        else if (other.tag == "Thorn")
+        {
+            TakeEnvironmentDamage(10);
+        }
+    }
+
+    public void TakeEnemyDamage(int damage)
+    {
+        SwordHide();
+
+        if (!isImmortal && !Block)
+        {
+            StartCoroutine(TakeDamage(damage));
+        }
+    }
+
+    public void TakeEnvironmentDamage(int damage)
+    {
+        SwordHide();
+
         if (!isImmortal)
         {
-            health -= 10;
+            StartCoroutine(TakeDamage(damage));
+        }
+    }
 
-            if (!IsDead && OnGround)
-            {
-                AnimationManager.Hurt();
+    public override IEnumerator TakeDamage(int damage)
+    {
+        stats.CurHealth -= damage;
 
-                isImmortal = true;
-                StartCoroutine(IndicateImmortal());
-                yield return new WaitForSeconds(immortalTime);
-                isImmortal = false;
-            }
-            else if (IsDead)
-            {
-                OnDeadEvent();
-                AnimationManager.Die();
-            }
+        if (!IsDead && OnGround)
+        {
+            AnimationManager.Hurt();
+
+            isImmortal = true;
+            StartCoroutine(IndicateImmortal());
+            yield return new WaitForSeconds(immortalTime);
+            isImmortal = false;
+        }
+        else if (IsDead)
+        {
+            OnDeadEvent();
+            AnimationManager.Die();
         }
     }
 
@@ -172,7 +221,7 @@ public class Player : Character {
 
     public override void Die()
     {
-        health = 50;
+        stats.Init();
         transform.position = startPoint.position;
     }
 }

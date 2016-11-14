@@ -4,22 +4,37 @@ using System.Collections;
 
 public abstract class Character : MonoBehaviour {
 
+    public abstract class Stats
+    {
+        public int maxHealth;
+
+        private int curHealth;
+        public int CurHealth
+        {
+            get { return curHealth; }
+            set { curHealth = Mathf.Clamp(value, 0, maxHealth); }
+        }
+
+        public void Init()
+        {
+            CurHealth = maxHealth;
+        }
+    }
+
     public Animator MyAnimator { get; private set; }
     public Rigidbody2D MyRigidbody2D { get; private set; }
 
     [SerializeField] protected float movementSpeed;
-    [SerializeField] protected int health;
-
+    
     public bool FacingRight { get; set; }
     public bool Attack { get; set; }
     public bool TakingDamage { get; set; }
     public abstract bool IsDead { get; }
   
-    [SerializeField] private List<string> damageSources = new List<string>();
-    [SerializeField] private PolygonCollider2D swordCollider;
+    [SerializeField] private Collider2D swordCollider;
 
     public virtual void Start()
-    {
+    { 
         MyAnimator = GetComponent<Animator>();
         MyRigidbody2D = GetComponent<Rigidbody2D>();
         FacingRight = true;
@@ -40,7 +55,6 @@ public abstract class Character : MonoBehaviour {
         Vector3 tmpPos = swordCollider.transform.position;
         swordCollider.transform.position = new Vector3(swordCollider.transform.position.x + 0, 01, swordCollider.transform.position.y);
         swordCollider.transform.position = tmpPos;
-
     }
 
     public void SwordHide()
@@ -48,15 +62,7 @@ public abstract class Character : MonoBehaviour {
         swordCollider.enabled = false;
     }
 
-    public virtual void OnTriggerEnter2D(Collider2D other)
-    {
-        if (damageSources.Contains(other.tag))
-        {
-            StartCoroutine(TakeDamage());
-        }
-    }
-
-    public abstract IEnumerator TakeDamage();
+    public abstract IEnumerator TakeDamage(int damage);
 
     public abstract void Die();
 }
