@@ -17,7 +17,8 @@ public class DeathBehaviour : StateMachineBehaviour {
         deathTimer += Time.deltaTime;
 
         if (deathTimer >= respawnTime)
-        {   
+        {
+            animator.ResetTrigger("die");
             animator.GetComponent<Character>().Die();
             animator.Play("Idle");
         }
