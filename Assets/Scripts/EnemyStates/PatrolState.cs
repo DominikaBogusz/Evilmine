@@ -17,7 +17,7 @@ public class PatrolState : IEnemyState {
     {
         Patrol();
 
-        if (!enemy.Attack)
+        if (!enemy.Attacking)
         {
             enemy.Move();
         }

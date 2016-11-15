@@ -1,25 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
 
 public abstract class Character : MonoBehaviour {
-
-    public abstract class Stats
-    {
-        public int maxHealth;
-
-        private int curHealth;
-        public int CurHealth
-        {
-            get { return curHealth; }
-            set { curHealth = Mathf.Clamp(value, 0, maxHealth); }
-        }
-
-        public void Init()
-        {
-            CurHealth = maxHealth;
-        }
-    }
 
     public Animator MyAnimator { get; private set; }
     public Rigidbody2D MyRigidbody2D { get; private set; }
@@ -27,7 +9,7 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected float movementSpeed;
     
     public bool FacingRight { get; set; }
-    public bool Attack { get; set; }
+    public bool Attacking { get; set; }
     public bool TakingDamage { get; set; }
     public abstract bool IsDead { get; }
   

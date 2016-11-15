@@ -3,11 +3,7 @@ using System.Collections;
 
 public class Enemy : Character {
 
-    [System.Serializable]
-    public class EnemyStats : Stats
-    {
-    }
-    public EnemyStats stats = new EnemyStats();
+    public Attributes attributes { get; set; }
 
     private IEnemyState currentState;
 
@@ -35,14 +31,17 @@ public class Enemy : Character {
     {
         get
         {
-            return stats.CurHealth <= 0;
+            return attributes.Health <= 0;
         }
     }
 
     public override void Start ()
     {
         base.Start();
-        stats.Init();
+
+        attributes = GetComponent<Attributes>();
+        attributes.Init();
+
         Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
         ChangeState(new IdleState());
 	}
@@ -122,7 +121,7 @@ public class Enemy : Character {
     {
         SwordHide();
 
-        stats.CurHealth -= damage;
+        attributes.Health -= damage;
 
         if (!IsDead)
         {

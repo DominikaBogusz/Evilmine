@@ -100,6 +100,10 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         player.MyAnimator.SetTrigger("dig");
     }
+    public void Protect()
+    {
+        player.MyAnimator.SetTrigger("protect");
+    }
     public void Hurt()
     {
         player.MyAnimator.SetTrigger("hurt");
@@ -107,5 +111,10 @@ public class PlayerAnimationManager : MonoBehaviour {
     public void Die()
     {
         player.MyAnimator.SetTrigger("die");
+    }
+
+    public void Reset()
+    {
+        player.MyAnimator.SetBool("block", false);
     }
 }

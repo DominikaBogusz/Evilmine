@@ -11,7 +11,7 @@ public class PlayerInputManager : MonoBehaviour {
 	
 	void Update ()
     {
-        if(!player.TakingDamage && !player.IsDead)
+        if(!player.TakingDamage && !player.IsDead && !player.Digging)
         {
             HandleInput();
 
@@ -23,17 +23,17 @@ public class PlayerInputManager : MonoBehaviour {
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !player.Attack)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !player.Attacking)
         {
             player.AnimationManager.Attack();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !player.Jump && !player.OnLadder)
+        if (Input.GetKeyDown(KeyCode.Space) && !player.Jumping && !player.OnLadder)
         {
             player.AnimationManager.StartJump();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !player.Block)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !player.Blocking)
         {
             player.AnimationManager.StartBlock();
         }

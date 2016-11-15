@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\AnimationBehaviours\HurtBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Attributes.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Scripts\EnemyStates\RangedState.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerAttributes.cs" />
     <Compile Include="Assets\Scripts\PlayerInputManager.cs" />
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />

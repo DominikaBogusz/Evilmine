@@ -22,7 +22,7 @@ public class Gem : MonoBehaviour, IUseable {
         {
             player.Flip();
         }
-        player.Dig = true;
+        player.Digging = true;
         player.UseManager.Useable = null;
         GetComponent<Collider2D>().enabled = false;
     }

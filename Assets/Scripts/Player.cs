@@ -5,18 +5,12 @@ public delegate void DeadEventHandler();
 
 public class Player : Character {
 
-    [System.Serializable]
-    public class PlayerStats : Stats
-    { 
-    }
-    public PlayerStats stats = new PlayerStats();
-
     private static Player instance;
     public static Player Instance
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = FindObjectOfType<Player>();
             }
@@ -24,23 +18,23 @@ public class Player : Character {
         }
     }
 
-    [SerializeField] private Transform startPoint;   
+    [SerializeField] private Transform startPoint;
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float jumpForce;
     [SerializeField] private float climbSpeed;
 
+    public PlayerAttributes attributes { get; set; }
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
     private SpriteRenderer spriteRenderer;
 
-    public bool Jump { get; set; }
-    public bool Block { get; set; }
-    public bool Dig { get; set; }
+    public bool Jumping { get; set; }
+    public bool Blocking { get; set; }
+    public bool Digging { get; set; }
     public bool OnGround { get; set; }
     public bool OnLadder { get; set; }
-    public bool CanMove { get; set; }
 
     [SerializeField] private Collider2D shieldCollider;
 
@@ -51,18 +45,20 @@ public class Player : Character {
     {
         get
         {
-            return stats.CurHealth <= 0;
+            return attributes.Health <= 0;
         }
     }
 
     public override void Start ()
     {
         base.Start();
-        stats.Init();
+
+        attributes = GetComponent<PlayerAttributes>();
+        attributes.Init();
+
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        CanMove = true;  
     }
 
     void Update()
@@ -72,7 +68,7 @@ public class Player : Character {
 
     public void Move(float horizontalMove, float verticalMove)
     {
-        if (!Attack && !OnLadder && CanMove)
+        if (!Attacking && !OnLadder)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
             AnimationManager.SetMovementSpeed(horizontalMove);
@@ -105,19 +101,18 @@ public class Player : Character {
             AnimationManager.StartLand();
         }
 
-        if (OnGround && Jump)
+        if (OnGround && Jumping)
         {
-            Jump = false;
+            Jumping = false;
             MyRigidbody2D.AddForce(new Vector2(0, jumpForce));
         }
 
-        if (Dig)
+        if (Digging)
         {
-            Dig = false;
             AnimationManager.Dig();
         }
 
-        if (Block)
+        if (Blocking)
         {
             shieldCollider.enabled = true;
             GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 1.55f);
@@ -150,7 +145,12 @@ public class Player : Character {
     {
         if (other.tag == "Sword")
         {
-            TakeEnemyDamage(10);
+            Enemy enemy = other.GetComponentInParent<Enemy>();
+            if(enemy != null)
+            {
+                enemy.SwordHide();
+                TakeEnemyDamage(enemy.attributes.Damage);
+            }  
         }
         else if (other.tag == "Thorn")
         {
@@ -162,9 +162,26 @@ public class Player : Character {
     {
         SwordHide();
 
-        if (!isImmortal && !Block)
+        if (!isImmortal) 
         {
-            StartCoroutine(TakeDamage(damage));
+            if (Blocking)
+            {
+                attributes.Health -= damage - (damage * attributes.ShieldProtectionPercent)/100;
+
+                if (!IsDead && OnGround)
+                {
+                    AnimationManager.Protect();
+                }
+                else if (IsDead)
+                {
+                    OnDeadEvent();
+                    AnimationManager.Die();
+                }
+            }
+            else
+            {
+                StartCoroutine(TakeDamage(damage));
+            }
         }
     }
 
@@ -180,7 +197,7 @@ public class Player : Character {
 
     public override IEnumerator TakeDamage(int damage)
     {
-        stats.CurHealth -= damage;
+        attributes.Health -= damage;
 
         if (!IsDead && OnGround)
         {
@@ -221,7 +238,9 @@ public class Player : Character {
 
     public override void Die()
     {
-        stats.Init();
+        attributes.Init();
         transform.position = startPoint.position;
+
+        AnimationManager.Reset();
     }
 }
