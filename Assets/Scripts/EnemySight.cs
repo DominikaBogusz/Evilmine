@@ -2,14 +2,11 @@
 
 public class EnemySight : MonoBehaviour {
 
-    [SerializeField] private Enemy enemy;
-
-    [SerializeField] private Collider2D sword;
+    private Enemy enemy;
 
     void Start()
     {
-        //TODO: bez umieszczania miecza przez inspektora, dla wszystkich broni
-        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), sword, true);
+        enemy = GetComponentInParent<Enemy>();
     }
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -18,10 +15,6 @@ public class EnemySight : MonoBehaviour {
         {
             Physics2D.IgnoreCollision(enemy.GetComponent<Collider2D>(), other, true);     
             enemy.Target = other.gameObject;
-        }
-        if(other.tag == "Sword")
-        {
-            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), other, true);
         }
     }
 

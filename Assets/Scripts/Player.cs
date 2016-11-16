@@ -141,51 +141,7 @@ public class Player : Character {
         return false;
     }
 
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Sword")
-        {
-            Enemy enemy = other.GetComponentInParent<Enemy>();
-            if(enemy != null)
-            {
-                enemy.SwordHide();
-                TakeEnemyDamage(enemy.attributes.Damage);
-            }  
-        }
-        else if (other.tag == "Thorn")
-        {
-            TakeEnvironmentDamage(10);
-        }
-    }
-
-    public void TakeEnemyDamage(int damage)
-    {
-        SwordHide();
-
-        if (!isImmortal) 
-        {
-            if (Blocking)
-            {
-                attributes.Health -= damage - (damage * attributes.ShieldProtectionPercent)/100;
-
-                if (!IsDead && OnGround)
-                {
-                    AnimationManager.Protect();
-                }
-                else if (IsDead)
-                {
-                    OnDeadEvent();
-                    AnimationManager.Die();
-                }
-            }
-            else
-            {
-                StartCoroutine(TakeDamage(damage));
-            }
-        }
-    }
-
-    public void TakeEnvironmentDamage(int damage)
+    public void EnvironmentDamage(int damage)
     {
         SwordHide();
 
@@ -195,7 +151,39 @@ public class Player : Character {
         }
     }
 
-    public override IEnumerator TakeDamage(int damage)
+    public void EnemyDamage(int damage)
+    {
+        SwordHide();
+
+        if (!isImmortal) 
+        {
+            if (Blocking)
+            {
+                TakeReducedDamage(damage);
+            }
+            else
+            {
+                StartCoroutine(TakeDamage(damage));
+            }
+        }
+    }
+
+    private void TakeReducedDamage(int damage)
+    {
+        attributes.Health -= damage - (damage * attributes.ShieldProtectionPercent) / 100;
+
+        if (!IsDead && OnGround)
+        {
+            AnimationManager.Protect();
+        }
+        else if (IsDead)
+        {
+            OnDeadEvent();
+            AnimationManager.Die();
+        }
+    }
+
+    private IEnumerator TakeDamage(int damage)
     {
         attributes.Health -= damage;
 

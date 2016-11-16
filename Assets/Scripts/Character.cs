@@ -44,7 +44,5 @@ public abstract class Character : MonoBehaviour {
         swordCollider.enabled = false;
     }
 
-    public abstract IEnumerator TakeDamage(int damage);
-
     public abstract void Die();
 }

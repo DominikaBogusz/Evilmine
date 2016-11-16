@@ -106,21 +106,21 @@ public class Enemy : Character {
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Sword")
-        {
-            StartCoroutine(TakeDamage(10));
-        }
-
         if(currentState != null)
         {
             currentState.OnTriggerEnter2D(other);
         }       
     }
 
-    public override IEnumerator TakeDamage(int damage)
+    public void PlayerDamage(int damage)
     {
         SwordHide();
 
+        TakeDamage(damage);
+    }
+
+    public void TakeDamage(int damage)
+    {
         attributes.Health -= damage;
 
         if (!IsDead)
@@ -131,8 +131,6 @@ public class Enemy : Character {
         {
             MyAnimator.SetTrigger("die");       
         }
-
-        yield return null;
     }
     
     public override void Die()
