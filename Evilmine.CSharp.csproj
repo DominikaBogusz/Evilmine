@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\EnemyAttributes.cs" />
     <Compile Include="Assets\Scripts\EnemyPoint.cs" />
     <Compile Include="Assets\Scripts\EnemySight.cs" />
     <Compile Include="Assets\Scripts\EnemyStates\IEnemyState.cs" />

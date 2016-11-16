@@ -21,9 +21,20 @@ public class Attributes : MonoBehaviour {
         set { damage = Mathf.Clamp(value, minDamage, maxDamage); }
     }
 
+    [SerializeField] private float minAttackSpeed;
+    [SerializeField] private float maxAttackSpeed;
+
+    private float attackSpeed;
+    public float AttackSpeed
+    {
+        get { return attackSpeed; }
+        set { attackSpeed = Mathf.Clamp(value, minAttackSpeed, maxAttackSpeed); }
+    }
+
     public virtual void Init()
     {
         Health = initialHealth;
         Damage = (minDamage + maxDamage) / 2;
+        AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2;
     }
 }

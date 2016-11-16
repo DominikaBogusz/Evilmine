@@ -25,6 +25,7 @@ public class PlayerInputManager : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && !player.Attacking)
         {
+            player.AnimationManager.SetAttackSpeed(player.attributes.AttackSpeed);
             player.AnimationManager.Attack();
         }
 

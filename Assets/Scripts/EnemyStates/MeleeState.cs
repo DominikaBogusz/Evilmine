@@ -5,12 +5,13 @@ public class MeleeState : IEnemyState {
     private Enemy enemy;
 
     private float attackTimer;
-    private float attackCoolDown = 1.5f;
+    private float attackInterval;
     private bool canAttack = true;
 
     public void Enter(Enemy enemy)
     {
         this.enemy = enemy;
+        attackInterval = enemy.attributes.AttackInterval;
     }
 
     public void Execute()
@@ -40,10 +41,11 @@ public class MeleeState : IEnemyState {
     private void Attack()
     {
         enemy.MyAnimator.SetFloat("speed", 0f);
+        enemy.MyAnimator.SetFloat("attackSpeed", enemy.attributes.AttackSpeed);
 
         attackTimer += Time.deltaTime;
 
-        if(attackTimer >= attackCoolDown)
+        if(attackTimer >= attackInterval)
         {
             canAttack = true;
             attackTimer = 0f;

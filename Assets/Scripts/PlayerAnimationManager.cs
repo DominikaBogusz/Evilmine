@@ -63,6 +63,10 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         player.MyAnimator.SetFloat("speed", Mathf.Abs(speed));
     }
+    public void SetAttackSpeed(float speed)
+    {
+        player.MyAnimator.SetFloat("attackSpeed", Mathf.Abs(speed));
+    }
     public void SetClimbSpeed(float speed)
     {
         player.MyAnimator.SetFloat("climbSpeed", speed);

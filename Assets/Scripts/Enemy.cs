@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Enemy : Character {
 
-    public Attributes attributes { get; set; }
+    public EnemyAttributes attributes { get; set; }
 
     private IEnemyState currentState;
 
@@ -39,7 +38,7 @@ public class Enemy : Character {
     {
         base.Start();
 
-        attributes = GetComponent<Attributes>();
+        attributes = GetComponent<EnemyAttributes>();
         attributes.Init();
 
         Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
