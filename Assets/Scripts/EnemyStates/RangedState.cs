@@ -15,7 +15,7 @@ public class RangedState : IEnemyState {
         {
             enemy.ChangeState(new MeleeState());
         }
-        else if(enemy.Target != null)
+        else if(enemy.Target != null && !enemy.Attacking)
         {
             enemy.MyAnimator.SetFloat("speed", 1f);
             enemy.Move();

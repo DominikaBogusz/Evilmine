@@ -115,12 +115,10 @@ public class Player : Character {
         if (Blocking)
         {
             shieldCollider.enabled = true;
-            GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 1.55f);
         }
         else
         {
             shieldCollider.enabled = false;
-            GetComponent<BoxCollider2D>().size = new Vector2(1f, 1.55f);
         }
     }
 

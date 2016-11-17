@@ -36,7 +36,6 @@ public class IdleState : IEnemyState {
     private void Idle()
     {
         enemy.MyAnimator.SetFloat("speed", 0f);
-        enemy.MyRigidbody2D.velocity = new Vector2(0f, 0f);
 
         idleTimer += Time.deltaTime;
 
