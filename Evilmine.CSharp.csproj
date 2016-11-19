@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
     <Compile Include="Assets\Scripts\Attributes.cs" />
+    <Compile Include="Assets\Scripts\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />

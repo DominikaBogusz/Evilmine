@@ -2,6 +2,13 @@
 
 public class EnemyAttributes : Attributes {
 
+    private EnemyAttributesUI enemyAttributesUI;
+
+    void Start()
+    {
+        enemyAttributesUI = attributesUI as EnemyAttributesUI;
+    }
+
     [SerializeField] private int minAttackInterval;
     [SerializeField] private int maxAttackInterval;
 
@@ -9,7 +16,11 @@ public class EnemyAttributes : Attributes {
     public int AttackInterval
     {
         get { return attackInterval; }
-        set { attackInterval = Mathf.Clamp(value, minAttackInterval, maxAttackInterval); }
+        set
+        {
+            attackInterval = Mathf.Clamp(value, minAttackInterval, maxAttackInterval);
+            enemyAttributesUI.UpdateAttackInterval(attackInterval);
+        }
     }
 
     public override void Init()
