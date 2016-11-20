@@ -4,7 +4,7 @@ public class PlayerAttributes : Attributes {
 
     private PlayerAttributesUI playerAttributesUI;
 
-    void Start()
+    void Awake()
     {
         playerAttributesUI = attributesUI as PlayerAttributesUI;
     }
@@ -26,6 +26,6 @@ public class PlayerAttributes : Attributes {
     public override void Init()
     {
         base.Init();
-        shieldProtectionPercent = (minShieldProtectionPercent + maxShieldProtectionPercent) / 2;
+        ShieldProtectionPercent = (minShieldProtectionPercent + maxShieldProtectionPercent) / 2;
     }
 }

@@ -4,7 +4,7 @@ public class EnemyAttributes : Attributes {
 
     private EnemyAttributesUI enemyAttributesUI;
 
-    void Start()
+    void Awake()
     {
         enemyAttributesUI = attributesUI as EnemyAttributesUI;
     }
@@ -26,6 +26,6 @@ public class EnemyAttributes : Attributes {
     public override void Init()
     {
         base.Init();
-        attackInterval = (minAttackInterval + maxAttackInterval) / 2;
+        AttackInterval = (minAttackInterval + maxAttackInterval) / 2;
     }
 }

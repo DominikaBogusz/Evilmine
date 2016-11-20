@@ -38,12 +38,12 @@ public class Enemy : Character {
     {
         base.Start();
 
-        attributes = GetComponent<EnemyAttributes>();
-        attributes.Init();
-
         Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
         ChangeState(new IdleState());
-	}
+
+        attributes = GetComponent<EnemyAttributes>();
+        attributes.Init();
+    }
 	
 	void Update ()
     {

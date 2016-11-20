@@ -53,12 +53,12 @@ public class Player : Character {
     {
         base.Start();
 
-        attributes = GetComponent<PlayerAttributes>();
-        attributes.Init();
-
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        attributes = GetComponent<PlayerAttributes>();
+        attributes.Init();
     }
 
     void Update()
