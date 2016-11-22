@@ -14,7 +14,7 @@ public class EnemySight : MonoBehaviour {
         if(other.tag == "Player")
         {
             Physics2D.IgnoreCollision(enemy.GetComponent<Collider2D>(), other, true);     
-            enemy.Target = other.gameObject;
+            enemy.SetTarget(other.gameObject);
         }
     }
 
@@ -22,7 +22,7 @@ public class EnemySight : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            enemy.Target = null;
+            enemy.RemoveTarget();
         }
     }
 }

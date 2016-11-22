@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void DeadEventHandler();
@@ -49,6 +50,8 @@ public class Player : Character {
         }
     }
 
+    public List<Enemy> currentEnemies;
+
     public override void Start ()
     {
         base.Start();
@@ -59,6 +62,8 @@ public class Player : Character {
 
         attributes = GetComponent<PlayerAttributes>();
         attributes.Init();
+
+        currentEnemies = new List<Enemy>();
     }
 
     void Update()
@@ -228,5 +233,17 @@ public class Player : Character {
         transform.position = startPoint.position;
 
         AnimationManager.Reset();
+    }
+
+    public bool IsBattling()
+    {
+        if (Attacking || Blocking || TakingDamage)
+        {
+            if(currentEnemies.Count > 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

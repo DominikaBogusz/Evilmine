@@ -97,10 +97,19 @@ public class Enemy : Character {
         
     }
 
+    public void SetTarget(GameObject target)
+    {
+        Target = target;
+
+        Player.Instance.currentEnemies.Add(this);
+    }
+
     public void RemoveTarget()
     {
         Target = null;
         ChangeState(new IdleState());
+
+        Player.Instance.currentEnemies.Remove(this);
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -134,6 +143,11 @@ public class Enemy : Character {
     
     public override void Die()
     {
+        if (Player.Instance.currentEnemies.Contains(this))
+        {
+            Player.Instance.currentEnemies.Remove(this);
+        }
+
         Destroy(gameObject);
     }
 }
