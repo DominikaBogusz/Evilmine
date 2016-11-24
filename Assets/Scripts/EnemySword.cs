@@ -6,7 +6,7 @@ public class EnemySword : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            Player.Instance.EnemyDamage(GetComponentInParent<Enemy>().attributes.Damage);
+            Player.Instance.EnemyDamage(GetComponentInParent<Enemy>());
         }
     }
 }

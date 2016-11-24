@@ -13,7 +13,8 @@ public class EnemySight : MonoBehaviour {
     {
         if(other.tag == "Player")
         {
-            Physics2D.IgnoreCollision(enemy.GetComponent<Collider2D>(), other, true);     
+            Physics2D.IgnoreCollision(enemy.GetComponent<BoxCollider2D>(), other, true);
+            GetComponent<BoxCollider2D>().size = new Vector2(9f, 4f);
             enemy.SetTarget(other.gameObject);
         }
     }
@@ -22,7 +23,12 @@ public class EnemySight : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            enemy.RemoveTarget();
+            GetComponent<BoxCollider2D>().size = new Vector2(9f, 0.5f);
+            
+            if(enemy.Target != null)
+            {
+                enemy.RemoveTarget();
+            }  
         }
     }
 }

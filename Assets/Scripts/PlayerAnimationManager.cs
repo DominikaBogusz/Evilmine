@@ -108,9 +108,9 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         player.MyAnimator.SetTrigger("protect");
     }
-    public void Hurt()
+    public void Damage()
     {
-        player.MyAnimator.SetTrigger("hurt");
+        player.MyAnimator.SetTrigger("damage");
     }
     public void Die()
     {

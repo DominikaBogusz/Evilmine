@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public delegate void DeadEventHandler();
 
@@ -26,9 +25,10 @@ public class Player : Character {
     [SerializeField] private float jumpForce;
     [SerializeField] private float climbSpeed;
 
-    public PlayerAttributes attributes { get; set; }
+    public PlayerAttributes Attributes { get; set; }
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
+    public PlayerStatistics Statistics { get; set; }
     private SpriteRenderer spriteRenderer;
 
     public bool Jumping { get; set; }
@@ -46,24 +46,21 @@ public class Player : Character {
     {
         get
         {
-            return attributes.Health <= 0;
+            return Attributes.Health <= 0;
         }
     }
-
-    public List<Enemy> currentEnemies;
 
     public override void Start ()
     {
         base.Start();
 
+        Attributes = GetComponent<PlayerAttributes>();
+        Attributes.Init();
+
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
+        Statistics = GetComponent<PlayerStatistics>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        attributes = GetComponent<PlayerAttributes>();
-        attributes.Init();
-
-        currentEnemies = new List<Enemy>();
     }
 
     void Update()
@@ -150,60 +147,56 @@ public class Player : Character {
 
         if (!isImmortal)
         {
-            StartCoroutine(TakeDamage(damage));
+            Attributes.Health -= damage;
+
+            if (!IsDead && OnGround)
+            {
+                AnimationManager.Damage();
+                StartCoroutine(TakeDamage());
+            }
+            else if (IsDead)
+            {
+                AnimationManager.Die();
+                OnDeadEvent();
+            }
         }
     }
 
-    public void EnemyDamage(int damage)
+    public void EnemyDamage(Enemy enemy)
     {
         SwordHide();
 
+        int damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtectionPercent) / 100 : enemy.Attributes.Damage;
+
         if (!isImmortal) 
         {
-            if (Blocking)
+            Attributes.Health -= damage;
+            enemy.Statistics.DamageMade += damage;
+
+            if (!IsDead && OnGround && Blocking)
             {
-                TakeReducedDamage(damage);
+                AnimationManager.Protect();
             }
-            else
+            else if (!IsDead && OnGround)
             {
-                StartCoroutine(TakeDamage(damage));
+                AnimationManager.Damage();
+                StartCoroutine(TakeDamage());
+            }
+            else if (IsDead)
+            {
+                AnimationManager.Die();
+                OnDeadEvent();
+                enemy.Statistics.KillCount++;
             }
         }
     }
 
-    private void TakeReducedDamage(int damage)
+    private IEnumerator TakeDamage()
     {
-        attributes.Health -= damage - (damage * attributes.ShieldProtectionPercent) / 100;
-
-        if (!IsDead && OnGround)
-        {
-            AnimationManager.Protect();
-        }
-        else if (IsDead)
-        {
-            OnDeadEvent();
-            AnimationManager.Die();
-        }
-    }
-
-    private IEnumerator TakeDamage(int damage)
-    {
-        attributes.Health -= damage;
-
-        if (!IsDead && OnGround)
-        {
-            AnimationManager.Hurt();
-
-            isImmortal = true;
-            StartCoroutine(IndicateImmortal());
-            yield return new WaitForSeconds(immortalTime);
-            isImmortal = false;
-        }
-        else if (IsDead)
-        {
-            OnDeadEvent();
-            AnimationManager.Die();
-        }
+        isImmortal = true;
+        StartCoroutine(IndicateImmortal());
+        yield return new WaitForSeconds(immortalTime);
+        isImmortal = false;
     }
 
     private IEnumerator IndicateImmortal()
@@ -217,33 +210,21 @@ public class Player : Character {
         }
     }
 
-    public event DeadEventHandler DeadEvent;
-
-    public void OnDeadEvent()
-    {
-        if(DeadEvent != null)
-        {
-            DeadEvent();
-        }
-    }
-
     public override void Die()
     {
-        attributes.Init();
+        Attributes.Init();
         transform.position = startPoint.position;
 
         AnimationManager.Reset();
     }
 
-    public bool IsBattling()
+    public event DeadEventHandler DeadEvent;
+
+    public void OnDeadEvent()
     {
-        if (Attacking || Blocking || TakingDamage)
+        if (DeadEvent != null)
         {
-            if(currentEnemies.Count > 0)
-            {
-                return true;
-            }
+            DeadEvent();
         }
-        return false;
     }
 }

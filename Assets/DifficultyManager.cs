@@ -9,6 +9,8 @@ public class DifficultyManager : MonoBehaviour {
     private float betweenActionsTimer = 2f;
     private float betweenActionsGap = 2f;
 
+    /*
+
     void Update()
     {
         IsBattling = Player.Instance.IsBattling();
@@ -26,6 +28,8 @@ public class DifficultyManager : MonoBehaviour {
             }
         }
 
-        Debug.Log("BattleTime:" + BattleTimer + ", betweenActionsTimer:" + betweenActionsTimer);
+        //Debug.Log("BattleTime:" + BattleTimer + ", betweenActionsTimer:" + betweenActionsTimer);
     }
+
+    */
 }
