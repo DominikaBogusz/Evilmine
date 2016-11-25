@@ -150,6 +150,8 @@ public class Enemy : Character {
         }
         else
         {
+            Statistics.StopBattleTimer = true;
+
             MyAnimator.SetTrigger("die");
         }
     }

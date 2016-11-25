@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class DifficultyManager : MonoBehaviour {
 
+    /*
 	public float BattleTimer { get; set; }
     public bool IsBattling { get; set; }
 
     private float betweenActionsTimer = 2f;
     private float betweenActionsGap = 2f;
-
-    /*
 
     void Update()
     {
@@ -30,6 +28,18 @@ public class DifficultyManager : MonoBehaviour {
 
         //Debug.Log("BattleTime:" + BattleTimer + ", betweenActionsTimer:" + betweenActionsTimer);
     }
-
     */
+
+    private static DifficultyManager instance;
+    public static DifficultyManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<DifficultyManager>();
+            }
+            return instance;
+        }
+    }
 }

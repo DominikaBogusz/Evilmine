@@ -4,7 +4,7 @@ public class Attributes : MonoBehaviour {
 
     [SerializeField] protected AttributesUI attributesUI;
 
-    [SerializeField] private int initialHealth;
+    [SerializeField] public int initialHealth;
 
     private int health;
     public int Health
