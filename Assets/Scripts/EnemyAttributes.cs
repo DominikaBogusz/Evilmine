@@ -28,4 +28,15 @@ public class EnemyAttributes : Attributes {
         base.Init();
         AttackInterval = (minAttackInterval + maxAttackInterval) / 2;
     }
+
+    public void AccomodateToDifficultyLevel(string enemyName)
+    {
+        if (DifficultyManager.Instance.EnemiesDifficultyLevel.ContainsKey(enemyName))
+        {
+            float floatLevel = DifficultyManager.Instance.EnemiesDifficultyLevel[enemyName];
+            int intLevel = (int)(floatLevel * 100);
+            Damage = ((minDamage + maxDamage) / 2 * intLevel) / 100;
+            AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2 * floatLevel;
+        }
+    }
 }

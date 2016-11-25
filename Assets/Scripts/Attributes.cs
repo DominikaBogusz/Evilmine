@@ -17,8 +17,8 @@ public class Attributes : MonoBehaviour {
         }
     }
 
-    [SerializeField] private int minDamage;
-    [SerializeField] private int maxDamage;
+    [SerializeField] protected int minDamage;
+    [SerializeField] protected int maxDamage;
 
     private int damage;
     public int Damage
@@ -31,8 +31,8 @@ public class Attributes : MonoBehaviour {
         }
     }
 
-    [SerializeField] private float minAttackSpeed;
-    [SerializeField] private float maxAttackSpeed;
+    [SerializeField] protected float minAttackSpeed;
+    [SerializeField] protected float maxAttackSpeed;
 
     private float attackSpeed;
     public float AttackSpeed

@@ -18,7 +18,7 @@ public class EnemyStatistics : MonoBehaviour {
     public bool StopBattleTimer { get; set; }
 
     public List<BattleResult> BattleResults;
-    public enum BattleResult { WON_EASILY, WON_MIDDLING, WON_HARDLY, LOST_NEARLY, LOST_MIDDLING, LOST_ENTIRELY, RUN_AWAY, IGNORED }
+    public enum BattleResult { WON_EASILY, WON_MIDDLING, WON_HARDLY, LOST_NEARLY, LOST_MIDDLING, LOST_ENTIRELY, RUN_AWAY_HEALTHY, RUN_AWAY_BLEEDING, IGNORED }
 
     void Start()
     {
@@ -47,8 +47,8 @@ public class EnemyStatistics : MonoBehaviour {
             BattleTimes.Add(BattleTimer);
             BattleTimer = 0f;
 
-            Debug.Log(EvaluateBattle());
             BattleResults.Add(EvaluateBattle());
+            EvaluateEnemyDifficultyLevel(EvaluateBattle());
         }
     }
 
@@ -95,9 +95,35 @@ public class EnemyStatistics : MonoBehaviour {
         }
         else if (damageReceived > 0)
         {
-            return BattleResult.RUN_AWAY;
+            if(player.Attributes.Health < 0.5)
+            {
+                return BattleResult.RUN_AWAY_BLEEDING;
+            }
+            else
+            {
+                return BattleResult.RUN_AWAY_HEALTHY;
+            }
         }
 
         return BattleResult.IGNORED;
+    }
+
+    public void EvaluateEnemyDifficultyLevel(BattleResult battleResult)
+    {
+        switch (battleResult)
+        {
+            case BattleResult.WON_EASILY:
+                DifficultyManager.Instance.HighlyIncreaseDifficultyLevel(enemy.name);
+                break;
+            case BattleResult.WON_MIDDLING:
+                DifficultyManager.Instance.SlightlyIncreaseDifficultyLevel(enemy.name);
+                break;
+            case BattleResult.LOST_MIDDLING:
+                DifficultyManager.Instance.SlightlyDecreaseDifficultyLevel(enemy.name);
+                break;
+            case BattleResult.LOST_ENTIRELY:
+                DifficultyManager.Instance.HighlyDecreaseDifficultyLevel(enemy.name);
+                break;
+        }
     }
 }

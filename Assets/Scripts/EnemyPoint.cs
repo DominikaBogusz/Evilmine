@@ -2,13 +2,12 @@
 
 public class EnemyPoint : MonoBehaviour {
 
-    [SerializeField] private GameObject enemyPrefab;
-
-    void Start()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        GameObject clone = Instantiate(enemyPrefab, transform.position, Quaternion.identity) as GameObject;
-        Enemy enemy = clone.GetComponent<Enemy>();
-        enemy.LeftEdge = transform.GetChild(0);
-        enemy.RightEdge = transform.GetChild(1);
+        if(other.tag == "SpawnDetector")
+        {
+            GetComponent<Collider2D>().enabled = false;
+            GetComponentInParent<EnemySpawner>().Spawn(transform);
+        } 
     }
 }

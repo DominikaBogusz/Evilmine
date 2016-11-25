@@ -63,9 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DifficultyManager.cs" />
-    <Compile Include="Assets\EnemyStatistics.cs" />
-    <Compile Include="Assets\PlayerStatistics.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
@@ -78,23 +75,27 @@
     <Compile Include="Assets\Scripts\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
+    <Compile Include="Assets\Scripts\DifficultyManager.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\EnemyAttributes.cs" />
     <Compile Include="Assets\Scripts\EnemyAttributesUI.cs" />
     <Compile Include="Assets\Scripts\EnemyPoint.cs" />
     <Compile Include="Assets\Scripts\EnemySight.cs" />
+    <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\EnemyStates\IEnemyState.cs" />
     <Compile Include="Assets\Scripts\EnemyStates\IdleState.cs" />
     <Compile Include="Assets\Scripts\EnemyStates\MeleeState.cs" />
     <Compile Include="Assets\Scripts\EnemyStates\PatrolState.cs" />
     <Compile Include="Assets\Scripts\EnemyStates\RangedState.cs" />
+    <Compile Include="Assets\Scripts\EnemyStatistics.cs" />
     <Compile Include="Assets\Scripts\EnemySword.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationManager.cs" />
     <Compile Include="Assets\Scripts\PlayerAttributes.cs" />
     <Compile Include="Assets\Scripts\PlayerAttributesUI.cs" />
     <Compile Include="Assets\Scripts\PlayerInputManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerStatistics.cs" />
     <Compile Include="Assets\Scripts\PlayerSword.cs" />
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
     <Compile Include="Assets\Scripts\Thorn.cs" />

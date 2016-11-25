@@ -45,6 +45,7 @@ public class Enemy : Character {
 
         Attributes = GetComponent<EnemyAttributes>();
         Attributes.Init();
+        Attributes.AccomodateToDifficultyLevel(name);
 
         Statistics = GetComponent<EnemyStatistics>();
     }
