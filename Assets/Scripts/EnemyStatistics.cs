@@ -7,12 +7,12 @@ public class EnemyStatistics : MonoBehaviour {
     private Player player;
 
     public int KillCount { get; set; }
-    public int DamageMade { get; set; }
-    private int damageMadeInPreviousBattles;
-    public int DamageReceived { get; set; }
-    private int damageReceivedInPreviousBattles;
+    public float DamageMade { get; set; }
+    private float damageMadeInPreviousBattles;
+    public float DamageReceived { get; set; }
+    private float damageReceivedInPreviousBattles;
 
-    public List<float> BattleTimes;
+    private List<float> BattleTimes;
     private float BattleTimer;
     public bool StartBattleTimer { get; set; }
     public bool StopBattleTimer { get; set; }
@@ -48,14 +48,14 @@ public class EnemyStatistics : MonoBehaviour {
             BattleTimer = 0f;
 
             BattleResults.Add(EvaluateBattle());
-            EvaluateEnemyDifficultyLevel(EvaluateBattle());
+            EvaluateEnemyDifficultyLevel();
         }
     }
 
-    public BattleResult EvaluateBattle()
+    private BattleResult EvaluateBattle()
     {
-        int damageMade = DamageMade - damageMadeInPreviousBattles;
-        int damageReceived = DamageReceived - damageReceivedInPreviousBattles;
+        float damageMade = DamageMade - damageMadeInPreviousBattles;
+        float damageReceived = DamageReceived - damageReceivedInPreviousBattles;
 
         damageMadeInPreviousBattles += damageMade;
         damageReceivedInPreviousBattles += damageReceived;
@@ -69,7 +69,7 @@ public class EnemyStatistics : MonoBehaviour {
             {
                 return BattleResult.WON_HARDLY;
             }
-            else if (damageMade <= playerMaxLife * 0.7 && DamageMade >= playerMaxLife * 0.4)
+            else if (damageMade <= playerMaxLife * 0.7 && damageMade >= playerMaxLife * 0.4)
             {
                 return BattleResult.WON_MIDDLING;
             }
@@ -84,7 +84,7 @@ public class EnemyStatistics : MonoBehaviour {
             {
                 return BattleResult.LOST_NEARLY;
             }
-            else if (damageReceived <= enemyMaxLife * 0.7 && DamageReceived >= enemyMaxLife * 0.4)
+            else if (damageReceived <= enemyMaxLife * 0.7 && damageReceived >= enemyMaxLife * 0.4)
             {
                 return BattleResult.LOST_MIDDLING;
             }
@@ -95,7 +95,7 @@ public class EnemyStatistics : MonoBehaviour {
         }
         else if (damageReceived > 0)
         {
-            if(player.Attributes.Health < 0.5)
+            if(player.Attributes.Health < playerMaxLife * 0.4)
             {
                 return BattleResult.RUN_AWAY_BLEEDING;
             }
@@ -108,22 +108,54 @@ public class EnemyStatistics : MonoBehaviour {
         return BattleResult.IGNORED;
     }
 
-    public void EvaluateEnemyDifficultyLevel(BattleResult battleResult)
+    private void EvaluateEnemyDifficultyLevel()
     {
-        switch (battleResult)
+        switch (BattleResults[BattleResults.Count - 1])
         {
             case BattleResult.WON_EASILY:
-                DifficultyManager.Instance.HighlyIncreaseDifficultyLevel(enemy.name);
-                break;
+                DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_INCREASE);
+                    return;
             case BattleResult.WON_MIDDLING:
-                DifficultyManager.Instance.SlightlyIncreaseDifficultyLevel(enemy.name);
-                break;
-            case BattleResult.LOST_MIDDLING:
-                DifficultyManager.Instance.SlightlyDecreaseDifficultyLevel(enemy.name);
-                break;
-            case BattleResult.LOST_ENTIRELY:
-                DifficultyManager.Instance.HighlyDecreaseDifficultyLevel(enemy.name);
-                break;
+                DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_INCREASE);
+                    return;
+            case BattleResult.RUN_AWAY_BLEEDING:
+                //TODO: Add function in DiffManager to generate random healty hearts or something.
+                    return;
+        }
+
+        int lostEntirelyCount = 0, lostMiddlingCount = 0, lostNearlyCount = 0;
+        foreach (BattleResult battleResult in BattleResults)
+        {
+            if(battleResult == BattleResult.LOST_ENTIRELY)
+            {
+                lostEntirelyCount++;
+            }
+            else if(battleResult == BattleResult.LOST_MIDDLING)
+            {
+                lostMiddlingCount++;
+            }
+            else if(battleResult == BattleResult.LOST_NEARLY)
+            {
+                lostNearlyCount++;
+            }
+        }
+
+        if(lostEntirelyCount + lostMiddlingCount >= 2)
+        {
+            DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_DECREASE);
+        }
+        else if(lostMiddlingCount + lostNearlyCount >= 2)
+        {
+            DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_DECREASE);
+        }
+
+        if(lostEntirelyCount + lostMiddlingCount >= 4)
+        {
+            DifficultyManager.ChangeEnemyDifficulty(enemy);
+        }
+        else if(lostMiddlingCount + lostNearlyCount >= 4)
+        {
+            DifficultyManager.ChangeEnemyDifficulty(enemy);
         }
     }
 }

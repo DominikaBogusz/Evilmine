@@ -3,56 +3,28 @@ using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour {
 
-    private static DifficultyManager instance;
-    public static DifficultyManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<DifficultyManager>();
-            }
-            return instance;
-        }
-    }
-
-    public Dictionary<string, float> EnemiesDifficultyLevel;
+    public static Dictionary<string, float> EnemyTypesDifficulty;
 
     void Start()
     {
-        EnemiesDifficultyLevel = new Dictionary<string, float>();
+        EnemyTypesDifficulty = new Dictionary<string, float>();
     }
 
-    public void HighlyIncreaseDifficultyLevel(string enemyName)
-    {
-        float incValue = Random.Range(0.2f, 0.4f);
-        ChangeDifficultyLevel(enemyName, incValue);
-    }
+    public enum ModificationFactor { HIGHLY_DECREASE = -2 , SLIGHTLY_DECREASE = -1, SLIGHTLY_INCREASE = 1, HIGHLY_INCREASE = 2 }
 
-    public void SlightlyIncreaseDifficultyLevel(string enemyName)
+    public static void ChangeEnemyTypeDifficulty(string enemyType, ModificationFactor factor)
     {
-        float incValue = Random.Range(0.1f, 0.2f);
-        ChangeDifficultyLevel(enemyName, incValue);
-    }
+        float value = Random.Range(0.1f * (int)factor, 0.2f * (int)factor);
 
-    public void HighlyDecreaseDifficultyLevel(string enemyName)
-    {
-        float decValue = Random.Range(-0.4f, -0.2f);
-        ChangeDifficultyLevel(enemyName, decValue);
-    }
-
-    public void SlightlyDecreaseDifficultyLevel(string enemyName)
-    {
-        float decValue = Random.Range(-0.2f, -0.1f);
-        ChangeDifficultyLevel(enemyName, decValue);
-    }
-
-    private void ChangeDifficultyLevel(string enemyName, float value)
-    {
-        if (!EnemiesDifficultyLevel.ContainsKey(enemyName))
+        if (!EnemyTypesDifficulty.ContainsKey(enemyType))
         {
-            EnemiesDifficultyLevel.Add(enemyName, 1.0f);
+            EnemyTypesDifficulty.Add(enemyType, 1.0f);
         }
-        EnemiesDifficultyLevel[enemyName] = Mathf.Clamp(EnemiesDifficultyLevel[enemyName] + value, 0.1f, 2.0f);
+        EnemyTypesDifficulty[enemyType] = Mathf.Clamp(EnemyTypesDifficulty[enemyType] + value, 0.1f, 2.0f);
+    }
+
+    public static void ChangeEnemyDifficulty(Enemy enemy)
+    {
+        enemy.Attributes.AccomodateToDifficultyLevel(enemy.name);
     }
 }

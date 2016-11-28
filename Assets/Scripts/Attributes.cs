@@ -4,24 +4,24 @@ public class Attributes : MonoBehaviour {
 
     [SerializeField] protected AttributesUI attributesUI;
 
-    [SerializeField] public int initialHealth;
+    [SerializeField] public float initialHealth;
 
-    private int health;
-    public int Health
+    private float health;
+    public float Health
     {
         get { return health; }
         set
         {
-            health = Mathf.Clamp(value, 0, initialHealth);
+            health = Mathf.Clamp(value, 0f, initialHealth);
             attributesUI.UpdateHealth(health);
         }
     }
 
-    [SerializeField] protected int minDamage;
-    [SerializeField] protected int maxDamage;
+    [SerializeField] protected float minDamage;
+    [SerializeField] protected float maxDamage;
 
-    private int damage;
-    public int Damage
+    private float damage;
+    public float Damage
     {
         get { return damage; }
         set

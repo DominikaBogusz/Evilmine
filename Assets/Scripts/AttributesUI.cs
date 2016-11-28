@@ -31,12 +31,12 @@ public class AttributesUI : MonoBehaviour {
         }
     }
 
-    public void UpdateHealth(int value)
+    public void UpdateHealth(float value)
     {
         healthValue.text = value.ToString();
     }
 
-    public void UpdateDamage(int value)
+    public void UpdateDamage(float value)
     {
         damageValue.text = value.ToString();
     }

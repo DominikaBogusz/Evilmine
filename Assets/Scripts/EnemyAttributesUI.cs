@@ -5,7 +5,7 @@ public class EnemyAttributesUI : AttributesUI {
 
     [SerializeField] private Text attackIntervalValue;
 
-    public void UpdateAttackInterval(int value)
+    public void UpdateAttackInterval(float value)
     {
         attackIntervalValue.text = value.ToString();
     }

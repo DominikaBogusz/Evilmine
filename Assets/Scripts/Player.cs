@@ -166,7 +166,7 @@ public class Player : Character {
     {
         SwordHide();
 
-        int damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtectionPercent) / 100 : enemy.Attributes.Damage;
+        float damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtectionPercent) / 100 : enemy.Attributes.Damage;
 
         if (!isImmortal) 
         {
