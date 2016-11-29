@@ -22,9 +22,4 @@ public class DifficultyManager : MonoBehaviour {
         }
         EnemyTypesDifficulty[enemyType] = Mathf.Clamp(EnemyTypesDifficulty[enemyType] + value, 0.1f, 2.0f);
     }
-
-    public static void ChangeEnemyDifficulty(Enemy enemy)
-    {
-        enemy.Attributes.AccomodateToDifficultyLevel(enemy.name);
-    }
 }

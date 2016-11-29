@@ -90,6 +90,8 @@
     <Compile Include="Assets\Scripts\EnemyStates\RangedState.cs" />
     <Compile Include="Assets\Scripts\EnemyStatistics.cs" />
     <Compile Include="Assets\Scripts\EnemySword.cs" />
+    <Compile Include="Assets\Scripts\GemRift.cs" />
+    <Compile Include="Assets\Scripts\GemRiftBehaviour.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationManager.cs" />
     <Compile Include="Assets\Scripts\PlayerAttributes.cs" />

@@ -151,11 +151,11 @@ public class EnemyStatistics : MonoBehaviour {
 
         if(lostEntirelyCount + lostMiddlingCount >= 4)
         {
-            DifficultyManager.ChangeEnemyDifficulty(enemy);
+            enemy.Attributes.AccomodateToDifficultyLevel(enemy.name);
         }
         else if(lostMiddlingCount + lostNearlyCount >= 4)
         {
-            DifficultyManager.ChangeEnemyDifficulty(enemy);
+            enemy.Attributes.AccomodateToDifficultyLevel(enemy.name);
         }
     }
 }

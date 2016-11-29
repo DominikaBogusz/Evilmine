@@ -7,6 +7,8 @@ public class Gem : MonoBehaviour, IUseable {
     [SerializeField] private BoxCollider2D leftTrigger;
     [SerializeField] private BoxCollider2D rightTrigger;
 
+    [SerializeField] private GameObject gemRiftPrefab;
+
     void Start()
     {
         player = Player.Instance;
@@ -25,8 +27,14 @@ public class Gem : MonoBehaviour, IUseable {
                 player.Flip();
             }
             player.Digging = true;
-            player.UseManager.Useable = null;
-            GetComponent<Collider2D>().enabled = false;
         }
+    }
+
+    public void GenerateScore()
+    {
+        GetComponentInParent<SpriteRenderer>().enabled = false;
+
+        Instantiate(gemRiftPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
