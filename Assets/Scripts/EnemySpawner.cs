@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour {
 
     public void Spawn(Transform spawnPoint)
     {
-        int randomEnemyNumber = Random.Range(0, enemyPrefabs.Count - 1);
+        int randomEnemyNumber = Random.Range(0, enemyPrefabs.Count);
         GameObject clone = Instantiate(enemyPrefabs[randomEnemyNumber], spawnPoint.position, Quaternion.identity) as GameObject;
         Enemy enemy = clone.GetComponent<Enemy>();
         enemy.LeftEdge = spawnPoint.GetChild(0);
