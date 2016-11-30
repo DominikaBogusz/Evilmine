@@ -30,7 +30,7 @@ public class Gem : MonoBehaviour, IUseable {
         }
     }
 
-    public void GenerateScore()
+    public void GenerateStuff()
     {
         GetComponentInParent<SpriteRenderer>().enabled = false;
 
