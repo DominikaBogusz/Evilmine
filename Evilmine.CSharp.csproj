@@ -69,12 +69,20 @@
     <Compile Include="Assets\Scripts\AnimationBehaviours\DamageBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\DeathBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\DigBehaviour.cs" />
+    <Compile Include="Assets\Scripts\AnimationBehaviours\GemRiftBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
     <Compile Include="Assets\Scripts\Attributes.cs" />
     <Compile Include="Assets\Scripts\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Axe.cs" />
+    <Compile Include="Assets\Scripts\Collectables\GemRift.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Heart.cs" />
+    <Compile Include="Assets\Scripts\Collectables\ICollectable.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Key.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Lightning.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Shield.cs" />
     <Compile Include="Assets\Scripts\DifficultyManager.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
@@ -90,8 +98,6 @@
     <Compile Include="Assets\Scripts\EnemyStates\RangedState.cs" />
     <Compile Include="Assets\Scripts\EnemyStatistics.cs" />
     <Compile Include="Assets\Scripts\EnemySword.cs" />
-    <Compile Include="Assets\Scripts\GemRift.cs" />
-    <Compile Include="Assets\Scripts\GemRiftBehaviour.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationManager.cs" />
     <Compile Include="Assets\Scripts\PlayerAttributes.cs" />
@@ -100,6 +106,7 @@
     <Compile Include="Assets\Scripts\PlayerStatistics.cs" />
     <Compile Include="Assets\Scripts\PlayerSword.cs" />
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
+    <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Thorn.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />

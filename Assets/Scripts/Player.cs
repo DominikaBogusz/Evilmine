@@ -227,4 +227,12 @@ public class Player : Character {
             DeadEvent();
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D info)
+    {
+        if (info.collider.tag == "Collectable")
+        {
+            info.collider.GetComponent<ICollectable>().Collect();
+        }
+    }
 }
