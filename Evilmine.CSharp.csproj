@@ -63,8 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Chest.cs" />
-    <Compile Include="Assets\Gold.cs" />
+    <Compile Include="Assets\BonusManager.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\Collectables\Axe.cs" />
     <Compile Include="Assets\Scripts\Collectables\GemRift.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Gold.cs" />
     <Compile Include="Assets\Scripts\Collectables\Heart.cs" />
     <Compile Include="Assets\Scripts\Collectables\ICollectable.cs" />
     <Compile Include="Assets\Scripts\Collectables\Key.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Thorn.cs" />
+    <Compile Include="Assets\Scripts\Useables\Chest.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
     <Compile Include="Assets\Scripts\Useables\Ladder.cs" />

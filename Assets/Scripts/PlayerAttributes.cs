@@ -9,11 +9,11 @@ public class PlayerAttributes : Attributes {
         playerAttributesUI = attributesUI as PlayerAttributesUI;
     }
 
-    [SerializeField] private int minShieldProtectionPercent;
-    [SerializeField] private int maxShieldProtectionPercent;
+    [SerializeField] private float minShieldProtectionPercent;
+    [SerializeField] private float maxShieldProtectionPercent;
 
-    private int shieldProtectionPercent;
-    public int ShieldProtectionPercent
+    private float shieldProtectionPercent;
+    public float ShieldProtectionPercent
     {
         get { return shieldProtectionPercent; }
         set

@@ -2,9 +2,11 @@
 
 public class Heart : MonoBehaviour, ICollectable {
 
+    [SerializeField] private float bonusValue;
+
     public void Collect()
     {
-        //TODO: increase health
+        Player.Instance.Attributes.Health += bonusValue;
         Destroy(gameObject);
     }
 }
