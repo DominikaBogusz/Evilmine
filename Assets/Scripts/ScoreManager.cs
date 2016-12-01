@@ -24,7 +24,7 @@ public class ScoreManager : MonoBehaviour {
                 yellow++;
                 break;
         }
-
-        Debug.Log(blue);
     }
+
+    public static int Gold { get; set; }
 }
