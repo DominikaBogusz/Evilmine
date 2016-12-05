@@ -1,31 +1,31 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
 
 public class BonusArea : MonoBehaviour {
 
+    private BonusAreasManager areasManager;
+
     private BoxCollider2D collider;
     private Bonus generatedBonus;
     private float timeBetweenEnable = 5f;
-    private float timeBetweenTrigger = 2f;
+    private float timeBetweenTrigger = 2.5f;
     private bool triggered;
-
-    [SerializeField] private Bonus healthBonus;
-    [SerializeField] private List<TimeBonus> timeBonuses;
 
     void Start()
     {
+        areasManager = BonusAreasManager.Instance;
         collider = GetComponent<BoxCollider2D>();
     }
 
 	void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" && triggered == false)
+        if (other.tag == "Player" &&  !triggered && !areasManager.generated)
         {
             CountDownToTrigger();
 
             if (GenerateHealthBonus() || GenerateTimeBonus())
             {
+                areasManager.CountDownToGenerate();
                 collider.enabled = false;
             }
         }
@@ -39,7 +39,7 @@ public class BonusArea : MonoBehaviour {
         if (draw < chance)
         {
             Vector2 randomPosition = new Vector2(Random.Range(collider.bounds.min.x, collider.bounds.max.x), Random.Range(collider.bounds.min.y, collider.bounds.max.y));
-            generatedBonus = Instantiate(healthBonus, randomPosition, Quaternion.identity) as Bonus;
+            generatedBonus = Instantiate(areasManager.healthBonus, randomPosition, Quaternion.identity) as Bonus;
             generatedBonus.SetBonusArea(this);
 
             return true;
@@ -55,9 +55,9 @@ public class BonusArea : MonoBehaviour {
 
         if (draw < chance)
         {
-            int random = Random.Range(0, timeBonuses.Count - 1);
+            int random = Random.Range(0, areasManager.timeBonuses.Count);
             Vector2 randomPosition = new Vector2(Random.Range(collider.bounds.min.x, collider.bounds.max.x), Random.Range(collider.bounds.min.y, collider.bounds.max.y));
-            generatedBonus = Instantiate(timeBonuses[random], randomPosition, Quaternion.identity) as Bonus;
+            generatedBonus = Instantiate(areasManager.timeBonuses[random], randomPosition, Quaternion.identity) as Bonus;
             generatedBonus.SetBonusArea(this);
 
             return true;
@@ -77,7 +77,7 @@ public class BonusArea : MonoBehaviour {
         collider.enabled = true;
     }
 
-    public void CountDownToTrigger()
+    private void CountDownToTrigger()
     {
         triggered = true;
         StartCoroutine(Trigger());

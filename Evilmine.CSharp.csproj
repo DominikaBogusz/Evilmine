@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Attributes.cs" />
     <Compile Include="Assets\Scripts\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\BonusArea.cs" />
+    <Compile Include="Assets\Scripts\BonusAreasManager.cs" />
     <Compile Include="Assets\Scripts\BonusManager.cs" />
     <Compile Include="Assets\Scripts\Box.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
