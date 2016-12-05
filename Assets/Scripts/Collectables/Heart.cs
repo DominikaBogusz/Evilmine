@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
-public class Heart : MonoBehaviour, ICollectable {
+public class Heart : Bonus {
 
-    [SerializeField] private float bonusValue;
-
-    public void Collect()
+    public override void Collect()
     {
         Player.Instance.Attributes.Health += bonusValue;
         Destroy(gameObject);

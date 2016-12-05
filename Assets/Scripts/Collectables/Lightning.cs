@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 
-public class Lightning : MonoBehaviour, ICollectable {
+public class Lightning : TimeBonus {
 
-    [SerializeField] private float bonusValue;
-    [SerializeField] private float bonusTime;
-
-    public void Collect()
+    public override void Collect()
     {
         BonusManager.Instance.IncreaseAttackSpeed(bonusValue, bonusTime);
         Destroy(gameObject);

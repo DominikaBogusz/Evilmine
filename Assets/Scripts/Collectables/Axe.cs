@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 
-public class Axe : MonoBehaviour, ICollectable {
+public class Axe : TimeBonus {
 
-    [SerializeField] private float bonusValue;
-    [SerializeField] private float bonusTime;
-
-    public void Collect()
+    public override void Collect()
     {
         BonusManager.Instance.IncreaseDamage(bonusValue, bonusTime);
         Destroy(gameObject);

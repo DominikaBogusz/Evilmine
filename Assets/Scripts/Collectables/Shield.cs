@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 
-public class Shield : MonoBehaviour, ICollectable {
+public class Shield : TimeBonus {
 
-    [SerializeField] private float bonusValue;
-    [SerializeField] private float bonusTime;
-
-    public void Collect()
+    public override void Collect()
     {
         BonusManager.Instance.IncreaseShieldProtection(bonusValue, bonusTime);
         Destroy(gameObject);
