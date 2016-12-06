@@ -12,11 +12,19 @@ public class PlayerUseManager : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D (Collider2D other)
+    void OnTriggerEnter2D (Collider2D other)
     {
         if (other.tag == "Useable")
         {
             Useable = other.GetComponent<IUseable>();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Useable")
+        {
+            Useable = null;
         }
     }
 }

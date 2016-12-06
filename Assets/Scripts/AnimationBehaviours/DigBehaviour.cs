@@ -7,7 +7,6 @@ public class DigBehaviour : StateMachineBehaviour {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         gem = Player.Instance.UseManager.Useable as Gem;
-        Player.Instance.UseManager.Useable = null;
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

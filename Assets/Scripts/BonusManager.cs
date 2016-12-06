@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BonusManager : MonoBehaviour {
 
@@ -14,6 +15,24 @@ public class BonusManager : MonoBehaviour {
             }
             return instance;
         }
+    }
+
+    [SerializeField] public Bonus healthBonus;
+    [SerializeField] public List<TimeBonus> timeBonuses;
+
+    private float timeBetweenGenerations = 10f;
+    public bool generated;
+
+    public void CountDownToGenerate()
+    {
+        generated = true;
+        StartCoroutine(GenerateCounting());
+    }
+
+    private IEnumerator GenerateCounting()
+    {
+        yield return new WaitForSeconds(timeBetweenGenerations);
+        generated = false;
     }
 
     public void IncreaseDamage(float value, float time)

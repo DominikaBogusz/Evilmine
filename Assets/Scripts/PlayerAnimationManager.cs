@@ -120,5 +120,6 @@ public class PlayerAnimationManager : MonoBehaviour {
     public void Reset()
     {
         player.MyAnimator.SetBool("block", false);
+        player.MyAnimator.SetBool("jump", false);
     }
 }

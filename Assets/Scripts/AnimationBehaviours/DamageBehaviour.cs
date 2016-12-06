@@ -8,10 +8,7 @@ public class DamageBehaviour : StateMachineBehaviour {
 
         if (animator.tag == "Player")
         {
-            if (Player.Instance.OnGround)
-            {
-                Player.Instance.MyRigidbody2D.velocity = Vector2.zero;
-            }
+            Player.Instance.MyRigidbody2D.velocity = new Vector2(0f, Player.Instance.MyRigidbody2D.velocity.y);
         }
     }
 
