@@ -50,8 +50,8 @@ public class BonusArea : MonoBehaviour {
 
     private bool GenerateTimeBonus()
     {
-        float chance = 50f; // TODO: function to estimate player skill and generating bonuses adequate
-        float draw = Random.Range(0f, 100f);
+        int chance = 100 - Player.Instance.Statistics.Level;
+        int draw = Random.Range(0, 100);
 
         if (draw < chance)
         {

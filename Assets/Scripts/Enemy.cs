@@ -160,6 +160,6 @@ public class Enemy : Character {
     public override void Die()
     {
         Destroy(gameObject);
-        Player.Instance.Statistics.KillCount++;
+        Player.Instance.Statistics.IncreaseKillCount();
     }
 }

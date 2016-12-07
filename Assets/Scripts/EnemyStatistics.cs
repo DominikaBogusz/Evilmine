@@ -71,10 +71,12 @@ public class EnemyStatistics : MonoBehaviour {
             }
             else if (damageMade <= playerMaxLife * 0.7 && damageMade >= playerMaxLife * 0.4)
             {
+                Player.Instance.Statistics.Level += 2;
                 return BattleResult.WON_MIDDLING;
             }
             else if (damageMade < playerMaxLife * 0.4)
             {
+                Player.Instance.Statistics.Level += 4;
                 return BattleResult.WON_EASILY;
             }
         }
@@ -86,10 +88,12 @@ public class EnemyStatistics : MonoBehaviour {
             }
             else if (damageReceived <= enemyMaxLife * 0.7 && damageReceived >= enemyMaxLife * 0.4)
             {
+                Player.Instance.Statistics.Level -= 2;
                 return BattleResult.LOST_MIDDLING;
             }
             else if (damageReceived < enemyMaxLife * 0.4)
             {
+                Player.Instance.Statistics.Level -= 4;
                 return BattleResult.LOST_ENTIRELY;
             }
         }
@@ -97,6 +101,7 @@ public class EnemyStatistics : MonoBehaviour {
         {
             if(player.Attributes.Health < playerMaxLife * 0.4)
             {
+                Player.Instance.Statistics.Level -= 4;
                 return BattleResult.RUN_AWAY_BLEEDING;
             }
             else
@@ -117,9 +122,6 @@ public class EnemyStatistics : MonoBehaviour {
                     return;
             case BattleResult.WON_MIDDLING:
                 DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_INCREASE);
-                    return;
-            case BattleResult.RUN_AWAY_BLEEDING:
-                //TODO: Add function in DiffManager to generate random healty hearts or something.
                     return;
         }
 
