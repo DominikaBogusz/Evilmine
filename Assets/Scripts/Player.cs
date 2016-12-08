@@ -66,8 +66,6 @@ public class Player : Character {
     void Update()
     {
         OnGround = IsGrounded();
-
-        Debug.Log(Statistics.Level);
     }
 
     public void Move(float horizontalMove, float verticalMove)

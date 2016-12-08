@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Thorn : MonoBehaviour {
+public class Obstacle : MonoBehaviour {
 
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;

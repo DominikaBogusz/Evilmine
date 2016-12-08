@@ -63,6 +63,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Bat.cs" />
+    <Compile Include="Assets\BatPoint.cs" />
+    <Compile Include="Assets\BatSpawner.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="Assets\Scripts\EnemyStates\RangedState.cs" />
     <Compile Include="Assets\Scripts\EnemyStatistics.cs" />
     <Compile Include="Assets\Scripts\EnemySword.cs" />
+    <Compile Include="Assets\Scripts\Obstacle.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationManager.cs" />
     <Compile Include="Assets\Scripts\PlayerAttributes.cs" />
@@ -113,7 +117,6 @@
     <Compile Include="Assets\Scripts\PlayerSword.cs" />
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
-    <Compile Include="Assets\Scripts\Thorn.cs" />
     <Compile Include="Assets\Scripts\Useables\Chest.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
