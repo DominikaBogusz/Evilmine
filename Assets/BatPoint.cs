@@ -2,12 +2,13 @@
 
 public class BatPoint : MonoBehaviour {
 
+    private Bat bat;
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "SpawnDetector")
+        if (!bat && other.tag == "SpawnDetector")
         {
-            GetComponent<Collider2D>().enabled = false;
-            GetComponentInParent<BatSpawner>().Spawn(transform);
+            bat = GetComponentInParent<BatSpawner>().Spawn(transform);
         }
     }
 }

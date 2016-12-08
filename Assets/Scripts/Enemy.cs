@@ -39,6 +39,8 @@ public class Enemy : Character {
     {
         base.Start();
 
+        Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), Player.Instance.GetComponent<BoxCollider2D>(), true);
+
         Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
 
         ChangeState(new IdleState());

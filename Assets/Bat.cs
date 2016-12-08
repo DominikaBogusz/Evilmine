@@ -36,21 +36,37 @@ public class Bat : Character {
 
     void Update()
     {
-        Move();
+        if (!IsDead && !TakingDamage)
+        {
+            Move();
+        } 
     }
 
     public void Damage(float damage)
     {
+        TakingDamage = true;
         Health -= damage;
-        if(Health <= 0)
+        if (IsDead)
         {
             Die();
         }
+        else
+        {
+            StartCoroutine(TakeDamage());
+        }
+    }
+
+
+    private IEnumerator TakeDamage()
+    {
+        MyRigidbody2D.velocity = Vector2.zero;
+        yield return new WaitForSeconds(0.5f);
+        TakingDamage = false;
     }
 
     public override void Die()
     {
-        GetComponent<Animator>().SetTrigger("die");
+        MyAnimator.SetTrigger("die");
         GetComponent<BoxCollider2D>().size = new Vector2(0.1f, 0.1f);
         GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.1f);
         transform.GetChild(0).gameObject.SetActive(false);
@@ -58,7 +74,8 @@ public class Bat : Character {
     }
 
     private IEnumerator DieCountDown()
-    {    
+    {
+        MyRigidbody2D.velocity = Vector2.zero;
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
