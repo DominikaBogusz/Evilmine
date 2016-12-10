@@ -63,9 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Bat.cs" />
-    <Compile Include="Assets\BatPoint.cs" />
-    <Compile Include="Assets\BatSpawner.cs" />
+    <Compile Include="Assets\BattleArea.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
@@ -77,6 +75,9 @@
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
     <Compile Include="Assets\Scripts\Attributes.cs" />
     <Compile Include="Assets\Scripts\AttributesUI.cs" />
+    <Compile Include="Assets\Scripts\Bat.cs" />
+    <Compile Include="Assets\Scripts\BatPoint.cs" />
+    <Compile Include="Assets\Scripts\BatSpawner.cs" />
     <Compile Include="Assets\Scripts\BonusArea.cs" />
     <Compile Include="Assets\Scripts\BonusManager.cs" />
     <Compile Include="Assets\Scripts\Box.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
     <Compile Include="Assets\Scripts\Useables\Ladder.cs" />
+    <Compile Include="Assets\WaveSpawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Editor\CM Tools\TileMasterReadme.txt" />
