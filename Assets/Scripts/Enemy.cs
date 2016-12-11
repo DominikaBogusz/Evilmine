@@ -139,7 +139,10 @@ public class Enemy : Character {
     {
         SwordHide();
 
-        TakeDamage(damage);
+        if (!IsDead)
+        {
+            TakeDamage(damage);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -154,8 +157,10 @@ public class Enemy : Character {
         else
         {
             Statistics.StopBattleTimer = true;
+            transform.GetChild(0).gameObject.SetActive(false);
 
             MyAnimator.SetTrigger("die");
+            OnDeadEvent();
         }
     }
     

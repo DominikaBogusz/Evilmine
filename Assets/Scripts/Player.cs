@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public delegate void DeadEventHandler();
-
 public class Player : Character {
 
     private static Player instance;
@@ -216,16 +214,6 @@ public class Player : Character {
         transform.position = startPoint.position;
 
         AnimationManager.Reset();
-    }
-
-    public event DeadEventHandler DeadEvent;
-
-    public void OnDeadEvent()
-    {
-        if (DeadEvent != null)
-        {
-            DeadEvent();
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D info)

@@ -14,6 +14,14 @@ public class PlayerStatistics : MonoBehaviour {
         get { return level; }
         set
         {
+            if(level > (minLevel + maxLevel / 2) && level < value)
+            {
+                BonusManager.Instance.TimeBetweenGenerations += value / 100f;
+            }
+            else if (level < (minLevel + maxLevel / 2) && level > value)
+            {
+                BonusManager.Instance.TimeBetweenGenerations -= value / 50f;
+            }
             level = Mathf.Clamp(value, minLevel, maxLevel);
         }
     }
@@ -33,7 +41,7 @@ public class PlayerStatistics : MonoBehaviour {
 
     public void IncreaseDeathCount()
     {
-        Level++;
+        Level--;
         deathCount++;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+public delegate void DeadEventHandler();
+
 public abstract class Character : MonoBehaviour {
 
     public Animator MyAnimator { get; private set; }
@@ -41,6 +43,16 @@ public abstract class Character : MonoBehaviour {
     public void SwordHide()
     {
         swordCollider.enabled = false;
+    }
+
+    public event DeadEventHandler DeadEvent;
+
+    public void OnDeadEvent()
+    {
+        if (DeadEvent != null)
+        {
+            DeadEvent();
+        }
     }
 
     public abstract void Die();
