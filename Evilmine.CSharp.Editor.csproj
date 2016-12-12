@@ -108,6 +108,8 @@
     <Compile Include="Assets\Resources\Editor\CM Tools\TileMaster\TileMaster.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Fonts\press_start_2p\FONTLOG.txt" />
+    <None Include="Assets\Fonts\press_start_2p\LICENSE.txt" />
     <None Include="Assets\Resources\Editor\CM Tools\TileMasterReadme.txt" />
     <None Include="Assets\Sprites\gold_treasure_icons_16x16\Credits.txt" />
   </ItemGroup>

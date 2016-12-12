@@ -6,7 +6,7 @@ public class Gold : MonoBehaviour, ICollectable {
 
     public void Collect()
     {
-        ScoreManager.Gold += value;
+        ScoreManager.Instance.Gold += value;
         Destroy(gameObject);
     }
 }

@@ -17,6 +17,8 @@ public class BonusManager : MonoBehaviour {
         }
     }
 
+    [SerializeField] private BonusesUI bonusesUI;
+
     [SerializeField] public Bonus healthBonus;
     [SerializeField] public List<TimeBonus> timeBonuses;
 
@@ -50,6 +52,7 @@ public class BonusManager : MonoBehaviour {
 
     public void IncreaseDamage(float value, float time)
     {
+        bonusesUI.SetDamageBonus(value, time);
         StartCoroutine(IncreaseDamageCounting(value, time));
     }
 
@@ -63,6 +66,7 @@ public class BonusManager : MonoBehaviour {
 
     public void IncreaseAttackSpeed(float value, float time)
     {
+        bonusesUI.SetAttackSpeedBonus(value, time);
         StartCoroutine(IncreaseAttackSpeedCounting(value, time));
     }
 
@@ -76,6 +80,7 @@ public class BonusManager : MonoBehaviour {
 
     public void IncreaseShieldProtection(float value, float time)
     {
+        bonusesUI.SetShieldProtectionBonus(value, time);
         StartCoroutine(IncreaseShieldProtectionCounting(value, time));
     }
 
