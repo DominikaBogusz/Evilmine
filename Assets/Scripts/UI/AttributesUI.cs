@@ -13,15 +13,6 @@ public class AttributesUI : MonoBehaviour {
     {
         if (activated)
         {
-            if (transform.parent.localScale.x == -1)
-            {
-                transform.localScale = new Vector2(-1f, 1f);
-            }
-            else
-            {
-                transform.localScale = new Vector2(1f, 1f);
-            }
-
             if (!UIManager.Instance.ActiveAttributesUI)
             {
                 transform.GetChild(0).gameObject.SetActive(false);
