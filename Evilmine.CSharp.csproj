@@ -63,8 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BonusesUI.cs" />
-    <Compile Include="Assets\LootUI.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
@@ -119,8 +117,11 @@
     <Compile Include="Assets\Scripts\RespawnPoint.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\UI\AttributesUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BonusesUI.cs" />
     <Compile Include="Assets\Scripts\UI\EnemyAttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\HealthIndicatorUI.cs" />
+    <Compile Include="Assets\Scripts\UI\LivesUI.cs" />
+    <Compile Include="Assets\Scripts\UI\LootUI.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerAttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\Useables\Chest.cs" />

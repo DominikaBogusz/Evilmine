@@ -170,27 +170,27 @@ public class Player : Character {
 
         float damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtectionPercent) / 100 : enemy.Attributes.Damage;
 
-        if (!isImmortal && !IsDead)
+        if (!isImmortal)
         {
             Attributes.Health -= damage;
             enemy.Statistics.DamageMade += damage;
 
-            if (OnGround && Blocking)
+            if (!IsDead && OnGround && Blocking)
             {
                 AnimationManager.Protect();
             }
-            else
+            else if (!IsDead)
             {
                 AnimationManager.Damage();
                 StartCoroutine(TakeDamage());
             }
-        }
-        else if (IsDead)
-        {
-            Died = true;
-            AnimationManager.Die();
-            OnDeadEvent();
-            enemy.Statistics.KillCount++;
+            else if (IsDead)
+            {
+                Died = true;
+                AnimationManager.Die();
+                OnDeadEvent();
+                enemy.Statistics.KillCount++;
+            }
         }
     }
 
