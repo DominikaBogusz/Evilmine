@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class Box : MonoBehaviour {
 
     [SerializeField] private GameObject particlesPrefab;
-    private float timeToDestroyParticles = 1f;
 
     [SerializeField] private List<GameObject> dropsPrefabs;
 

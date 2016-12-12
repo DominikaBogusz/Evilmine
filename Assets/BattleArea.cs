@@ -2,6 +2,8 @@
 
 public class BattleArea : MonoBehaviour {
 
+    [SerializeField] private Transform respawnPoint;
+
     public int EnemyCount { get; set;  }
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -10,6 +12,7 @@ public class BattleArea : MonoBehaviour {
         {
             transform.GetChild(0).gameObject.SetActive(true);
             GetComponent<WaveSpawner>().enabled = true;
+            Player.Instance.SetNewRespawnPoint(respawnPoint);
         }
     }
 

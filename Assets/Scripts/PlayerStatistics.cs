@@ -5,43 +5,20 @@ public class PlayerStatistics : MonoBehaviour {
     private int killCount;
     private int deathCount;
 
-    [SerializeField] private int minLevel;
-    [SerializeField] private int maxLevel;
-
-    private int level;
-    public int Level
-    {
-        get { return level; }
-        set
-        {
-            if(level > (minLevel + maxLevel / 2) && level < value)
-            {
-                BonusManager.Instance.TimeBetweenGenerations += value / 100f;
-            }
-            else if (level < (minLevel + maxLevel / 2) && level > value)
-            {
-                BonusManager.Instance.TimeBetweenGenerations -= value / 50f;
-            }
-            level = Mathf.Clamp(value, minLevel, maxLevel);
-        }
-    }
-
     void Start()
     {
-        Player.Instance.DeadEvent += new DeadEventHandler(IncreaseDeathCount);
-
-        Level = minLevel + maxLevel / 2;
+        Player.Instance.DeadEvent += new DeadEventHandler(IncreaseDeathCount); 
     }
 
     public void IncreaseKillCount()
     {
-        Level++;
+        DifficultyManager.Instance.PlayerLevel++;
         killCount++;
     }
 
     public void IncreaseDeathCount()
     {
-        Level--;
+        DifficultyManager.Instance.PlayerLevel--;
         deathCount++;
     }
 }

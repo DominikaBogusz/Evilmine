@@ -71,12 +71,12 @@ public class EnemyStatistics : MonoBehaviour {
             }
             else if (damageMade <= playerMaxLife * 0.7 && damageMade >= playerMaxLife * 0.4)
             {
-                Player.Instance.Statistics.Level += 2;
+                DifficultyManager.Instance.PlayerLevel += 2;
                 return BattleResult.WON_MIDDLING;
             }
             else if (damageMade < playerMaxLife * 0.4)
             {
-                Player.Instance.Statistics.Level += 4;
+                DifficultyManager.Instance.PlayerLevel += 4;
                 return BattleResult.WON_EASILY;
             }
         }
@@ -88,12 +88,12 @@ public class EnemyStatistics : MonoBehaviour {
             }
             else if (damageReceived <= enemyMaxLife * 0.7 && damageReceived >= enemyMaxLife * 0.4)
             {
-                Player.Instance.Statistics.Level -= 2;
+                DifficultyManager.Instance.PlayerLevel -= 2;
                 return BattleResult.LOST_MIDDLING;
             }
             else if (damageReceived < enemyMaxLife * 0.4)
             {
-                Player.Instance.Statistics.Level -= 4;
+                DifficultyManager.Instance.PlayerLevel -= 4;
                 return BattleResult.LOST_ENTIRELY;
             }
         }
@@ -101,7 +101,7 @@ public class EnemyStatistics : MonoBehaviour {
         {
             if(player.Attributes.Health < playerMaxLife * 0.4)
             {
-                Player.Instance.Statistics.Level -= 4;
+                DifficultyManager.Instance.PlayerLevel -= 4;
                 return BattleResult.RUN_AWAY_BLEEDING;
             }
             else
@@ -118,10 +118,10 @@ public class EnemyStatistics : MonoBehaviour {
         switch (BattleResults[BattleResults.Count - 1])
         {
             case BattleResult.WON_EASILY:
-                DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_INCREASE);
+                DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_INCREASE);
                     return;
             case BattleResult.WON_MIDDLING:
-                DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_INCREASE);
+                DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_INCREASE);
                     return;
         }
 
@@ -144,11 +144,11 @@ public class EnemyStatistics : MonoBehaviour {
 
         if(lostEntirelyCount + lostMiddlingCount >= 2)
         {
-            DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_DECREASE);
+            DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_DECREASE);
         }
         else if(lostMiddlingCount + lostNearlyCount >= 2)
         {
-            DifficultyManager.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_DECREASE);
+            DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_DECREASE);
         }
 
         if(lostEntirelyCount + lostMiddlingCount >= 4)
