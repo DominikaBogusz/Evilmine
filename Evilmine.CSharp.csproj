@@ -119,9 +119,12 @@
     <Compile Include="Assets\Scripts\UI\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\BonusesUI.cs" />
     <Compile Include="Assets\Scripts\UI\EnemyAttributesUI.cs" />
+    <Compile Include="Assets\Scripts\UI\GameOverUI.cs" />
     <Compile Include="Assets\Scripts\UI\HealthIndicatorUI.cs" />
     <Compile Include="Assets\Scripts\UI\LivesUI.cs" />
     <Compile Include="Assets\Scripts\UI\LootUI.cs" />
+    <Compile Include="Assets\Scripts\UI\MainMenuUI.cs" />
+    <Compile Include="Assets\Scripts\UI\PauseUI.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerAttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\Useables\Chest.cs" />

@@ -3,22 +3,22 @@
 public class LivesUI : MonoBehaviour {
 
 	[SerializeField] private GameObject[] hearts;
-    private int activeLife;
+    private int activeLivesCount;
 
     void Start()
     {
-        activeLife = hearts.Length - 1;
+        activeLivesCount = hearts.Length;
         Player.Instance.DeadEvent += new DeadEventHandler(LostLife);   
     }
 
     public void LostLife()
     {
-        if(activeLife < 0)
+        if(activeLivesCount == 0)
         {
-            //TODO: nie dopuścić do tej sytuacji, ma się pokazać GameOver
+            UIManager.Instance.ShowGameOverUI();
             return;
         }
-        Destroy(hearts[activeLife]);
-        activeLife--;
+        Destroy(hearts[activeLivesCount - 1]);
+        activeLivesCount--;
     }
 }

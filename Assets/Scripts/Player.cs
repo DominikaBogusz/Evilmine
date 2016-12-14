@@ -157,6 +157,7 @@ public class Player : Character {
             }
             else if (IsDead)
             {
+                Died = true;
                 AnimationManager.Die();
                 OnDeadEvent();
             }

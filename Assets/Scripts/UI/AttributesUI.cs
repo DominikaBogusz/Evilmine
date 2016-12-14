@@ -11,22 +11,16 @@ public class AttributesUI : MonoBehaviour {
 
     void Update()
     {
-        if (activated)
+        if (activated != UIManager.Instance.ActiveAttributesUI)
         {
-            if (!UIManager.Instance.ActiveAttributesUI)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                activated = false;
-            }
+            ToggleUIActive();
         }
-        else
-        {
-            if (UIManager.Instance.ActiveAttributesUI)
-            {
-                transform.GetChild(0).gameObject.SetActive(true);
-                activated = true;
-            }
-        }
+    }
+
+    public void ToggleUIActive()
+    {
+        activated = !activated;
+        transform.GetChild(0).gameObject.SetActive(activated);
     }
 
     public void UpdateHealth(float value)
