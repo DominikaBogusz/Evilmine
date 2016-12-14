@@ -4,7 +4,7 @@ using UnityEngine;
 public class WaveSpawner : MonoBehaviour {
 
     public enum SpawnState { SPAWNING, WAITING, COUNTING };
-    private SpawnState state = SpawnState.COUNTING;
+    public SpawnState State { get;  private set; }
 
     [System.Serializable]
     public class Wave
@@ -14,20 +14,25 @@ public class WaveSpawner : MonoBehaviour {
     }
 
     [SerializeField] private Wave[] waves;
-    private int nextWave = 0;
+    public int NextWave { get; private set; }
     [SerializeField] private float timeBetweenWaves;
-    private float waveCountdown;
+    public float WaveCountdown { get; private set; }
 
     [SerializeField] private Transform[] spawnPoints;  
 
+    [SerializeField] WaveUI waveUI;
+
     void Start()
     {
-        waveCountdown = timeBetweenWaves;
+        State = SpawnState.COUNTING;
+        NextWave = 1;
+        WaveCountdown = timeBetweenWaves;
+        waveUI.waveSpawner = GetComponent<WaveSpawner>();
     }
 
     void Update()
     {
-        if (state == SpawnState.WAITING)
+        if (State == SpawnState.WAITING)
         {
             if (!EnemyIsAlive())
             {
@@ -36,31 +41,31 @@ public class WaveSpawner : MonoBehaviour {
             return;
         }
 
-        if (waveCountdown <= 0)
+        if (WaveCountdown <= 0)
         {
-            if (state != SpawnState.SPAWNING)
+            if (State != SpawnState.SPAWNING)
             {
-                StartCoroutine(SpawnWave(waves[nextWave]));
+                StartCoroutine(SpawnWave(waves[NextWave - 1]));
             }
         }
         else
         {
-            waveCountdown -= Time.deltaTime;
+            WaveCountdown -= Time.deltaTime;
         }
     }
 
     private void WaveCompleted()
     {
-        state = SpawnState.COUNTING;
-        waveCountdown = timeBetweenWaves;
+        State = SpawnState.COUNTING;
+        WaveCountdown = timeBetweenWaves;
 
-        if (nextWave + 1 > waves.Length - 1)
+        if (NextWave > waves.Length - 1)
         {
             GetComponent<BattleArea>().StopBattle();
         }
         else
         {
-            nextWave++;
+            NextWave++;
         }
     }
 
@@ -75,7 +80,7 @@ public class WaveSpawner : MonoBehaviour {
 
     private IEnumerator SpawnWave(Wave wave)
     {
-        state = SpawnState.SPAWNING;
+        State = SpawnState.SPAWNING;
 
         for (int i = 0; i < wave.count; i++)
         {
@@ -83,7 +88,7 @@ public class WaveSpawner : MonoBehaviour {
             yield return new WaitForSeconds(wave.timeSpace);
         }
 
-        state = SpawnState.WAITING;
+        State = SpawnState.WAITING;
         yield break;
     }
 

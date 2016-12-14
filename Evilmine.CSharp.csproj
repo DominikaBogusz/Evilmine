@@ -127,6 +127,7 @@
     <Compile Include="Assets\Scripts\UI\PauseUI.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerAttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\WaveUI.cs" />
     <Compile Include="Assets\Scripts\Useables\Chest.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
