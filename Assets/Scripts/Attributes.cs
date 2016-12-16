@@ -50,7 +50,5 @@ public class Attributes : MonoBehaviour {
     public virtual void Init()
     {
         Health = initialHealth;
-        Damage = (minDamage + maxDamage) / 2;
-        AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2;
     }
 }

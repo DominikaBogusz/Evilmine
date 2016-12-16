@@ -21,6 +21,7 @@ public class AttributesUI : MonoBehaviour {
     {
         activated = !activated;
         transform.GetChild(0).gameObject.SetActive(activated);
+        GetComponent<Image>().color = new Color(0f, 0f, 0f, activated ? 1f : 0f);
     }
 
     public void UpdateHealth(float value)

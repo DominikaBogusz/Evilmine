@@ -23,9 +23,48 @@ public class PlayerAttributes : Attributes {
         }
     }
 
+    private int level;
+    public int Level
+    {
+        get { return level; }
+        set
+        {
+            level = value;
+            playerAttributesUI.UpdateLevel(level);
+            NextLevelExperience = level * nextLevelExperience;
+        }
+    }
+
+    private int experience;
+    public int Experience
+    {
+        get { return experience; }
+        set
+        {
+            experience = value;
+            playerAttributesUI.UpdateExperience(experience);
+        }
+    }
+
+    private int nextLevelExperience;
+    public int NextLevelExperience
+    {
+        get { return nextLevelExperience; }
+        set
+        {
+            nextLevelExperience = value;
+            playerAttributesUI.UpdateNextLevelExperience(nextLevelExperience);
+        }
+    }
+
     public override void Init()
     {
         base.Init();
-        ShieldProtectionPercent = (minShieldProtectionPercent + maxShieldProtectionPercent) / 2;
+        Damage = minDamage;
+        AttackSpeed = minAttackSpeed;
+        ShieldProtectionPercent = minShieldProtectionPercent;
+        Level = 1;
+        Experience = 0;
+        NextLevelExperience = 100;
     }
 }

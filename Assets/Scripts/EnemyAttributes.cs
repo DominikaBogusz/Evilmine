@@ -23,10 +23,28 @@ public class EnemyAttributes : Attributes {
         }
     }
 
+    private int level;
+    public int Level
+    {
+        get { return level; }
+        set
+        {
+            level = value;
+            enemyAttributesUI.UpdateLevel(level);
+        }
+    }
+
     public override void Init()
     {
         base.Init();
+        Damage = (minDamage + maxDamage) / 2;
+        AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2;
         AttackInterval = (minAttackInterval + maxAttackInterval) / 2;
+        Level = Player.Instance.Attributes.Level;
+        if(Level > 1)
+        {
+            initialHealth = initialHealth + initialHealth * Level / 10;
+        }
     }
 
     public void AccomodateToDifficultyLevel(string enemyName)

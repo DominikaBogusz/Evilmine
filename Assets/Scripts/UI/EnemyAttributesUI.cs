@@ -9,4 +9,11 @@ public class EnemyAttributesUI : AttributesUI {
     {
         attackIntervalValue.text = value.ToString();
     }
+
+    [SerializeField] private Text levelValue;
+
+    public void UpdateLevel(int value)
+    {
+        levelValue.text = value.ToString();
+    }
 }
