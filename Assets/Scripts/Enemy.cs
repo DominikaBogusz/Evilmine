@@ -135,7 +135,7 @@ public class Enemy : Character {
         }       
     }
 
-    public void PlayerDamage(float damage)
+    public void PlayerDamage(int damage)
     {
         SwordHide();
 
@@ -145,9 +145,9 @@ public class Enemy : Character {
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
-        Attributes.Health -= damage;
+        Attributes.Health.Set(Attributes.Health - damage);
         Statistics.DamageReceived += damage;
 
         if (!IsDead)

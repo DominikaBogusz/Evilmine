@@ -148,7 +148,7 @@ public class Player : Character {
 
         if (!isImmortal)
         {
-            Attributes.Health -= damage;
+            Attributes.Health.Set(Attributes.Health - damage);
 
             if (!IsDead)
             {
@@ -169,11 +169,11 @@ public class Player : Character {
         if (Died) return;
         SwordHide();
 
-        float damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtectionPercent) / 100 : enemy.Attributes.Damage;
+        int damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtection) / 100 : enemy.Attributes.Damage;
 
         if (!isImmortal)
         {
-            Attributes.Health -= damage;
+            Attributes.Health.Set(Attributes.Health - damage);
             enemy.Statistics.DamageMade += damage;
 
             if (!IsDead && OnGround && Blocking)

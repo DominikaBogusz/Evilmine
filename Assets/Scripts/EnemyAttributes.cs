@@ -1,60 +1,53 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
-public class EnemyAttributes : Attributes {
+public class EnemyAttributes : MonoBehaviour {
 
-    private EnemyAttributesUI enemyAttributesUI;
+    public AttributeInt Level { get; set; }
+    [SerializeField] private Text levelText;
+
+    public AttributeInt Health { get; set; }
+    [SerializeField] private Text healthText;
+    [SerializeField] private StatusIndicatorUI healthIndicator;
+
+    public AttributeInt Damage { get; set; }
+    [SerializeField] private Text damageText;
+
+    public AttributeFloat AttackSpeed { get; set; }
+    [SerializeField] private Text attackSpeedText;
+
+    public AttributeFloat AttackInterval { get; set; }
+    [SerializeField] private Text attackIntervalText;
 
     void Awake()
     {
-        enemyAttributesUI = attributesUI as EnemyAttributesUI;
+        Level = new AttributeInt("Level", 1, 100, levelText);
+        Health = new AttributeInt("Health", 0, 100, healthText, healthIndicator);
+        Damage = new AttributeInt("Damage", 5, 20, damageText);
+        AttackSpeed = new AttributeFloat("AttackSpeed", 0.8f, 1.4f, attackSpeedText);
+        AttackInterval = new AttributeFloat("AttackInterval", 1f, 3f, attackIntervalText);
     }
 
-    [SerializeField] private float minAttackInterval;
-    [SerializeField] private float maxAttackInterval;
-
-    private float attackInterval;
-    public float AttackInterval
+    public void Init()
     {
-        get { return attackInterval; }
-        set
-        {
-            attackInterval = Mathf.Clamp(value, minAttackInterval, maxAttackInterval);
-            enemyAttributesUI.UpdateAttackInterval(attackInterval);
-        }
-    }
-
-    private int level;
-    public int Level
-    {
-        get { return level; }
-        set
-        {
-            level = value;
-            enemyAttributesUI.UpdateLevel(level);
-        }
-    }
-
-    public override void Init()
-    {
-        base.Init();
-        Damage = (minDamage + maxDamage) / 2;
-        AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2;
-        AttackInterval = (minAttackInterval + maxAttackInterval) / 2;
-        Level = Player.Instance.Attributes.Level;
-        if(Level > 1)
-        {
-            initialHealth = initialHealth + initialHealth * Level / 10;
-        }
-    }
+        Level.Set(1);
+        Health.Set(100);
+        Damage.Set(10);
+        AttackSpeed.Set(1f);
+        AttackInterval.Set(80);
+    } 
 
     public void AccomodateToDifficultyLevel(string enemyName)
     {
         if (DifficultyManager.Instance.EnemyTypesDifficulty.ContainsKey(enemyName))
         {
             float level = DifficultyManager.Instance.EnemyTypesDifficulty[enemyName];
-            Damage = (minDamage + maxDamage) / 2 * level;
-            AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2 * level;
-            AttackInterval = (minAttackInterval + maxAttackInterval) / 2 * (1-(level-1));
+
+            //TODO jakieś gówno wszystko źle
+
+            //Damage = (minDamage + maxDamage) / 2 * level;
+            //AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2 * level;
+            //AttackInterval = (minAttackInterval + maxAttackInterval) / 2 * (1-(level-1));
         }
     }
 }

@@ -1,70 +1,49 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerAttributes : Attributes {
+public class PlayerAttributes : MonoBehaviour {
 
-    private PlayerAttributesUI playerAttributesUI;
+    public AttributeInt Level { get; set; }
+    [SerializeField] private Text levelText;
 
-    void Awake()
+    public AttributeInt Experience { get; set; }
+    [SerializeField] private Text experienceText;
+
+    public AttributeInt ExperienceToNextLevel;
+    [SerializeField] private Text experienceToNextLevelText;
+
+    public AttributeInt Health { get; set; }
+    [SerializeField] private Text healthText;
+    [SerializeField] private StatusIndicatorUI healthIndicator;
+
+    public AttributeInt Damage { get; set; }
+    [SerializeField] private Text damageText;
+
+    public AttributeFloat AttackSpeed { get; set; }
+    [SerializeField] private Text attackSpeedText;
+
+    public AttributeInt ShieldProtection { get; set; }
+    [SerializeField] private Text shieldProtectionText;
+
+    void Start()
     {
-        playerAttributesUI = attributesUI as PlayerAttributesUI;
+        Level = new AttributeInt("Level", 1, 100, levelText);
+        Experience = new AttributeInt("Experience", 0, 99999, experienceText);
+        ExperienceToNextLevel = new AttributeInt("ExperienceToNextLevel", 0, 9999, experienceToNextLevelText);
+        Health = new AttributeInt("Health", 0, 100, healthText, healthIndicator);
+        Damage = new AttributeInt("Damage", 5, 20, damageText);
+        AttackSpeed = new AttributeFloat("AttackSpeed", 0.8f, 1.4f, attackSpeedText);
+        ShieldProtection = new AttributeInt("ShieldProtection", 60, 100, shieldProtectionText);
     }
 
-    [SerializeField] private float minShieldProtectionPercent;
-    [SerializeField] private float maxShieldProtectionPercent;
-
-    private float shieldProtectionPercent;
-    public float ShieldProtectionPercent
+    public void Init()
     {
-        get { return shieldProtectionPercent; }
-        set
-        {
-            shieldProtectionPercent = Mathf.Clamp(value, minShieldProtectionPercent, maxShieldProtectionPercent);
-            playerAttributesUI.UpdateShieldProtection(shieldProtectionPercent);
-        }
-    }
-
-    private int level;
-    public int Level
-    {
-        get { return level; }
-        set
-        {
-            level = value;
-            playerAttributesUI.UpdateLevel(level);
-            NextLevelExperience = level * nextLevelExperience;
-        }
-    }
-
-    private int experience;
-    public int Experience
-    {
-        get { return experience; }
-        set
-        {
-            experience = value;
-            playerAttributesUI.UpdateExperience(experience);
-        }
-    }
-
-    private int nextLevelExperience;
-    public int NextLevelExperience
-    {
-        get { return nextLevelExperience; }
-        set
-        {
-            nextLevelExperience = value;
-            playerAttributesUI.UpdateNextLevelExperience(nextLevelExperience);
-        }
-    }
-
-    public override void Init()
-    {
-        base.Init();
-        Damage = minDamage;
-        AttackSpeed = minAttackSpeed;
-        ShieldProtectionPercent = minShieldProtectionPercent;
-        Level = 1;
-        Experience = 0;
-        NextLevelExperience = 100;
+        Level.Set(1);
+        Experience.Set(0);
+        ExperienceToNextLevel.Set(100);
+        Health.Set(100);
+        Damage.Set(10);
+        AttackSpeed.Set(1f);
+        ShieldProtection.Set(80);
     }
 }

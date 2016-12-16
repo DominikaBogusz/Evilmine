@@ -72,7 +72,7 @@
     <Compile Include="Assets\Scripts\AnimationBehaviours\GemRiftBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Attributes.cs" />
+    <Compile Include="Assets\Scripts\Attribute.cs" />
     <Compile Include="Assets\Scripts\Bat.cs" />
     <Compile Include="Assets\Scripts\BatPoint.cs" />
     <Compile Include="Assets\Scripts\BatSpawner.cs" />
@@ -118,14 +118,12 @@
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\UI\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\BonusesUI.cs" />
-    <Compile Include="Assets\Scripts\UI\EnemyAttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverUI.cs" />
-    <Compile Include="Assets\Scripts\UI\HealthIndicatorUI.cs" />
     <Compile Include="Assets\Scripts\UI\LivesUI.cs" />
     <Compile Include="Assets\Scripts\UI\LootUI.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenuUI.cs" />
     <Compile Include="Assets\Scripts\UI\PauseUI.cs" />
-    <Compile Include="Assets\Scripts\UI\PlayerAttributesUI.cs" />
+    <Compile Include="Assets\Scripts\UI\StatusIndicatorUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\WaveUI.cs" />
     <Compile Include="Assets\Scripts\Useables\Chest.cs" />
