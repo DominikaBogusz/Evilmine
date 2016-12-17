@@ -64,15 +64,15 @@ public class BonusManager : MonoBehaviour {
         Player.Instance.Attributes.Damage.Set(store);
     }
 
-    public void IncreaseAttackSpeed(float value, float time)
+    public void IncreaseAttackSpeed(int value, float time)
     {
         bonusesUI.SetAttackSpeedBonus(value, time);
         StartCoroutine(IncreaseAttackSpeedCounting(value, time));
     }
 
-    private IEnumerator IncreaseAttackSpeedCounting(float value, float time)
+    private IEnumerator IncreaseAttackSpeedCounting(int value, float time)
     {
-        float store = Player.Instance.Attributes.AttackSpeed;
+        int store = Player.Instance.Attributes.AttackSpeed;
         Player.Instance.Attributes.AttackSpeed += value;
         yield return new WaitForSeconds(time);
         Player.Instance.Attributes.AttackSpeed.Set(store);
