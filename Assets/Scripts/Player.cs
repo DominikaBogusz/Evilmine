@@ -148,7 +148,7 @@ public class Player : Character {
 
         if (!isImmortal)
         {
-            Attributes.Health.Set(Attributes.Health - damage);
+            Attributes.Health -= damage;
 
             if (!IsDead)
             {
@@ -173,7 +173,7 @@ public class Player : Character {
 
         if (!isImmortal)
         {
-            Attributes.Health.Set(Attributes.Health - damage);
+            Attributes.Health -= damage;
             enemy.Statistics.DamageMade += damage;
 
             if (!IsDead && OnGround && Blocking)

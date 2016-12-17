@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public abstract class Attribute<T> {
 
     protected string name;
-    protected T min;
-    protected T max;
-    protected T value;
+    public T min { get; set; }
+    public T max { get; set; }
+    protected T current;
     protected Text uiText;
     protected StatusIndicatorUI statusIndicator;
 
@@ -29,15 +29,10 @@ public abstract class Attribute<T> {
 
     public T Get()
     {
-        return value;
+        return current;
     }
 
     public abstract void Set(T value);
-
-    public T Max()
-    {
-        return max;
-    }
 }
 
 public class AttributeInt : Attribute<int> {
@@ -47,17 +42,41 @@ public class AttributeInt : Attribute<int> {
 
     public override void Set(int value)
     {
-        this.value = Mathf.Clamp(value, min, max);
-        uiText.text = value.ToString();
+        current = Mathf.Clamp(value, min, max);
+        uiText.text = current.ToString();
         if (statusIndicator != null)
         {
-            statusIndicator.SetStatusBar(value, max);
+            statusIndicator.SetStatusBar(current, max);
         }
     }
 
     public static implicit operator int(AttributeInt instance)
     {
-        return instance.value;
+        return instance.current;
+    }
+
+    public static AttributeInt operator +(AttributeInt instance, int value)
+    {
+        instance.Set(instance.current + value);
+        return instance;
+    }
+
+    public static AttributeInt operator +(int value, AttributeInt instance)
+    {
+        instance.Set(instance.current + value);
+        return instance;
+    }
+
+    public static AttributeInt operator -(AttributeInt instance, int value)
+    {
+        instance.Set(instance.current - value);
+        return instance;
+    }
+
+    public static AttributeInt operator -(int value, AttributeInt instance)
+    {
+        instance.Set(instance.current - value);
+        return instance;
     }
 }
 
@@ -67,12 +86,36 @@ public class AttributeFloat : Attribute<float> {
 
     public override void Set(float value)
     {
-        this.value = Mathf.Clamp(value, min, max);
-        uiText.text = value.ToString();
+        current = Mathf.Clamp(value, min, max);
+        uiText.text = current.ToString();
     }
 
     public static implicit operator float(AttributeFloat instance)
     {
-        return instance.value;
+        return instance.current;
+    }
+
+    public static AttributeFloat operator +(AttributeFloat instance, float value)
+    {
+        instance.Set(instance.current + value);
+        return instance;
+    }
+
+    public static AttributeFloat operator +(float value, AttributeFloat instance)
+    {
+        instance.Set(instance.current + value);
+        return instance;
+    }
+
+    public static AttributeFloat operator -(AttributeFloat instance, float value)
+    {
+        instance.Set(instance.current - value);
+        return instance;
+    }
+
+    public static AttributeFloat operator -(float value, AttributeFloat instance)
+    {
+        instance.Set(instance.current - value);
+        return instance;
     }
 }

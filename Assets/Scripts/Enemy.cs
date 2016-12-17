@@ -147,7 +147,7 @@ public class Enemy : Character {
 
     public void TakeDamage(int damage)
     {
-        Attributes.Health.Set(Attributes.Health - damage);
+        Attributes.Health -= damage;
         Statistics.DamageReceived += damage;
 
         if (!IsDead)
@@ -166,7 +166,9 @@ public class Enemy : Character {
     
     public override void Die()
     {
-        Destroy(gameObject);
+        Player.Instance.Attributes.GainExperience(Attributes.Level);
+        Destroy(gameObject); 
+
         Player.Instance.Statistics.IncreaseKillCount();
     }
 }

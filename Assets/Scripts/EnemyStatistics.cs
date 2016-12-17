@@ -60,8 +60,8 @@ public class EnemyStatistics : MonoBehaviour {
         damageMadeInPreviousBattles += damageMade;
         damageReceivedInPreviousBattles += damageReceived;
 
-        float playerMaxLife = player.Attributes.Health.Max();
-        float enemyMaxLife = enemy.Attributes.Health.Max();
+        float playerMaxLife = player.Attributes.Health.max;
+        float enemyMaxLife = enemy.Attributes.Health.max;
 
         if (enemy.IsDead)
         {
