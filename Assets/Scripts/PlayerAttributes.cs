@@ -22,15 +22,34 @@ public class PlayerAttributes : MonoBehaviour {
     }
 
     public void GainExperience(int enemyLevel)
-    {
-        if (enemyLevel == Level)
+    { 
+        int experienceToGain = 100;
+
+        int diff = enemyLevel - Level.Get();
+        if (diff > 0)
         {
-            Experience += 100;
-            if (Experience >= ExperienceToNextLevel)
-            {
-                Level += 1;
-                ExperienceToNextLevel += ExperienceToNextLevel.min * 2;
-            }
+            experienceToGain = experienceToGain * (diff+1);
+        }
+        else if (diff < 0)
+        {
+            experienceToGain = experienceToGain / (-diff+1);
+        }
+
+        Experience += experienceToGain;
+        CheckIfLevelUp();
+    }
+
+    private void CheckIfLevelUp()
+    {
+        if (Experience.Get() < ExperienceToNextLevel.Get())
+        {
+            return;
+        }
+        else
+        {
+            Level += 1;
+            ExperienceToNextLevel += ExperienceToNextLevel.Get() * 2;
+            CheckIfLevelUp();
         }
     }
 }

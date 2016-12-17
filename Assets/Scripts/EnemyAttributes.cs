@@ -10,7 +10,7 @@ public class EnemyAttributes : MonoBehaviour {
 
     public void Init()
     {
-        Level.Set(1);
+        Level.Set(Level.min);
         Health.Set(100);
         Damage.Set(10);
         AttackSpeed.Set(10);

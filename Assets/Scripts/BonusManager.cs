@@ -58,7 +58,7 @@ public class BonusManager : MonoBehaviour {
 
     private IEnumerator IncreaseDamageCounting(int value, float time)
     {
-        int store = Player.Instance.Attributes.Damage;
+        int store = Player.Instance.Attributes.Damage.Get();
         Player.Instance.Attributes.Damage += value;
         yield return new WaitForSeconds(time);
         Player.Instance.Attributes.Damage.Set(store);
@@ -72,7 +72,7 @@ public class BonusManager : MonoBehaviour {
 
     private IEnumerator IncreaseAttackSpeedCounting(int value, float time)
     {
-        int store = Player.Instance.Attributes.AttackSpeed;
+        int store = Player.Instance.Attributes.AttackSpeed.Get();
         Player.Instance.Attributes.AttackSpeed += value;
         yield return new WaitForSeconds(time);
         Player.Instance.Attributes.AttackSpeed.Set(store);
@@ -86,7 +86,7 @@ public class BonusManager : MonoBehaviour {
 
     private IEnumerator IncreaseShieldProtectionCounting(int value, float time)
     {
-        int store = Player.Instance.Attributes.ShieldProtection;
+        int store = Player.Instance.Attributes.ShieldProtection.Get();
         Player.Instance.Attributes.ShieldProtection += value;
         yield return new WaitForSeconds(time);
         Player.Instance.Attributes.ShieldProtection.Set(store);

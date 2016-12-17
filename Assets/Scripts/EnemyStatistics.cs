@@ -99,7 +99,7 @@ public class EnemyStatistics : MonoBehaviour {
         }
         else if (damageReceived > 0)
         {
-            if(player.Attributes.Health < playerMaxLife * 0.4)
+            if(player.Attributes.Health.Get() < playerMaxLife * 0.4)
             {
                 DifficultyManager.Instance.PlayerLevel -= 4;
                 return BattleResult.RUN_AWAY_BLEEDING;

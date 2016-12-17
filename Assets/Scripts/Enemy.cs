@@ -31,7 +31,7 @@ public class Enemy : Character {
     {
         get
         {
-            return Attributes.Health <= 0;
+            return Attributes.Health.Get() <= 0;
         }
     }
 
@@ -166,7 +166,7 @@ public class Enemy : Character {
     
     public override void Die()
     {
-        Player.Instance.Attributes.GainExperience(Attributes.Level);
+        Player.Instance.Attributes.GainExperience(Attributes.Level.Get());
         Destroy(gameObject); 
 
         Player.Instance.Statistics.IncreaseKillCount();

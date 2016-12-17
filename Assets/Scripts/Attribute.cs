@@ -26,11 +26,6 @@ public class Attribute {
         }
     }
 
-    public static implicit operator int(Attribute instance)
-    {
-        return instance.current;
-    }
-
     public static Attribute operator +(Attribute instance, int value)
     {
         instance.Set(instance.current + value);
