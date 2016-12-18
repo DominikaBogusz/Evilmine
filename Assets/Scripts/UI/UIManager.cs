@@ -17,38 +17,42 @@ public class UIManager : MonoBehaviour
     }
 
     public bool ActiveAttributesUI { private set; get; }
-    [SerializeField] private PauseUI pauseUI;
-    [SerializeField] private GameOverUI gameOverUI;
-    private bool activeGameOverUI;
+    public bool ActiveUI { get; set; }
+    [SerializeField] private GameObject upgradeUI;
+    [SerializeField] private GameObject pauseUI;
+    [SerializeField] private GameObject gameOverUI;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && !ActiveUI)
         {
             ActiveAttributesUI = !ActiveAttributesUI;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && !activeGameOverUI)
+        if (Input.GetKeyDown(KeyCode.C) && !ActiveUI)
         {
-            if (pauseUI.gameObject.activeSelf)
-            {
-                pauseUI.Resume();
-            }
-            else
-            {
-                pauseUI.Activate();
-            }
+            ActivateUI(upgradeUI);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && !ActiveUI)
+        {
+            ActivateUI(pauseUI);
         }
     }
 
     public void ShowGameOverUI()
     {
         StartCoroutine(WaitForPlayerFall(2.0f));
-        activeGameOverUI = true;
     }
 
     private IEnumerator WaitForPlayerFall(float time)
     {
         yield return new WaitForSeconds(time);
-        gameOverUI.Activate();
+        ActivateUI(gameOverUI);
+    }
+
+    public void ActivateUI(GameObject ui)
+    {
+        ActiveUI = true;
+        Time.timeScale = 0.0f;
+        ui.SetActive(true);
     }
 }

@@ -21,7 +21,7 @@ public class PlayerAttributes : MonoBehaviour {
         Damage.Set(Damage.min);
         AttackSpeed.Set(AttackSpeed.min);
         ShieldProtection.Set(ShieldProtection.min);
-        LearningPoints = 0;
+        LearningPoints = 2;
     }
 
     public void GainExperience(int enemyLevel)
@@ -50,9 +50,9 @@ public class PlayerAttributes : MonoBehaviour {
         }
         else
         {
+            LearningPoints++;
             Level += 1;
             ExperienceToNextLevel += ExperienceToNextLevel.Get() * 2;
-            LearningPoints++;
             CheckIfLevelUp();
         }
     }

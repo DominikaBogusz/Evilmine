@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+public delegate void ChangeEventHandler();
+
 [System.Serializable]
 public class Attribute {
 
@@ -23,6 +25,17 @@ public class Attribute {
         if (statusIndicator != null)
         {
             statusIndicator.SetStatusBar(current, max);
+        }
+        OnChangeEvent();
+    }
+
+    public event ChangeEventHandler ChangeEvent;
+
+    public void OnChangeEvent()
+    {
+        if (ChangeEvent != null)
+        {
+            ChangeEvent();
         }
     }
 
