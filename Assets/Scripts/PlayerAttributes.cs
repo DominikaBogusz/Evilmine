@@ -10,15 +10,18 @@ public class PlayerAttributes : MonoBehaviour {
     [SerializeField] public Attribute AttackSpeed;
     [SerializeField] public Attribute ShieldProtection;
 
+    public int LearningPoints { get; set; }
+
     public void Init()
     {
-        Level.Set(Level.min);
+        Level.Set(9);
         Experience.Set(Experience.min);
         ExperienceToNextLevel.Set(ExperienceToNextLevel.min);
         Health.Set(Health.max);
         Damage.Set(Damage.min);
         AttackSpeed.Set(AttackSpeed.min);
         ShieldProtection.Set(ShieldProtection.min);
+        LearningPoints = 0;
     }
 
     public void GainExperience(int enemyLevel)
@@ -49,6 +52,7 @@ public class PlayerAttributes : MonoBehaviour {
         {
             Level += 1;
             ExperienceToNextLevel += ExperienceToNextLevel.Get() * 2;
+            LearningPoints++;
             CheckIfLevelUp();
         }
     }

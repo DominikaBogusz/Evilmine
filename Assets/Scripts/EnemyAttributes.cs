@@ -10,11 +10,15 @@ public class EnemyAttributes : MonoBehaviour {
 
     public void Init()
     {
-        Level.Set(Level.min);
-        Health.Set(100);
-        Damage.Set(10);
-        AttackSpeed.Set(10);
-        AttackInterval.Set(80);
+        Level.Set(DifficultyManager.Instance.ExpectedEnemyLevel);
+        Health.max = ((Health.min + Health.max) / Level.max) * Level.Get();
+        Health.Set(Health.max);
+        int damage = ((Damage.min + Damage.max) / Level.max) * Level.Get();
+        Damage.Set(damage);
+        int attackSpeed = ((AttackSpeed.min + AttackSpeed.max) / Level.max) * Level.Get();
+        AttackSpeed.Set(attackSpeed);
+        int attackInterval = ((AttackInterval.min + AttackInterval.max) / Level.max) * Level.Get();
+        AttackInterval.Set(attackInterval);
     } 
 
     public void AccomodateToDifficultyLevel(string enemyName)

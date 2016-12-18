@@ -19,6 +19,8 @@ public class DifficultyManager : MonoBehaviour {
     [SerializeField] private int minPlayerLevel;
     [SerializeField] private int maxPlayerLevel;
 
+    public int ExpectedEnemyLevel { get; set; }
+
     private int playerLevel;
     public int PlayerLevel
     {
@@ -41,6 +43,8 @@ public class DifficultyManager : MonoBehaviour {
 
     void Start()
     {
+        ExpectedEnemyLevel = Player.Instance.Attributes.Level.Get();
+
         PlayerLevel = minPlayerLevel + maxPlayerLevel / 2;
         EnemyTypesDifficulty = new Dictionary<string, float>();
     }
