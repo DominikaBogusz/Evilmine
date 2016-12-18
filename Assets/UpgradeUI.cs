@@ -29,6 +29,15 @@ public class UpgradeUI : MonoBehaviour {
         {
             Close();
         }
+
+        if (Player.Instance.Attributes.LearningPoints > 0)
+        {
+            learningPointsText.GetComponentInParent<Image>().color = Color.green;
+        }
+        else
+        {
+            learningPointsText.GetComponentInParent<Image>().color = Color.red;
+        }
     }
 
     public void Close()
@@ -47,14 +56,6 @@ public class UpgradeUI : MonoBehaviour {
     void UpdateLearningPoints()
     {
         learningPointsText.text = Player.Instance.Attributes.LearningPoints.ToString();
-        if(Player.Instance.Attributes.LearningPoints > 0)
-        {
-            learningPointsText.GetComponentInParent<Image>().color = Color.green;
-        }
-        else
-        {
-            learningPointsText.GetComponentInParent<Image>().color = Color.red;
-        }
     }
 
     void UpdateHealthPoints()

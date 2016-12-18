@@ -67,15 +67,18 @@ public class EnemyStatistics : MonoBehaviour {
         {
             if (damageMade > playerMaxLife * 0.7)
             {
+                DifficultyManager.Instance.AddFightResult(FightResult.Result.WON, FightResult.SubResult.BAD);
                 return BattleResult.WON_HARDLY;
             }
             else if (damageMade <= playerMaxLife * 0.7 && damageMade >= playerMaxLife * 0.4)
             {
+                DifficultyManager.Instance.AddFightResult(FightResult.Result.WON, FightResult.SubResult.MEDIUM);
                 DifficultyManager.Instance.PlayerLevel += 2;
                 return BattleResult.WON_MIDDLING;
             }
             else if (damageMade < playerMaxLife * 0.4)
             {
+                DifficultyManager.Instance.AddFightResult(FightResult.Result.WON, FightResult.SubResult.GOOD);
                 DifficultyManager.Instance.PlayerLevel += 4;
                 return BattleResult.WON_EASILY;
             }
@@ -84,15 +87,18 @@ public class EnemyStatistics : MonoBehaviour {
         {
             if (damageReceived > enemyMaxLife * 0.7)
             {
+                DifficultyManager.Instance.AddFightResult(FightResult.Result.LOST, FightResult.SubResult.GOOD);
                 return BattleResult.LOST_NEARLY;
             }
             else if (damageReceived <= enemyMaxLife * 0.7 && damageReceived >= enemyMaxLife * 0.4)
             {
+                DifficultyManager.Instance.AddFightResult(FightResult.Result.LOST, FightResult.SubResult.MEDIUM);
                 DifficultyManager.Instance.PlayerLevel -= 2;
                 return BattleResult.LOST_MIDDLING;
             }
             else if (damageReceived < enemyMaxLife * 0.4)
             {
+                DifficultyManager.Instance.AddFightResult(FightResult.Result.LOST, FightResult.SubResult.BAD);
                 DifficultyManager.Instance.PlayerLevel -= 4;
                 return BattleResult.LOST_ENTIRELY;
             }

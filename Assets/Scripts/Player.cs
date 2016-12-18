@@ -216,7 +216,7 @@ public class Player : Character {
 
     public override void Die()
     {
-        Attributes.Init();
+        Attributes.Health.Set(Attributes.Health.max);
         transform.position = respawnPoint.position;
 
         AnimationManager.Reset();

@@ -14,14 +14,14 @@ public class PlayerAttributes : MonoBehaviour {
 
     public void Init()
     {
-        Level.Set(9);
+        Level.Set(1);
         Experience.Set(Experience.min);
         ExperienceToNextLevel.Set(ExperienceToNextLevel.min);
         Health.Set(Health.max);
         Damage.Set(Damage.min);
         AttackSpeed.Set(AttackSpeed.min);
         ShieldProtection.Set(ShieldProtection.min);
-        LearningPoints = 2;
+        LearningPoints = 0;
     }
 
     public void GainExperience(int enemyLevel)
