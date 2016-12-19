@@ -190,7 +190,7 @@ public class Player : Character {
                 Died = true;
                 AnimationManager.Die();
                 OnDeadEvent();
-                enemy.Statistics.KillCount++;
+                enemy.Statistics.IncreaseKillCount();
             }
         }
     }
@@ -216,6 +216,8 @@ public class Player : Character {
 
     public override void Die()
     {
+        DifficultyManager.Instance.PlayerProsperity -= 10;
+
         Attributes.Health.Set(Attributes.Health.max);
         transform.position = respawnPoint.position;
 

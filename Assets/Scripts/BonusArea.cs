@@ -50,7 +50,7 @@ public class BonusArea : MonoBehaviour {
 
     private bool GenerateTimeBonus()
     {
-        int chance = 100 - DifficultyManager.Instance.PlayerLevel;
+        int chance = 100 - DifficultyManager.Instance.PlayerProsperity;
         int draw = Random.Range(0, 100);
 
         if (draw < chance)

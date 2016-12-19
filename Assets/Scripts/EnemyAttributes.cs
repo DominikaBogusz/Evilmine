@@ -20,18 +20,4 @@ public class EnemyAttributes : MonoBehaviour {
         int attackInterval = ((AttackInterval.min + AttackInterval.max) / Level.max) * Level.Get();
         AttackInterval.Set(attackInterval);
     } 
-
-    public void AccomodateToDifficultyLevel(string enemyName)
-    {
-    //    if (DifficultyManager.Instance.EnemyTypesDifficulty.ContainsKey(enemyName))
-    //    {
-    //        float level = DifficultyManager.Instance.EnemyTypesDifficulty[enemyName];
-
-    //        //TODO jakieś gówno wszystko źle
-
-    //        //Damage = (minDamage + maxDamage) / 2 * level;
-    //        //AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2 * level;
-    //        //AttackInterval = (minAttackInterval + maxAttackInterval) / 2 * (1-(level-1));
-    //    }
-    }
 }

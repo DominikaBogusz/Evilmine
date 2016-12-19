@@ -47,7 +47,6 @@ public class Enemy : Character {
 
         Attributes = GetComponent<EnemyAttributes>();
         Attributes.Init();
-        Attributes.AccomodateToDifficultyLevel(name);
 
         Statistics = GetComponent<EnemyStatistics>();
     }
@@ -112,8 +111,6 @@ public class Enemy : Character {
     public void SetTarget(GameObject target)
     {
         Target = target;
-
-        Statistics.StartBattleTimer = true;
     }
 
     public void RemoveTarget()
@@ -123,7 +120,7 @@ public class Enemy : Character {
             Target = null;
             ChangeState(new IdleState());
 
-            Statistics.StopBattleTimer = true;
+            Statistics.EvaluateFight();
         }
     }
 
@@ -156,7 +153,7 @@ public class Enemy : Character {
         }
         else
         {
-            Statistics.StopBattleTimer = true;
+            RemoveTarget();
             transform.GetChild(0).gameObject.SetActive(false);
 
             MyAnimator.SetTrigger("die");
