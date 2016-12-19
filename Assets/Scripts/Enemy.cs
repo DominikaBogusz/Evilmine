@@ -118,9 +118,11 @@ public class Enemy : Character {
         if(Target != null)
         {
             Target = null;
-            ChangeState(new IdleState());
-
             Statistics.EvaluateFight();
+        }
+        if (!IsDead)
+        {
+            ChangeState(new IdleState());
         }
     }
 

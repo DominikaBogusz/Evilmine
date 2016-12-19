@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AttributeButtonUI.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
@@ -117,6 +116,7 @@
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
     <Compile Include="Assets\Scripts\RespawnPoint.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
+    <Compile Include="Assets\Scripts\UI\AttributeButtonUI.cs" />
     <Compile Include="Assets\Scripts\UI\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\BonusesUI.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverUI.cs" />
@@ -126,13 +126,13 @@
     <Compile Include="Assets\Scripts\UI\PauseUI.cs" />
     <Compile Include="Assets\Scripts\UI\StatusIndicatorUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\UpgradeUI.cs" />
     <Compile Include="Assets\Scripts\UI\WaveUI.cs" />
     <Compile Include="Assets\Scripts\Useables\Chest.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
     <Compile Include="Assets\Scripts\Useables\Ladder.cs" />
     <Compile Include="Assets\Scripts\WaveSpawner.cs" />
-    <Compile Include="Assets\UpgradeUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Fonts\press_start_2p\FONTLOG.txt" />
