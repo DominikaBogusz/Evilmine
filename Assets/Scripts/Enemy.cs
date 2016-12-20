@@ -118,7 +118,6 @@ public class Enemy : Character {
         if(Target != null)
         {
             Target = null;
-            Statistics.EvaluateFight();
         }
         if (!IsDead)
         {
@@ -141,6 +140,14 @@ public class Enemy : Character {
         if (!IsDead)
         {
             TakeDamage(damage);
+        }
+        else
+        {
+            RemoveTarget();
+            transform.GetChild(0).gameObject.SetActive(false);
+
+            MyAnimator.SetTrigger("die");
+            OnDeadEvent();
         }
     }
 
