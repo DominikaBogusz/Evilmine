@@ -27,6 +27,21 @@ public class Enemy : Character {
         }
     }
 
+    public bool InFrontOfTarget
+    {
+        get
+        {
+            float xDir = Target.transform.position.x - transform.position.x;
+            float xDist = Mathf.Abs(Target.transform.position.x - transform.position.x);
+
+            if (xDir < 0 && FacingRight || xDir > 0 && !FacingRight)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+
     public override bool IsDead
     {
         get
@@ -88,24 +103,17 @@ public class Enemy : Character {
         }
     }
 
-    private Vector2 GetDirection()
+    public Vector2 GetDirection()
     { 
         return FacingRight ? Vector2.right : Vector2.left;
     }
 
     private void LookAtTarget()
     {
-        if(Target != null)
+        if (Target != null && !InFrontOfTarget)
         {
-            float xDir = Target.transform.position.x - transform.position.x;
-            float xDist = Mathf.Abs(Target.transform.position.x - transform.position.x);
-
-            if ((xDir < 0 && FacingRight || xDir > 0 && !FacingRight) && (xDist > meleeRange))
-            {
-                Flip();
-            }
+            Flip();
         }
-        
     }
 
     public void SetTarget(GameObject target)

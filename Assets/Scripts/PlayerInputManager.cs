@@ -11,7 +11,7 @@ public class PlayerInputManager : MonoBehaviour {
 	
 	void Update ()
     {
-        if(!player.TakingDamage && !player.IsDead && !player.Digging)
+        if(player.CanMove)
         {
             HandleInput();
 

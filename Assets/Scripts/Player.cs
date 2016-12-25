@@ -50,6 +50,16 @@ public class Player : Character {
     }
     public bool Died { get; set; }
 
+    public bool Frozen { get; set; }
+
+    public bool CanMove
+    {
+        get
+        {
+            return !TakingDamage && !IsDead && !Digging && !Frozen;
+        }
+    }
+
     public override void Start ()
     {
         base.Start();
@@ -176,16 +186,23 @@ public class Player : Character {
             Attributes.Health -= damage;
             enemy.Statistics.DamageMade += damage;
 
-            if (!IsDead && OnGround && Blocking)
+            if (!IsDead)
             {
-                AnimationManager.Protect();
+                if (Frozen)
+                {
+                    StartCoroutine(TakeDamage());
+                }
+                else if(OnGround && Blocking)
+                {
+                    AnimationManager.Protect();
+                }
+                else
+                {
+                    AnimationManager.Damage();
+                    StartCoroutine(TakeDamage());
+                }
             }
-            else if (!IsDead)
-            {
-                AnimationManager.Damage();
-                StartCoroutine(TakeDamage());
-            }
-            else if (IsDead)
+            else
             {
                 Died = true;
                 AnimationManager.Die();
@@ -236,5 +253,21 @@ public class Player : Character {
     public void SetNewRespawnPoint(Transform point)
     {
         respawnPoint = point;
+    }
+
+    public void Freeze(float time, Enemy enemy)
+    {
+        MyRigidbody2D.velocity = Vector2.zero;
+        Frozen = true;
+        MyAnimator.speed = 0f;
+        StartCoroutine(StayFrozen(time));
+        EnemyDamage(enemy);
+    }
+
+    private IEnumerator StayFrozen(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Frozen = false;
+        MyAnimator.speed = 1f;
     }
 }
