@@ -31,7 +31,7 @@ public class Missle : MonoBehaviour {
         if (other.tag == "Player")
         {
             speed = 0f;
-            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
 
             if (freezeTime == 0)
             {
@@ -48,5 +48,10 @@ public class Missle : MonoBehaviour {
             }
             Destroy(gameObject);
         }  
+    }
+
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 }

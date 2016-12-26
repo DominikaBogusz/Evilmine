@@ -8,7 +8,6 @@ public class Shoot : MonoBehaviour {
     public void ShootMissle()
     {
         Enemy enemy = GetComponent<Enemy>();
-
         GameObject clone;
         if (enemy.FacingRight)
         {
@@ -19,7 +18,6 @@ public class Shoot : MonoBehaviour {
             clone = Instantiate(missile, missleStartPoint.position, Quaternion.Euler(new Vector3(0f, 0f, 180f))) as GameObject;
         }
         Missle missle = clone.GetComponent<Missle>();
-
         missle.Init(enemy);
     }
 
