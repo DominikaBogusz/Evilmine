@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Missle.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\AttackBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\BlockBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\ClimbBehaviour.cs" />
@@ -107,6 +106,7 @@
     <Compile Include="Assets\Scripts\EnemyStates\RangedState.cs" />
     <Compile Include="Assets\Scripts\EnemyStatistics.cs" />
     <Compile Include="Assets\Scripts\EnemySword.cs" />
+    <Compile Include="Assets\Scripts\Missle.cs" />
     <Compile Include="Assets\Scripts\Obstacle.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationManager.cs" />
@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
     <Compile Include="Assets\Scripts\RespawnPoint.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
+    <Compile Include="Assets\Scripts\Shoot.cs" />
     <Compile Include="Assets\Scripts\UI\AttributeButtonUI.cs" />
     <Compile Include="Assets\Scripts\UI\AttributesUI.cs" />
     <Compile Include="Assets\Scripts\UI\BonusesUI.cs" />
@@ -134,7 +135,6 @@
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
     <Compile Include="Assets\Scripts\Useables\Ladder.cs" />
     <Compile Include="Assets\Scripts\WaveSpawner.cs" />
-    <Compile Include="Assets\Shoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Fonts\press_start_2p\FONTLOG.txt" />
