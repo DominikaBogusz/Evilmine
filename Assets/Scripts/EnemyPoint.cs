@@ -7,7 +7,7 @@ public class EnemyPoint : MonoBehaviour {
         if(other.tag == "SpawnDetector")
         {
             GetComponent<Collider2D>().enabled = false;
-            GetComponentInParent<EnemySpawner>().Spawn(transform);
+            EnemySpawner.Instance.Spawn(transform);
         } 
     }
 }

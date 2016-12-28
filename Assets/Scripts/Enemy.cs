@@ -50,6 +50,8 @@ public class Enemy : Character {
         }
     }
 
+    [SerializeField] private ParticleSystem bloodParticles;
+
     public override void Start ()
     {
         base.Start();
@@ -143,6 +145,7 @@ public class Enemy : Character {
 
     public void PlayerDamage(int damage)
     {
+        if (Died) return;
         SwordHide();
 
         if (!IsDead)
@@ -154,6 +157,7 @@ public class Enemy : Character {
             RemoveTarget();
             transform.GetChild(0).gameObject.SetActive(false);
 
+            Died = true;
             MyAnimator.SetTrigger("die");
             OnDeadEvent();
         }
@@ -163,6 +167,8 @@ public class Enemy : Character {
     {
         Attributes.Health -= damage;
         Statistics.DamageReceived += damage;
+
+        bloodParticles.Play();
 
         if (!IsDead)
         {

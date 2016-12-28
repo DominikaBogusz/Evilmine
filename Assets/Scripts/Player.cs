@@ -48,8 +48,7 @@ public class Player : Character {
             return Attributes.Health.Get() <= 0;
         }
     }
-    public bool Died { get; set; }
-
+    
     public bool Frozen { get; set; }
 
     public bool CanMove

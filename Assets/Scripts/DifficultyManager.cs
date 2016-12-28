@@ -43,7 +43,16 @@ public class DifficultyManager : MonoBehaviour
 
     private FightResult[] battleResults;
 
-    public int ExpectedEnemyLevel { get; set; }
+    private int expectedEnemyLevel;
+    public int ExpectedEnemyLevel
+    {
+        get { return expectedEnemyLevel; }
+        set
+        {
+            expectedEnemyLevel = Mathf.Clamp(value, 1, 50);
+            EnemySpawner.Instance.DetermineEnemiesToSpawn(expectedEnemyLevel);
+        }
+    }
 
     private int interventions;
     private bool previouslyChanged;
