@@ -148,19 +148,7 @@ public class Enemy : Character {
         if (Died) return;
         SwordHide();
 
-        if (!IsDead)
-        {
-            TakeDamage(damage);
-        }
-        else
-        {
-            RemoveTarget();
-            transform.GetChild(0).gameObject.SetActive(false);
-
-            Died = true;
-            MyAnimator.SetTrigger("die");
-            OnDeadEvent();
-        }
+        TakeDamage(damage);
     }
 
     public void TakeDamage(int damage)
@@ -176,6 +164,8 @@ public class Enemy : Character {
         }
         else
         {
+            Died = true;
+
             RemoveTarget();
             transform.GetChild(0).gameObject.SetActive(false);
 
