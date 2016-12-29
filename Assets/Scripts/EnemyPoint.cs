@@ -7,7 +7,11 @@ public class EnemyPoint : MonoBehaviour {
         if(other.tag == "SpawnDetector")
         {
             GetComponent<Collider2D>().enabled = false;
-            EnemySpawner.Instance.Spawn(transform);
+            Enemy spawnedEnemy = EnemySpawner.Instance.Spawn(transform);
+            if (GetComponent<KeyKeeper>() != null)
+            {
+                GetComponent<KeyKeeper>().SetEnemy(spawnedEnemy);
+            }
         } 
     }
 }
