@@ -53,7 +53,6 @@ public class PlayerAttributes : MonoBehaviour {
             LearningPoints++;
             Level += 1;
             ExperienceToNextLevel += ExperienceToNextLevel.Get();
-            DifficultyManager.Instance.ExpectedEnemyLevel++; 
             CheckIfLevelUp();
         }
     }

@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class FightResult
+public class Fight
 {
-    public enum Result { EMPTY, WON, LOST }
-    public enum SubResult { EMPTY, GOOD, MEDIUM, BAD }
+    public bool? won;
+    public enum Mark { GOOD, MEDIUM, BAD }
+    public Mark? mark;
 
-    public Result result;
-    public SubResult subResult;
-
-    public FightResult(Result result, SubResult subResult)
+    public Fight(bool? won, Mark? mark)
     {
-        this.result = result;
-        this.subResult = subResult;
+        this.won = won;
+        this.mark = mark;
     }
 }
 
@@ -41,7 +39,7 @@ public class DifficultyManager : MonoBehaviour
         }
     }
 
-    private FightResult[] battleResults;
+    private Fight[] battleResults;
 
     private int expectedEnemyLevel;
     public int ExpectedEnemyLevel
@@ -54,69 +52,63 @@ public class DifficultyManager : MonoBehaviour
         }
     }
 
-    private int interventions;
-    private bool previouslyChanged;
+    private int numberOfInterventions;
+    private int? previousIntervention;
 
     void Start()
     {
-        battleResults = new FightResult[3] { new FightResult(FightResult.Result.EMPTY, FightResult.SubResult.EMPTY), new FightResult(FightResult.Result.EMPTY, FightResult.SubResult.EMPTY), new FightResult(FightResult.Result.EMPTY, FightResult.SubResult.EMPTY) };
+        battleResults = new Fight[2] { new Fight(null, null), new Fight(null, null) };
         ExpectedEnemyLevel = Player.Instance.Attributes.Level.Get();
         PlayerProsperity = 50;
     }
 
-    public void AddFightResult(FightResult.Result result, FightResult.SubResult subResult)
+    public void AddFightResult(bool won, Fight.Mark mark)
     {
-        //Debug.Log(result + ", " + subResult);
+        Debug.Log(won + ", " + mark);
 
-        battleResults[2] = battleResults[1];
         battleResults[1] = battleResults[0];
-        battleResults[0] = new FightResult(result, subResult);
+        battleResults[0] = new Fight(won, mark);
 
         CheckIfChangeDifficulty();
     }
 
     private void CheckIfChangeDifficulty()
     {
-        if (!previouslyChanged)
+        int intervention = InterventionValue();
+
+        if (intervention < 0 || (intervention > 0 && !(previousIntervention > 0)))
         {
-            int intervention = InterventionValue();
-            //Debug.Log(intervention);
-            if (intervention != 0)
-            {
-                interventions++;
-                ExpectedEnemyLevel += intervention;
-                previouslyChanged = true;
-            }
+            numberOfInterventions++;
+            ExpectedEnemyLevel += intervention;
+            Debug.Log(intervention);
+            previousIntervention = intervention;
         }
-        else
+        else if(previousIntervention > 0)
         {
-            previouslyChanged = false;
+            previousIntervention = null;
         }
     }
 
     private int InterventionValue()
     {
-        if (battleResults[0].result == FightResult.Result.WON && battleResults[1].result == FightResult.Result.WON)
+        if (battleResults[0].won == true && battleResults[1].won == true)
         {
-            if (battleResults[0].subResult == FightResult.SubResult.GOOD && battleResults[1].subResult == FightResult.SubResult.GOOD)
+            if ((battleResults[1].mark == Fight.Mark.BAD || battleResults[1].mark == Fight.Mark.MEDIUM) && battleResults[0].mark == Fight.Mark.BAD)
             {
-                return 1;
+                return -1;
             }
-            if (battleResults[2].result == FightResult.Result.WON)
+            else if ((battleResults[1].mark == Fight.Mark.BAD || battleResults[1].mark == Fight.Mark.MEDIUM) && battleResults[0].mark == Fight.Mark.MEDIUM)
+            {
+                return 0;
+            }
+            else
             {
                 return 1;
             }
         }
-        else if (battleResults[0].result == FightResult.Result.LOST && battleResults[1].result == FightResult.Result.LOST)
+        else if (battleResults[0].won == false)
         {
-            if (battleResults[0].subResult == FightResult.SubResult.BAD && battleResults[1].subResult == FightResult.SubResult.BAD)
-            {
-                return -1;
-            }
-            if (battleResults[2].result == FightResult.Result.LOST)
-            {
-                return -1;
-            }
+            return -1;
         }
         return 0;
     }

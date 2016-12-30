@@ -11,7 +11,7 @@ public class UpgradeUI : MonoBehaviour {
     [SerializeField] private Text attackSpeedText;
     [SerializeField] private Text shieldProtectionText;
 
-	void Start()
+    void Start()
     {
         UpdateLevel();
         UpdateHealthPoints();
@@ -25,11 +25,6 @@ public class UpgradeUI : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Close();
-        }
-
         if (Player.Instance.Attributes.LearningPoints > 0)
         {
             learningPointsText.GetComponentInParent<Image>().color = Color.green;
@@ -37,6 +32,11 @@ public class UpgradeUI : MonoBehaviour {
         else
         {
             learningPointsText.GetComponentInParent<Image>().color = Color.red;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.C))
+        {
+            Close();
         }
     }
 

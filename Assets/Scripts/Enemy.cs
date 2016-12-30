@@ -128,7 +128,6 @@ public class Enemy : Character {
         if(Target != null)
         {
             Target = null;
-            Statistics.EvaluateFight();
         }
         if (!IsDead)
         {
@@ -165,21 +164,22 @@ public class Enemy : Character {
         }
         else
         {
-            Died = true;
-
             RemoveTarget();
             transform.GetChild(0).gameObject.SetActive(false);
 
+            Died = true;
             MyAnimator.SetTrigger("die");
             OnDeadEvent();
+
+            Statistics.EvaluateFight();
         }
     }
     
     public override void Die()
     {
         Player.Instance.Attributes.GainExperience(Attributes.Level.Get());
-        Destroy(gameObject); 
-
         Player.Instance.Statistics.IncreaseKillCount();
+
+        Destroy(gameObject); 
     }
 }

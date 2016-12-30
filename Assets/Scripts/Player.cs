@@ -206,6 +206,7 @@ public class Player : Character {
                 Died = true;
                 AnimationManager.Die();
                 OnDeadEvent();
+                enemy.Statistics.EvaluateFight();
                 enemy.Statistics.IncreaseKillCount();
             }
         }

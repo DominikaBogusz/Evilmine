@@ -8,9 +8,7 @@ public class EnemyStatistics : MonoBehaviour {
     private int killCount;
 
     public float DamageMade { get; set; }
-    private float damageMadeInPreviousBattles;
     public float DamageReceived { get; set; }
-    private float damageReceivedInPreviousBattles;
 
     void Start()
     {
@@ -25,45 +23,39 @@ public class EnemyStatistics : MonoBehaviour {
 
     public void EvaluateFight()
     {
-        float damageMade = DamageMade - damageMadeInPreviousBattles;
-        float damageReceived = DamageReceived - damageReceivedInPreviousBattles;
-
-        damageMadeInPreviousBattles += damageMade;
-        damageReceivedInPreviousBattles += damageReceived;
-
         float playerMaxLife = player.Attributes.Health.max;
         float enemyMaxLife = enemy.Attributes.Health.max;
 
         if (enemy.IsDead)
         {
-            if (damageMade > playerMaxLife * 0.7)
+            if (DamageMade > playerMaxLife * 0.6)
             {
-                DifficultyManager.Instance.AddFightResult(FightResult.Result.WON, FightResult.SubResult.BAD);
+                DifficultyManager.Instance.AddFightResult(true, Fight.Mark.BAD);
                 DifficultyManager.Instance.PlayerProsperity -= 5;
             }
-            else if (damageMade <= playerMaxLife * 0.7 && damageMade >= playerMaxLife * 0.4)
+            else if (DamageMade <= playerMaxLife * 0.6 && DamageMade >= playerMaxLife * 0.3)
             {
-                DifficultyManager.Instance.AddFightResult(FightResult.Result.WON, FightResult.SubResult.MEDIUM); 
+                DifficultyManager.Instance.AddFightResult(true, Fight.Mark.MEDIUM); 
             }
-            else if (damageMade < playerMaxLife * 0.4)
+            else if (DamageMade < playerMaxLife * 0.3)
             {
-                DifficultyManager.Instance.AddFightResult(FightResult.Result.WON, FightResult.SubResult.GOOD);
+                DifficultyManager.Instance.AddFightResult(true, Fight.Mark.GOOD);
                 DifficultyManager.Instance.PlayerProsperity += 5;
             }
         }
         else if (player.IsDead)
         {
-            if (damageReceived > enemyMaxLife * 0.7)
+            if (DamageReceived > enemyMaxLife * 0.6)
             {
-                DifficultyManager.Instance.AddFightResult(FightResult.Result.LOST, FightResult.SubResult.GOOD);
+                DifficultyManager.Instance.AddFightResult(false, Fight.Mark.GOOD);
             }
-            else if (damageReceived <= enemyMaxLife * 0.7 && damageReceived >= enemyMaxLife * 0.4)
+            else if (DamageReceived <= enemyMaxLife * 0.6 && DamageReceived >= enemyMaxLife * 0.3)
             {
-                DifficultyManager.Instance.AddFightResult(FightResult.Result.LOST, FightResult.SubResult.MEDIUM);
+                DifficultyManager.Instance.AddFightResult(false, Fight.Mark.MEDIUM);
             }
-            else if (damageReceived < enemyMaxLife * 0.4)
+            else if (DamageReceived < enemyMaxLife * 0.3)
             {
-                DifficultyManager.Instance.AddFightResult(FightResult.Result.LOST, FightResult.SubResult.BAD);
+                DifficultyManager.Instance.AddFightResult(false, Fight.Mark.BAD);
             }
         }
     }
