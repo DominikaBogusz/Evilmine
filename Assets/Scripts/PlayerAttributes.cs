@@ -26,7 +26,7 @@ public class PlayerAttributes : MonoBehaviour {
 
     public void GainExperience(int enemyLevel)
     { 
-        int experienceToGain = 100;
+        int experienceToGain = 10;
 
         int diff = enemyLevel - Level.Get();
         if (diff > 0)

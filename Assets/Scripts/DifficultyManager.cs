@@ -59,13 +59,15 @@ public class DifficultyManager : MonoBehaviour
 
     void Start()
     {
-        battleResults = new FightResult[3];
+        battleResults = new FightResult[3] { new FightResult(FightResult.Result.EMPTY, FightResult.SubResult.EMPTY), new FightResult(FightResult.Result.EMPTY, FightResult.SubResult.EMPTY), new FightResult(FightResult.Result.EMPTY, FightResult.SubResult.EMPTY) };
         ExpectedEnemyLevel = Player.Instance.Attributes.Level.Get();
         PlayerProsperity = 50;
     }
 
     public void AddFightResult(FightResult.Result result, FightResult.SubResult subResult)
     {
+        //Debug.Log(result + ", " + subResult);
+
         battleResults[2] = battleResults[1];
         battleResults[1] = battleResults[0];
         battleResults[0] = new FightResult(result, subResult);
@@ -78,6 +80,7 @@ public class DifficultyManager : MonoBehaviour
         if (!previouslyChanged)
         {
             int intervention = InterventionValue();
+            //Debug.Log(intervention);
             if (intervention != 0)
             {
                 interventions++;

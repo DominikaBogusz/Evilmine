@@ -11,13 +11,25 @@ public class EnemyAttributes : MonoBehaviour {
     public void Init()
     {
         Level.Set(DifficultyManager.Instance.ExpectedEnemyLevel);
-        Health.max = ((Health.min + Health.max) / Level.max) * Level.Get();
+
+        int steps = Level.max - Level.min + 1;
+
+        int healthChange = (Health.max * 2) / steps;
+        Health.max = (Level.Get() - Level.min + 1) * healthChange;
         Health.Set(Health.max);
-        int damage = ((Damage.min + Damage.max) / Level.max) * Level.Get();
-        Damage.Set(damage);
-        int attackSpeed = ((AttackSpeed.min + AttackSpeed.max) / Level.max) * Level.Get();
-        AttackSpeed.Set(attackSpeed);
-        int attackInterval = ((AttackInterval.min + AttackInterval.max) / Level.max) * Level.Get();
-        AttackInterval.Set(attackInterval);
-    } 
+
+        float damage = Damage.min + (AttributeChange(Damage, steps) * Level.Get());
+        Damage.Set((int)damage);
+
+        float attackSpeed = AttackSpeed.min + (AttributeChange(AttackSpeed, steps) * Level.Get());
+        AttackSpeed.Set((int)attackSpeed);
+
+        float attackInterval = AttackInterval.min + (AttributeChange(AttackInterval, steps) * ((Level.min + Level.max) - Level.Get()));
+        AttackInterval.Set((int)attackInterval);
+    }
+
+    float AttributeChange(Attribute attribute, int numberOfSteps)
+    {
+        return (float) (attribute.max - attribute.min) / numberOfSteps;
+    }
 }

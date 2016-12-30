@@ -128,6 +128,7 @@ public class Enemy : Character {
         if(Target != null)
         {
             Target = null;
+            Statistics.EvaluateFight();
         }
         if (!IsDead)
         {
