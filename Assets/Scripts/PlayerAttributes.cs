@@ -24,7 +24,7 @@ public class PlayerAttributes : MonoBehaviour {
         LearningPoints = 0;
     }
 
-    public void GainExperience(int enemyLevel)
+    public void GainExperienceFromEnemy(int enemyLevel)
     { 
         int experienceToGain = 10;
 
@@ -38,7 +38,12 @@ public class PlayerAttributes : MonoBehaviour {
             experienceToGain = experienceToGain / (-diff+1);
         }
 
-        Experience += experienceToGain;
+        AddExperience(experienceToGain);
+    }
+
+    public void AddExperience(int exp)
+    {
+        Experience += exp;
         CheckIfLevelUp();
     }
 

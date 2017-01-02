@@ -177,7 +177,7 @@ public class Enemy : Character {
     
     public override void Die()
     {
-        Player.Instance.Attributes.GainExperience(Attributes.Level.Get());
+        Player.Instance.Attributes.GainExperienceFromEnemy(Attributes.Level.Get());
         Player.Instance.Statistics.IncreaseKillCount();
 
         Destroy(gameObject); 

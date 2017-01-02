@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject upgradeUI;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject summaryUI;
 
     void Update()
     {
@@ -47,6 +48,11 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         ActivateUI(gameOverUI);
+    }
+
+    public void ShowSummaryUI()
+    {
+        ActivateUI(summaryUI);
     }
 
     public void ActivateUI(GameObject ui)

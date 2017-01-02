@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\Collectables\TimeBonus.cs" />
     <Compile Include="Assets\Scripts\DifficultyManager.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
+    <Compile Include="Assets\Scripts\EndOfLevel.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\EnemyAttributes.cs" />
     <Compile Include="Assets\Scripts\EnemyPoint.cs" />
@@ -124,10 +125,10 @@
     <Compile Include="Assets\Scripts\UI\BonusesUI.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverUI.cs" />
     <Compile Include="Assets\Scripts\UI\LivesUI.cs" />
-    <Compile Include="Assets\Scripts\UI\LootUI.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenuUI.cs" />
     <Compile Include="Assets\Scripts\UI\PauseUI.cs" />
     <Compile Include="Assets\Scripts\UI\StatusIndicatorUI.cs" />
+    <Compile Include="Assets\Scripts\UI\SummaryUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\UpgradeUI.cs" />
     <Compile Include="Assets\Scripts\UI\WaveUI.cs" />
