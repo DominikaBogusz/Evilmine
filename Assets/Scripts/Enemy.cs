@@ -63,8 +63,6 @@ public class Enemy : Character {
         ChangeState(new IdleState());
 
         Attributes = GetComponent<EnemyAttributes>();
-        Attributes.Init();
-
         Statistics = GetComponent<EnemyStatistics>();
     }
 	

@@ -26,11 +26,11 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     [SerializeField] private List<EnemyPrefab> enemyPrefabs;
-    private List<GameObject> enemiesToSpawn;
+    private List<EnemyPrefab> enemiesToSpawn;
 
     void Start()
     {
-        enemiesToSpawn = new List<GameObject>();
+        enemiesToSpawn = new List<EnemyPrefab>();
     }
 
     public void DetermineEnemiesToSpawn(int expectedLevel)
@@ -39,19 +39,18 @@ public class EnemySpawner : MonoBehaviour {
         {
             if(expectedLevel >= enemyPrefab.minLevel && expectedLevel <= enemyPrefab.maxLevel)
             {
-                foreach(GameObject enemy in enemyPrefab.prefabs)
-                {
-                    enemiesToSpawn.Add(enemy);
-                }
+                 enemiesToSpawn.Add(enemyPrefab);
             }
         }
     }
 
     public Enemy Spawn(Transform spawnPoint)
     {
-        GameObject clone = Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)], spawnPoint.position, Quaternion.identity) as GameObject;
+        EnemyPrefab randomPrefab = enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)];
+        GameObject clone = Instantiate(randomPrefab.prefabs[Random.Range(0, randomPrefab.prefabs.Length)], spawnPoint.position, Quaternion.identity) as GameObject;
 
         Enemy enemy = clone.GetComponent<Enemy>();
+        enemy.GetComponent<EnemyAttributes>().Init(randomPrefab.minLevel, randomPrefab.maxLevel);
         enemy.LeftEdge = spawnPoint.GetChild(0);
         enemy.RightEdge = spawnPoint.GetChild(1);
 

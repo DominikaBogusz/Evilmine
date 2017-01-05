@@ -2,34 +2,46 @@
 
 public class EnemyAttributes : MonoBehaviour {
 
-    [SerializeField] public Attribute Level;
+    [SerializeField] private StatusIndicatorUI healthStatusIndicator;
+
+    [HideInInspector] public Attribute Level;
     [SerializeField] public Attribute Health;
+    [SerializeField] private int initialMaxHealth;
     [SerializeField] public Attribute Damage;
     [SerializeField] public Attribute AttackSpeed;
     [SerializeField] public Attribute AttackInterval;
 
-    public void Init()
+    public void Init(int minLevel, int maxLevel)
     {
+        Level.min = minLevel;
+        Level.max = maxLevel;
+
         Level.Set(DifficultyManager.Instance.ExpectedEnemyLevel);
 
         int steps = Level.max - Level.min + 1;
 
-        int healthChange = (Health.max * 2) / steps;
-        Health.max = (Level.Get() - Level.min + 1) * healthChange;
-        Health.Set(Health.max);
+        float health = initialMaxHealth + (Change(initialMaxHealth, Health.max, steps) * Level.Get());
+        Health.Set((int)health);
 
-        float damage = Damage.min + (AttributeChange(Damage, steps) * Level.Get());
+        float damage = Damage.min + (Change(Damage.min, Damage.max, steps) * Level.Get());
         Damage.Set((int)damage);
 
-        float attackSpeed = AttackSpeed.min + (AttributeChange(AttackSpeed, steps) * Level.Get());
+        float attackSpeed = AttackSpeed.min + (Change(AttackSpeed.min, AttackSpeed.max, steps) * Level.Get());
         AttackSpeed.Set((int)attackSpeed);
 
-        float attackInterval = AttackInterval.min + (AttributeChange(AttackInterval, steps) * ((Level.min + Level.max) - Level.Get()));
+        float attackInterval = AttackInterval.min + (Change(AttackInterval.min, AttackInterval.max, steps) * ((Level.min + Level.max) - Level.Get()));
         AttackInterval.Set((int)attackInterval);
+
+        Health.ChangeEvent += new ChangeEventHandler(UpdateHealthStatusBar);
     }
 
-    float AttributeChange(Attribute attribute, int numberOfSteps)
+    float Change(int attrMin, int attrMax, int numberOfSteps)
     {
-        return (float) (attribute.max - attribute.min) / numberOfSteps;
+        return (float) (attrMax - attrMin) / numberOfSteps;
+    }
+
+    void UpdateHealthStatusBar()
+    {
+        healthStatusIndicator.SetStatusBar(Health.Get(), Health.max);
     }
 }

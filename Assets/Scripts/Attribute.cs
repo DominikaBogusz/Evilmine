@@ -9,9 +9,7 @@ public class Attribute {
     private int current;
     [SerializeField] public int min;
     [SerializeField] public int max;
-    [SerializeField] private Text uiText;
-    [Header("Optional: ")]
-    [SerializeField] private StatusIndicatorUI statusIndicator;
+    [SerializeField] private Text uiText;    
 
     public int Get()
     {
@@ -22,10 +20,6 @@ public class Attribute {
     {
         current = Mathf.Clamp(value, min, max);
         uiText.text = current.ToString();
-        if (statusIndicator != null)
-        {
-            statusIndicator.SetStatusBar(current, max);
-        }
         OnChangeEvent();
     }
 
