@@ -4,7 +4,11 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Loot
 {
-    [SerializeField] private Text lootText;
+    private Text lootText;
+    public void SetLootText(Text text)
+    {
+        lootText = text;
+    }
 
     [SerializeField] public int MaxValue;
 
@@ -19,10 +23,24 @@ public class Loot
         }
     }
 
-    public void InitGem()
+    private bool active;
+    public bool Active
     {
-        Collected = 0;
-        lootText.transform.parent.gameObject.SetActive(true);
+        get { return active; }
+        set
+        {
+            active = value;
+            if (active)
+            {
+                Collected = 0;
+                lootText.transform.parent.gameObject.SetActive(true);
+            }
+            else
+            {
+                Collected = 0;
+                lootText.transform.parent.gameObject.SetActive(false);
+            }
+        }
     }
 }
 
@@ -43,7 +61,7 @@ public class ScoreManager : MonoBehaviour {
 
     public Loot Gold, Blue, Green, Red, Yellow;
 
-    void Start()
+    public void Init()
     {
         Gold.Collected = 0;
 
@@ -57,7 +75,11 @@ public class ScoreManager : MonoBehaviour {
     {
         if(gem.MaxValue > 0)
         {
-            gem.InitGem();
+            gem.Active = true;
+        }
+        else
+        {
+            gem.Active = false;
         }
     }
 

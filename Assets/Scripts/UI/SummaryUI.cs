@@ -18,21 +18,33 @@ public class SummaryUI : MonoBehaviour
     [SerializeField] private GameObject[] hearts;
     [SerializeField] private Button restoreLifeButton;
 
-    void Start()
+    public void Activate()
     {
         goldText.text = ScoreManager.Instance.Gold.Collected.ToString();
+        
+        if (ScoreManager.Instance.Blue.Active)
+        {
+            ShowGemLoot(blue, ScoreManager.Instance.Blue.Collected, ScoreManager.Instance.Blue.MaxValue);
+        }
+        if (ScoreManager.Instance.Green.Active)
+        {
+            ShowGemLoot(green, ScoreManager.Instance.Green.Collected, ScoreManager.Instance.Green.MaxValue);
+        }
+        if (ScoreManager.Instance.Red.Active)
+        {
+            ShowGemLoot(red, ScoreManager.Instance.Red.Collected, ScoreManager.Instance.Red.MaxValue);
+        }
+        if (ScoreManager.Instance.Yellow.Active)
+        {
+            ShowGemLoot(yellow, ScoreManager.Instance.Yellow.Collected, ScoreManager.Instance.Yellow.MaxValue);
+        }
 
-        ShowGemLoot(blue, ScoreManager.Instance.Blue.Collected, ScoreManager.Instance.Blue.MaxValue);
-        ShowGemLoot(green, ScoreManager.Instance.Green.Collected, ScoreManager.Instance.Green.MaxValue);
-        ShowGemLoot(red, ScoreManager.Instance.Red.Collected, ScoreManager.Instance.Red.MaxValue);
-        ShowGemLoot(yellow, ScoreManager.Instance.Yellow.Collected, ScoreManager.Instance.Yellow.MaxValue);
-
-        for (int i = 0; i < livesUI.ActiveLivesCount; i++)
+        for (int i = 0; i < Player.Instance.ActiveLivesCount; i++)
         {
             hearts[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
         }
 
-        if (ScoreManager.Instance.Gold.Collected >= 100 && livesUI.ActiveLivesCount < livesUI.MaxLivesCount)
+        if (ScoreManager.Instance.Gold.Collected >= 100 && Player.Instance.ActiveLivesCount < Player.Instance.MaxLivesCount)
         {
             restoreLifeButton.GetComponent<Button>().interactable = true;
         }
@@ -40,6 +52,7 @@ public class SummaryUI : MonoBehaviour
 
     void ShowGemLoot(GemUI gemUI, int collected, int max)
     {
+        gemUI.text.transform.parent.gameObject.SetActive(true);
         gemUI.text.text = collected.ToString() + "/" + max.ToString();
 
         float fraction = collected / (float)max;
@@ -63,12 +76,12 @@ public class SummaryUI : MonoBehaviour
     {
         ScoreManager.Instance.Gold.Collected -= 100;
         goldText.text = ScoreManager.Instance.Gold.Collected.ToString();
-        if (ScoreManager.Instance.Gold.Collected <= 100 || livesUI.ActiveLivesCount >= livesUI.MaxLivesCount)
+        if (ScoreManager.Instance.Gold.Collected <= 100 || Player.Instance.ActiveLivesCount >= Player.Instance.MaxLivesCount)
         {
             restoreLifeButton.GetComponent<Button>().interactable = false;
         }
 
-        hearts[livesUI.ActiveLivesCount].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+        hearts[Player.Instance.ActiveLivesCount].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
         livesUI.AddLife();
     }
 
@@ -77,6 +90,7 @@ public class SummaryUI : MonoBehaviour
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        gameObject.SetActive(false);
     }
 
     public void LoadNextLevel()
@@ -84,5 +98,14 @@ public class SummaryUI : MonoBehaviour
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        gameObject.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        blue.text.transform.parent.gameObject.SetActive(false);
+        green.text.transform.parent.gameObject.SetActive(false);
+        red.text.transform.parent.gameObject.SetActive(false);
+        yellow.text.transform.parent.gameObject.SetActive(false);
     }
 }

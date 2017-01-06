@@ -16,7 +16,7 @@ public class Player : Character {
         }
     }
 
-    [SerializeField] private Transform respawnPoint;
+    private Transform respawnPoint;
 
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
@@ -58,6 +58,9 @@ public class Player : Character {
             return !TakingDamage && !IsDead && !Digging && !Frozen;
         }
     }
+
+    public int MaxLivesCount { get; set; }
+    public int ActiveLivesCount { get; set; }
 
     public override void Start ()
     {
@@ -250,7 +253,7 @@ public class Player : Character {
         }
     }
 
-    public void SetNewRespawnPoint(Transform point)
+    public void SetRespawnPoint(Transform point)
     {
         respawnPoint = point;
     }

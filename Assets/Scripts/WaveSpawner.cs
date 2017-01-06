@@ -20,14 +20,12 @@ public class WaveSpawner : MonoBehaviour {
 
     [SerializeField] private Transform[] spawnPoints;  
 
-    [SerializeField] WaveUI waveUI;
-
     void Start()
     {
         State = SpawnState.COUNTING;
         NextWave = 1;
         WaveCountdown = timeBetweenWaves;
-        waveUI.waveSpawner = GetComponent<WaveSpawner>();
+        UIManager.Instance.EnableWaveUI(this);
     }
 
     void Update()
@@ -61,6 +59,7 @@ public class WaveSpawner : MonoBehaviour {
 
         if (NextWave > waves.Length - 1)
         {
+            UIManager.Instance.DisableWaveUI();
             GetComponent<BattleArea>().StopBattle();
         }
         else

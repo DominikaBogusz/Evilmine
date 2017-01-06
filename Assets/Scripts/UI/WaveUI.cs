@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class WaveUI : MonoBehaviour {
 
-	public WaveSpawner waveSpawner { get; set; }
+	public WaveSpawner WaveSpawner { get; set; }
 	[SerializeField] Animator waveAnimator;
 	[SerializeField] Text waveCountdownText;
 	[SerializeField] Text waveCountText;
@@ -12,9 +12,9 @@ public class WaveUI : MonoBehaviour {
 
 	void Update ()
     {
-        if (waveSpawner)
+        if (WaveSpawner)
         {
-            switch (waveSpawner.State)
+            switch (WaveSpawner.State)
             {
                 case WaveSpawner.SpawnState.COUNTING:
                     UpdateCountingUI();
@@ -23,7 +23,7 @@ public class WaveUI : MonoBehaviour {
                     UpdateSpawningUI();
                     break;
             }
-            previousState = waveSpawner.State;
+            previousState = WaveSpawner.State;
         }     
 	}
 
@@ -34,7 +34,7 @@ public class WaveUI : MonoBehaviour {
             waveAnimator.SetBool("countdown", true);
             waveAnimator.SetBool("incoming", false);  
         }
-        waveCountdownText.text = ((int)waveSpawner.WaveCountdown + 1).ToString();
+        waveCountdownText.text = ((int)WaveSpawner.WaveCountdown + 1).ToString();
     }
 
 	void UpdateSpawningUI()
@@ -43,7 +43,7 @@ public class WaveUI : MonoBehaviour {
         {
             waveAnimator.SetBool("incoming", true);
             waveAnimator.SetBool("countdown", false);        
-            waveCountText.text = waveSpawner.NextWave.ToString();
+            waveCountText.text = WaveSpawner.NextWave.ToString();
 		}
 	}
 }
