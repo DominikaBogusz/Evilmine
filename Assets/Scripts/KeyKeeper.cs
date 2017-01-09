@@ -3,7 +3,7 @@
 public class KeyKeeper : MonoBehaviour {
 
 	[SerializeField] private GameObject keyPrefab;
-    [SerializeField] private GameObject referencedChest;
+    [SerializeField] public GameObject referencedChest;
 
     private Enemy enemy;
 

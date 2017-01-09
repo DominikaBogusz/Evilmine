@@ -17,7 +17,7 @@ public class UIOverlay : MonoBehaviour {
 
     void SetUISettings(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex > 1)
+        if (scene.buildIndex > 1 && scene.buildIndex < 5)
         {
             ScoreManager.Instance.Gold.SetLootText(goldText);
             ScoreManager.Instance.Blue.SetLootText(blueText);

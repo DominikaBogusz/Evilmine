@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour {
 
     public void LoadLevel(int scene)
     {
-        if(scene == ActiveScene || scene == 0)
+        if(scene == 0 || scene == 2)
         {
             foreach (GameObject go in GameplayPersistentObjects)
             {

@@ -58,4 +58,16 @@ public class EnemySpawnManager : MonoBehaviour {
 
         return enemy;
     }
+
+    public Enemy Spawn(GameObject enemyPrefab, Transform spawnPoint)
+    {
+        GameObject clone = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity) as GameObject;
+
+        Enemy enemy = clone.GetComponent<Enemy>();
+        enemy.GetComponent<EnemyAttributes>().Init(DifficultyManager.Instance.ExpectedEnemyLevel - 5, DifficultyManager.Instance.ExpectedEnemyLevel + 5);
+        enemy.LeftEdge = spawnPoint.GetChild(0);
+        enemy.RightEdge = spawnPoint.GetChild(1);
+
+        return enemy;
+    }
 }

@@ -96,7 +96,10 @@ public class SummaryUI : MonoBehaviour
     {
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
-        LevelManager.Instance.LoadLevel(LevelManager.Instance.ActiveScene + 1);
+        if (!(LevelManager.Instance.ActiveScene == 4))
+        {
+            LevelManager.Instance.LoadLevel(LevelManager.Instance.ActiveScene + 1);
+        }
         gameObject.SetActive(false);
     }
 
