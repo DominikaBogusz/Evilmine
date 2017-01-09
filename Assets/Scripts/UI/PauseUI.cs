@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PauseUI : MonoBehaviour {
 
@@ -13,7 +12,7 @@ public class PauseUI : MonoBehaviour {
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene(0);
+        LevelManager.Instance.LoadLevel(0);
     }
 
     public void Resume()

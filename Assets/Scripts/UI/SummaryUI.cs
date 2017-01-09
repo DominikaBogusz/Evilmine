@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -89,7 +88,7 @@ public class SummaryUI : MonoBehaviour
     {
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        LevelManager.Instance.LoadLevel(2);
         gameObject.SetActive(false);
     }
 
@@ -97,7 +96,7 @@ public class SummaryUI : MonoBehaviour
     {
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        LevelManager.Instance.LoadLevel(LevelManager.Instance.ActiveScene + 1);
         gameObject.SetActive(false);
     }
 

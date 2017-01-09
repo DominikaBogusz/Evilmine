@@ -94,7 +94,7 @@ public class WaveSpawner : MonoBehaviour {
     private void SpawnEnemy()
     {
         Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        Enemy enemy = EnemySpawner.Instance.Spawn(point.transform);
+        Enemy enemy = EnemySpawnManager.Instance.Spawn(point.transform);
         GetComponent<BattleArea>().IncreaseEnemyCount(enemy);
     }
 }

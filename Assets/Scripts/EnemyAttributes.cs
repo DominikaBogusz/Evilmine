@@ -7,6 +7,7 @@ public class EnemyAttributes : MonoBehaviour {
     [HideInInspector] public Attribute Level;
     [SerializeField] public Attribute Health;
     [SerializeField] private int initialMaxHealth;
+    public int ActualMaxHealth { get; set; }
     [SerializeField] public Attribute Damage;
     [SerializeField] public Attribute AttackSpeed;
     [SerializeField] public Attribute AttackInterval;
@@ -21,7 +22,8 @@ public class EnemyAttributes : MonoBehaviour {
         int steps = Level.max - Level.min + 1;
 
         float health = initialMaxHealth + (Change(initialMaxHealth, Health.max, steps) * Level.Get());
-        Health.Set((int)health);
+        ActualMaxHealth = (int)health;
+        Health.Set(ActualMaxHealth);
 
         float damage = Damage.min + (Change(Damage.min, Damage.max, steps) * Level.Get());
         Damage.Set((int)damage);
@@ -42,6 +44,6 @@ public class EnemyAttributes : MonoBehaviour {
 
     void UpdateHealthStatusBar()
     {
-        healthStatusIndicator.SetStatusBar(Health.Get(), Health.max);
+        healthStatusIndicator.SetStatusBar(Health.Get(), ActualMaxHealth);
     }
 }

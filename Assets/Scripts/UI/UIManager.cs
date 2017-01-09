@@ -24,6 +24,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject summaryUI;
     [SerializeField] private GameObject waveUI;
 
+    void Start()
+    {
+        LevelManager.Instance.GameplayPersistentObjects.Add(gameObject);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.B) && !ActiveUI)

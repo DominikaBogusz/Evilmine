@@ -73,6 +73,8 @@ public class Player : Character {
         UseManager = GetComponentInChildren<PlayerUseManager>();
         Statistics = GetComponent<PlayerStatistics>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        LevelManager.Instance.GameplayPersistentObjects.Add(gameObject);
     }
 
     void Update()

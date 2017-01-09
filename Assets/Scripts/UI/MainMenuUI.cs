@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject controlsUI;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Play();
+        }
+    }
+
     public void Play()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        LevelManager.Instance.LoadLevel(LevelManager.Instance.ActiveScene + 1);
     }
 
     public void ShowControlsUI()

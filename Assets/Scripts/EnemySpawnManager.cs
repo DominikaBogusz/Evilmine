@@ -10,16 +10,16 @@ public class EnemyPrefab
     public GameObject[] prefabs;
 }
 
-public class EnemySpawner : MonoBehaviour {
+public class EnemySpawnManager : MonoBehaviour {
 
-    private static EnemySpawner instance;
-    public static EnemySpawner Instance
+    private static EnemySpawnManager instance;
+    public static EnemySpawnManager Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<EnemySpawner>();
+                instance = FindObjectOfType<EnemySpawnManager>();
             }
             return instance;
         }
@@ -31,6 +31,8 @@ public class EnemySpawner : MonoBehaviour {
     void Start()
     {
         enemiesToSpawn = new List<EnemyPrefab>();
+
+        LevelManager.Instance.GameplayPersistentObjects.Add(gameObject);
     }
 
     public void DetermineEnemiesToSpawn(int expectedLevel)
