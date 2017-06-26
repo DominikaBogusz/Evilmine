@@ -6,7 +6,7 @@ public class RespawnPoint : MonoBehaviour {
     {
         if(other.tag == "Player")
         {
-            Player.Instance.SetNewRespawnPoint(transform);
+            Player.Instance.SetRespawnPoint(transform);
             GetComponent<BoxCollider2D>().enabled = false;
         }
     }

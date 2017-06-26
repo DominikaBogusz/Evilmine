@@ -48,7 +48,7 @@ public class DifficultyManager : MonoBehaviour
         set
         {
             expectedEnemyLevel = Mathf.Clamp(value, 1, 50);
-            EnemySpawner.Instance.DetermineEnemiesToSpawn(expectedEnemyLevel);
+            EnemySpawnManager.Instance.DetermineEnemiesToSpawn(expectedEnemyLevel);
         }
     }
 
@@ -60,6 +60,8 @@ public class DifficultyManager : MonoBehaviour
         battleResults = new Fight[2] { new Fight(null, null), new Fight(null, null) };
         ExpectedEnemyLevel = Player.Instance.Attributes.Level.Get();
         PlayerProsperity = 50;
+
+        LevelManager.Instance.GameplayPersistentObjects.Add(gameObject);
     }
 
     public void AddFightResult(bool won, Fight.Mark mark)

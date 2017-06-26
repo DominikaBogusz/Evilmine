@@ -2,7 +2,7 @@
 
 public class CameraController : MonoBehaviour {
 
-    [SerializeField] private Transform target;
+    private Transform target;
 
     private float height;
     private float width;
@@ -11,6 +11,16 @@ public class CameraController : MonoBehaviour {
     private float left, right, up, down;
 
     private float x, y;
+
+    void Awake()
+    {
+        target = Player.Instance.transform;
+
+        height = 2 * Camera.main.orthographicSize;
+        width = height * Camera.main.aspect;
+
+        GetComponent<BoxCollider2D>().size = new Vector2(width, height);
+    }
 
     void Start()
     {
@@ -22,14 +32,6 @@ public class CameraController : MonoBehaviour {
 
         Physics2D.IgnoreLayerCollision(11, 13, true);
         Physics2D.IgnoreLayerCollision(11, 11, true);
-    }
-
-    void Awake()
-    {
-        height = 2 * Camera.main.orthographicSize;
-        width = height * Camera.main.aspect;
-
-        GetComponent<BoxCollider2D>().size = new Vector2(width, height);
     }
 
     void LateUpdate()

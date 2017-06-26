@@ -2,6 +2,8 @@
 
 public class PlayerAttributes : MonoBehaviour {
 
+    [SerializeField] private StatusIndicatorUI healthStatusIndicator;
+
     [SerializeField] public Attribute Level;
     [SerializeField] public Attribute Experience;
     [SerializeField] public Attribute ExperienceToNextLevel;
@@ -22,9 +24,16 @@ public class PlayerAttributes : MonoBehaviour {
         AttackSpeed.Set(AttackSpeed.min);
         ShieldProtection.Set(ShieldProtection.min);
         LearningPoints = 0;
+
+        Health.ChangeEvent += new ChangeEventHandler(UpdateHealthStatusBar);
     }
 
-    public void GainExperience(int enemyLevel)
+    void UpdateHealthStatusBar()
+    {
+        healthStatusIndicator.SetStatusBar(Health.Get(), Health.max);
+    }
+
+    public void GainExperienceFromEnemy(int enemyLevel)
     { 
         int experienceToGain = 10;
 
@@ -38,7 +47,12 @@ public class PlayerAttributes : MonoBehaviour {
             experienceToGain = experienceToGain / (-diff+1);
         }
 
-        Experience += experienceToGain;
+        AddExperience(experienceToGain);
+    }
+
+    public void AddExperience(int exp)
+    {
+        Experience += exp;
         CheckIfLevelUp();
     }
 

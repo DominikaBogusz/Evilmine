@@ -16,7 +16,7 @@ public class Player : Character {
         }
     }
 
-    [SerializeField] private Transform respawnPoint;
+    private Transform respawnPoint;
 
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
@@ -59,6 +59,9 @@ public class Player : Character {
         }
     }
 
+    public int MaxLivesCount { get; set; }
+    public int ActiveLivesCount { get; set; }
+
     public override void Start ()
     {
         base.Start();
@@ -70,6 +73,8 @@ public class Player : Character {
         UseManager = GetComponentInChildren<PlayerUseManager>();
         Statistics = GetComponent<PlayerStatistics>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        LevelManager.Instance.GameplayPersistentObjects.Add(gameObject);
     }
 
     void Update()
@@ -250,7 +255,7 @@ public class Player : Character {
         }
     }
 
-    public void SetNewRespawnPoint(Transform point)
+    public void SetRespawnPoint(Transform point)
     {
         respawnPoint = point;
     }

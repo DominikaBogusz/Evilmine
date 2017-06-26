@@ -1,4 +1,48 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class Loot
+{
+    private Text lootText;
+    public void SetLootText(Text text)
+    {
+        lootText = text;
+    }
+
+    [SerializeField] public int MaxValue;
+
+    private int collected;
+    public int Collected
+    {
+        get { return collected; }
+        set
+        {
+            collected = Mathf.Clamp(value, 0, MaxValue);
+            lootText.text = collected.ToString();
+        }
+    }
+
+    private bool active;
+    public bool Active
+    {
+        get { return active; }
+        set
+        {
+            active = value;
+            if (active)
+            {
+                Collected = 0;
+                lootText.transform.parent.gameObject.SetActive(true);
+            }
+            else
+            {
+                Collected = 0;
+                lootText.transform.parent.gameObject.SetActive(false);
+            }
+        }
+    }
+}
 
 public class ScoreManager : MonoBehaviour {
 
@@ -15,70 +59,28 @@ public class ScoreManager : MonoBehaviour {
         }
     }
 
-    [SerializeField] private LootUI lootUI;
+    public Loot Gold, Blue, Green, Red, Yellow;
 
-    private int gold;
-    public int Gold
+    public void Init()
     {
-        get { return gold; }
-        set
-        {
-            gold = value;
-            lootUI.SetGoldValue(gold);
-        }
+        Gold.Collected = 0;
+
+        CheckIfInit(Blue);
+        CheckIfInit(Green);
+        CheckIfInit(Red);
+        CheckIfInit(Yellow);
     }
 
-    private int blue;
-    public int Blue
+    private void CheckIfInit(Loot gem)
     {
-        get { return blue; }
-        set
+        if(gem.MaxValue > 0)
         {
-            blue = value;
-            lootUI.SetBlueValue(blue);
+            gem.Active = true;
         }
-    }
-
-    private int green;
-    public int Green
-    {
-        get { return green; }
-        set
+        else
         {
-            green = value;
-            lootUI.SetGreenValue(green);
+            gem.Active = false;
         }
-    }
-
-    private int red;
-    public int Red
-    {
-        get { return red; }
-        set
-        {
-            red = value;
-            lootUI.SetRedValue(red);
-        }
-    }
-
-    private int yellow;
-    public int Yellow
-    {
-        get { return yellow; }
-        set
-        {
-            yellow = value;
-            lootUI.SetYellowValue(yellow);
-        }
-    }
-
-    void Start()
-    {
-        Gold = 0;
-        Blue = 0;
-        Green = 0;
-        Red = 0;
-        Yellow = 0;
     }
 
 	public void AddGems(string name)
@@ -86,16 +88,16 @@ public class ScoreManager : MonoBehaviour {
         switch (name)
         {
             case "BlueGemRift(Clone)":
-                Blue++;
+                Blue.Collected++;
                 break;
             case "GreenGemRift(Clone)":
-                Green++;
+                Green.Collected++;
                 break;
             case "RedGemRift(Clone)":
-                Red++;
+                Red.Collected++;
                 break;
             case "YellowGemRift(Clone)":
-                Yellow++;
+                Yellow.Collected++;
                 break;
         }
     }           

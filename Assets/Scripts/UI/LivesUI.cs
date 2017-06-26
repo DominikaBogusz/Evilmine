@@ -2,23 +2,26 @@
 
 public class LivesUI : MonoBehaviour {
 
-	[SerializeField] private GameObject[] hearts;
-    private int activeLivesCount;
-
     void Start()
     {
-        activeLivesCount = hearts.Length;
+        Player.Instance.MaxLivesCount = Player.Instance.ActiveLivesCount = transform.childCount;
         Player.Instance.DeadEvent += new DeadEventHandler(LostLife);   
     }
 
     public void LostLife()
     {
-        if(activeLivesCount == 0)
+        if(Player.Instance.ActiveLivesCount == 0)
         {
             UIManager.Instance.ShowGameOverUI();
             return;
         }
-        Destroy(hearts[activeLivesCount - 1]);
-        activeLivesCount--;
+        Player.Instance.ActiveLivesCount--;
+        transform.GetChild(Player.Instance.ActiveLivesCount).gameObject.SetActive(false);
+    }
+
+    public void AddLife()
+    {
+        transform.GetChild(Player.Instance.ActiveLivesCount).gameObject.SetActive(true);
+        Player.Instance.ActiveLivesCount++;
     }
 }

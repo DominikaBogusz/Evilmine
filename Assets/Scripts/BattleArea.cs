@@ -12,7 +12,7 @@ public class BattleArea : MonoBehaviour {
         {
             transform.GetChild(0).gameObject.SetActive(true);
             GetComponent<WaveSpawner>().enabled = true;
-            Player.Instance.SetNewRespawnPoint(respawnPoint);
+            Player.Instance.SetRespawnPoint(respawnPoint);
         }
     }
 

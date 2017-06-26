@@ -17,7 +17,11 @@ public class BonusManager : MonoBehaviour {
         }
     }
 
-    [SerializeField] private BonusesUI bonusesUI;
+    private BonusesUI bonusesUI;
+    public void SetBonusesUI(BonusesUI bonusesUI)
+    {
+        this.bonusesUI = bonusesUI;
+    }
 
     [SerializeField] public Bonus healthBonus;
     [SerializeField] public List<TimeBonus> timeBonuses;

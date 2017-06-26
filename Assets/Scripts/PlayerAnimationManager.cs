@@ -36,6 +36,7 @@ public class PlayerAnimationManager : MonoBehaviour {
                 if (player.OnGround && !player.OnLadder)
                 {
                     player.MyAnimator.SetBool("jump", false);
+                    player.MyAnimator.SetBool("land", false);
                     SwitchToLayer(AnimLayer.GROUND);
                 }
                 if (player.OnLadder)
@@ -119,6 +120,12 @@ public class PlayerAnimationManager : MonoBehaviour {
 
     public void Reset()
     {
+        player.MyAnimator.ResetTrigger("attack");
+        player.MyAnimator.ResetTrigger("dig");
+        player.MyAnimator.ResetTrigger("protect");
+        player.MyAnimator.ResetTrigger("damage");
+        player.MyAnimator.ResetTrigger("die");
+        player.MyAnimator.SetBool("land", false);
         player.MyAnimator.SetBool("block", false);
         player.MyAnimator.SetBool("jump", false);
     }
