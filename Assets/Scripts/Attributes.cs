@@ -3,6 +3,7 @@
 public class Attributes : MonoBehaviour {
 
     [SerializeField] protected AttributesUI attributesUI;
+    [SerializeField] private HealthIndicatorUI healthIndicatorUI;
 
     [SerializeField] public float initialHealth;
 
@@ -13,6 +14,7 @@ public class Attributes : MonoBehaviour {
         set
         {
             health = Mathf.Clamp(value, 0f, initialHealth);
+            healthIndicatorUI.SetHealth(health, initialHealth);
             attributesUI.UpdateHealth(health);
         }
     }

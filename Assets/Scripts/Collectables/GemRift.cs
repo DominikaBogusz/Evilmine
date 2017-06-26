@@ -9,7 +9,7 @@ public class GemRift : MonoBehaviour, ICollectable {
 
     public void Collect()
     {
-        ScoreManager.AddGems(name);
+        ScoreManager.Instance.AddGems(name);
         Destroy(gameObject);
     }
 }

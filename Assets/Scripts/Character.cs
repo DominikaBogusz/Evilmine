@@ -16,11 +16,13 @@ public abstract class Character : MonoBehaviour {
   
     [SerializeField] private Collider2D swordCollider;
 
+    [SerializeField] private Transform[] dontFlipUI;
+
     public virtual void Start()
     { 
         MyAnimator = GetComponent<Animator>();
         MyRigidbody2D = GetComponent<Rigidbody2D>();
-        FacingRight = true;
+        FacingRight = true;        
     }
 
     public void Flip()
@@ -29,6 +31,13 @@ public abstract class Character : MonoBehaviour {
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
+        for (int i = 0; i < dontFlipUI.Length; i++)
+        {
+            Vector3 scale = dontFlipUI[i].localScale;
+            scale.x *= -1;
+            dontFlipUI[i].localScale = scale;
+        }
     }    
 
     public void SwordPullOut()
