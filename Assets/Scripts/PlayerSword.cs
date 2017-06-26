@@ -9,7 +9,7 @@ public class PlayerSword : MonoBehaviour {
             Enemy enemy = other.GetComponentInParent<Enemy>();
             if (enemy != null)
             {
-                enemy.PlayerDamage(Player.Instance.attributes.Damage);
+                enemy.PlayerDamage(Player.Instance.Attributes.Damage);
             }
         }
     }

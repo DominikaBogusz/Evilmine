@@ -14,16 +14,19 @@ public class Gem : MonoBehaviour, IUseable {
 
     public void Use()
     {
-        if (leftTrigger.IsTouching(player.GetComponent<Collider2D>()) && !player.FacingRight)
+        if (player.MyAnimator.GetFloat("speed") == 0f)
         {
-            player.Flip();
+            if (leftTrigger.IsTouching(player.GetComponent<Collider2D>()) && !player.FacingRight)
+            {
+                player.Flip();
+            }
+            else if (rightTrigger.IsTouching(player.GetComponent<Collider2D>()) && player.FacingRight)
+            {
+                player.Flip();
+            }
+            player.Digging = true;
+            player.UseManager.Useable = null;
+            GetComponent<Collider2D>().enabled = false;
         }
-        else if (rightTrigger.IsTouching(player.GetComponent<Collider2D>()) && player.FacingRight)
-        {
-            player.Flip();
-        }
-        player.Digging = true;
-        player.UseManager.Useable = null;
-        GetComponent<Collider2D>().enabled = false;
     }
 }

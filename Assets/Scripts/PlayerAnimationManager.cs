@@ -4,13 +4,13 @@ public class PlayerAnimationManager : MonoBehaviour {
 
     private Player player;
     
-    private enum animLayer { GROUND, AIR, LADDER };
-    private animLayer currentAnimLayer;
+    private enum AnimLayer { GROUND, AIR, LADDER };
+    private AnimLayer currentAnimLayer;
 
     void Start ()
     {
         player = Player.Instance;
-        currentAnimLayer = animLayer.GROUND;
+        currentAnimLayer = AnimLayer.GROUND;
     }
 	
 	void Update ()
@@ -22,37 +22,37 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         switch (currentAnimLayer)
         {
-            case animLayer.GROUND:
+            case AnimLayer.GROUND:
                 if (!player.OnGround && !player.OnLadder)
                 {
-                    SwitchToLayer(animLayer.AIR);
+                    SwitchToLayer(AnimLayer.AIR);
                 }
                 if (player.OnLadder)
                 {
-                    SwitchToLayer(animLayer.LADDER);
+                    SwitchToLayer(AnimLayer.LADDER);
                 }
                 break;
-            case animLayer.AIR:
+            case AnimLayer.AIR:
                 if (player.OnGround && !player.OnLadder)
                 {
                     player.MyAnimator.SetBool("jump", false);
-                    SwitchToLayer(animLayer.GROUND);
+                    SwitchToLayer(AnimLayer.GROUND);
                 }
                 if (player.OnLadder)
                 {
-                    SwitchToLayer(animLayer.LADDER);
+                    SwitchToLayer(AnimLayer.LADDER);
                 }
                 break;
-            case animLayer.LADDER:
+            case AnimLayer.LADDER:
                 if (!player.OnLadder)
                 {
-                    SwitchToLayer(animLayer.GROUND);
+                    SwitchToLayer(AnimLayer.GROUND);
                 }
                 break;
         }
     }
 
-    private void SwitchToLayer(animLayer nextAnimLayer)
+    private void SwitchToLayer(AnimLayer nextAnimLayer)
     {
         player.MyAnimator.SetLayerWeight((int)currentAnimLayer, 0);
         player.MyAnimator.SetLayerWeight((int)nextAnimLayer, 1);
@@ -108,9 +108,9 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         player.MyAnimator.SetTrigger("protect");
     }
-    public void Hurt()
+    public void Damage()
     {
-        player.MyAnimator.SetTrigger("hurt");
+        player.MyAnimator.SetTrigger("damage");
     }
     public void Die()
     {

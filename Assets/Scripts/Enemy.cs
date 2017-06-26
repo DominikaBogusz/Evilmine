@@ -2,7 +2,8 @@
 
 public class Enemy : Character {
 
-    public EnemyAttributes attributes { get; set; }
+    public EnemyAttributes Attributes { get; set; }
+    public EnemyStatistics Statistics { get; set; }
 
     private IEnemyState currentState;
 
@@ -30,7 +31,7 @@ public class Enemy : Character {
     {
         get
         {
-            return attributes.Health <= 0;
+            return Attributes.Health <= 0;
         }
     }
 
@@ -39,10 +40,14 @@ public class Enemy : Character {
         base.Start();
 
         Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
+
         ChangeState(new IdleState());
 
-        attributes = GetComponent<EnemyAttributes>();
-        attributes.Init();
+        Attributes = GetComponent<EnemyAttributes>();
+        Attributes.Init();
+        Attributes.AccomodateToDifficultyLevel(name);
+
+        Statistics = GetComponent<EnemyStatistics>();
     }
 	
 	void Update ()
@@ -76,6 +81,10 @@ public class Enemy : Character {
         {
             Flip();
         }
+        else if(currentState is RangedState)
+        {
+            RemoveTarget();
+        }
     }
 
     private Vector2 GetDirection()
@@ -88,8 +97,9 @@ public class Enemy : Character {
         if(Target != null)
         {
             float xDir = Target.transform.position.x - transform.position.x;
+            float xDist = Mathf.Abs(Target.transform.position.x - transform.position.x);
 
-            if(xDir < 0 && FacingRight || xDir > 0 && !FacingRight)
+            if ((xDir < 0 && FacingRight || xDir > 0 && !FacingRight) && (xDist > meleeRange))
             {
                 Flip();
             }
@@ -97,10 +107,22 @@ public class Enemy : Character {
         
     }
 
+    public void SetTarget(GameObject target)
+    {
+        Target = target;
+
+        Statistics.StartBattleTimer = true;
+    }
+
     public void RemoveTarget()
     {
-        Target = null;
-        ChangeState(new IdleState());
+        if(Target != null)
+        {
+            Target = null;
+            ChangeState(new IdleState());
+
+            Statistics.StopBattleTimer = true;
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -111,29 +133,33 @@ public class Enemy : Character {
         }       
     }
 
-    public void PlayerDamage(int damage)
+    public void PlayerDamage(float damage)
     {
         SwordHide();
 
         TakeDamage(damage);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        attributes.Health -= damage;
+        Attributes.Health -= damage;
+        Statistics.DamageReceived += damage;
 
         if (!IsDead)
         {
-            MyAnimator.SetTrigger("hurt");
+            MyAnimator.SetTrigger("damage");
         }
         else
         {
-            MyAnimator.SetTrigger("die");       
+            Statistics.StopBattleTimer = true;
+
+            MyAnimator.SetTrigger("die");
         }
     }
     
     public override void Die()
     {
         Destroy(gameObject);
+        Player.Instance.Statistics.KillCount++;
     }
 }

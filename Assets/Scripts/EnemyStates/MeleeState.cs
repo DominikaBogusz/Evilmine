@@ -11,7 +11,7 @@ public class MeleeState : IEnemyState {
     public void Enter(Enemy enemy)
     {
         this.enemy = enemy;
-        attackInterval = enemy.attributes.AttackInterval;
+        attackInterval = enemy.Attributes.AttackInterval;
     }
 
     public void Execute()
@@ -41,7 +41,7 @@ public class MeleeState : IEnemyState {
     private void Attack()
     {
         enemy.MyAnimator.SetFloat("speed", 0f);
-        enemy.MyAnimator.SetFloat("attackSpeed", enemy.attributes.AttackSpeed);
+        enemy.MyAnimator.SetFloat("attackSpeed", enemy.Attributes.AttackSpeed);
 
         attackTimer += Time.deltaTime;
 

@@ -9,11 +9,11 @@ public class EnemyAttributes : Attributes {
         enemyAttributesUI = attributesUI as EnemyAttributesUI;
     }
 
-    [SerializeField] private int minAttackInterval;
-    [SerializeField] private int maxAttackInterval;
+    [SerializeField] private float minAttackInterval;
+    [SerializeField] private float maxAttackInterval;
 
-    private int attackInterval;
-    public int AttackInterval
+    private float attackInterval;
+    public float AttackInterval
     {
         get { return attackInterval; }
         set
@@ -27,5 +27,16 @@ public class EnemyAttributes : Attributes {
     {
         base.Init();
         AttackInterval = (minAttackInterval + maxAttackInterval) / 2;
+    }
+
+    public void AccomodateToDifficultyLevel(string enemyName)
+    {
+        if (DifficultyManager.EnemyTypesDifficulty.ContainsKey(enemyName))
+        {
+            float level = DifficultyManager.EnemyTypesDifficulty[enemyName];
+            Damage = (minDamage + maxDamage) / 2 * level;
+            AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2 * level;
+            AttackInterval = (minAttackInterval + maxAttackInterval) / 2 * (1-(level-1));
+        }
     }
 }

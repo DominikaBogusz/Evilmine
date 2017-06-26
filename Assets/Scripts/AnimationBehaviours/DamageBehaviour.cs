@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HurtBehaviour : StateMachineBehaviour {
+public class DamageBehaviour : StateMachineBehaviour {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
