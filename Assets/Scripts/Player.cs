@@ -15,99 +15,87 @@ public class Player : MonoBehaviour {
         }
     }
 
-    [SerializeField]
-    private float movementSpeed = 5;
-    [SerializeField]
-    private Transform[] groundPoints;
-    [SerializeField]
-    private float groundRadius;
-    [SerializeField]
-    private LayerMask whatIsGround;
-    [SerializeField]
-    private bool airControl;
-    [SerializeField]
-    private float jumpForce;
-    private Animator myAnimator;
-    private bool facingRight;
+    [SerializeField] private float movementSpeed = 5;
+    [SerializeField] private Transform[] groundPoints;
+    [SerializeField] private float groundRadius;
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float climbSpeed = 5;
 
     public Rigidbody2D MyRigidbody2D { get; set; }
+    
+    public PlayerAnimationManager AnimationManager { get; set; }
+    public PlayerUseManager UseManager { get; set; }
+
+    public bool FacingRight { get; set; }
     public bool Attack { get; set; }
     public bool Jump { get; set; }
     public bool Block { get; set; }
+    public bool Dig { get; set; }
     public bool OnGround { get; set; }
+    public bool OnLadder { get; set; }
+    public bool CanMove { get; set; }
 
     void Start ()
     {
         MyRigidbody2D = GetComponent<Rigidbody2D>();
-        myAnimator = GetComponent<Animator>();
-        facingRight = true;
+        AnimationManager = GetComponent<PlayerAnimationManager>();
+        UseManager = GetComponentInChildren<PlayerUseManager>();
+        FacingRight = true;
+        CanMove = true;  
     }
 
     void Update()
     {
-        HandleInput();
-    }
-	
-	void FixedUpdate ()
-    {
         OnGround = IsGrounded();
-        HandleLayers();        
-
-        float horizontal = Input.GetAxis("Horizontal");
-        HandleMovement(horizontal);
     }
 
-    private void HandleInput()
+    public void Move(float horizontalMove, float verticalMove)
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !Attack)
-        {
-            myAnimator.SetTrigger("attack");
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && !Jump)
-        {
-            myAnimator.SetTrigger("jump");
-        }
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !Block)
-        {
-            myAnimator.SetBool("block", true);
-        }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            myAnimator.SetBool("block", false);
-        }
-    }
-
-    private void HandleMovement(float horizontalMove)
-    {
-        if ((OnGround || airControl) && !Attack)
+        if (!Attack && !OnLadder && CanMove)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
+            AnimationManager.SetMovementSpeed(horizontalMove);
+
+            if (horizontalMove > 0 && !FacingRight || horizontalMove < 0 && FacingRight)
+            {
+                AnimationManager.Flip();
+            }
         }
-
-        myAnimator.SetFloat("speed", Mathf.Abs(horizontalMove));
-
-        if (OnGround && Jump)
-        {
-            MyRigidbody2D.AddForce(new Vector2(0, jumpForce));
+        
+        if (OnLadder)
+        { 
+            MyRigidbody2D.velocity = new Vector2(0f, verticalMove * climbSpeed);
+            if (OnGround && horizontalMove != 0)
+            {
+                OnLadder = false;
+            }
+            if (OnGround)
+            {
+                AnimationManager.SetClimbSpeed(0f);
+            }
+            else
+            {
+                AnimationManager.SetClimbSpeed(verticalMove);
+            }
         }
 
         if (!OnGround && MyRigidbody2D.velocity.y < 0)
         {
-            myAnimator.SetBool("land", true);
+            AnimationManager.StartLand();
         }
 
-        if (horizontalMove > 0 && !facingRight || horizontalMove < 0 && facingRight)
+        if (OnGround && Jump)
         {
-            Flip();
+            Jump = false;
+            MyRigidbody2D.AddForce(new Vector2(0, jumpForce));
         }
-    }
 
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;  
+        if (Dig)
+        {
+            Dig = false;
+            AnimationManager.Dig();
+        }
     }
 
     private bool IsGrounded()
@@ -125,17 +113,5 @@ public class Player : MonoBehaviour {
             }
         }
         return false;
-    }
-
-    private void HandleLayers()
-    {
-        if (!OnGround)
-        {
-            myAnimator.SetLayerWeight(1, 1);
-        }
-        else
-        {
-            myAnimator.SetLayerWeight(1, 0);
-        }
     }
 }

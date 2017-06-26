@@ -6,9 +6,4 @@ public class JumpBehaviour : StateMachineBehaviour {
     {
         Player.Instance.Jump = true;
     }
-    
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        Player.Instance.Jump = false;
-    }
 }
