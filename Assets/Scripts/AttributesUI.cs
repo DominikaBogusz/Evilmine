@@ -7,6 +7,8 @@ public class AttributesUI : MonoBehaviour {
     [SerializeField] private Text damageValue;
     [SerializeField] private Text attackSpeedValue;
 
+    private bool isActive;
+
     void Update()
     {
         if (transform.parent.localScale.x == -1)
@@ -20,15 +22,14 @@ public class AttributesUI : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            if (transform.GetChild(0).gameObject.activeSelf)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-            }
-            else
-            {
-                transform.GetChild(0).gameObject.SetActive(true);
-            }
+            isActive = !isActive;
+            ActiveUI();
         }
+    }
+
+    private void ActiveUI()
+    {
+        transform.GetChild(0).gameObject.SetActive(isActive);
     }
 
     public void UpdateHealth(float value)

@@ -5,7 +5,7 @@ public class PlayerAttributesUI : AttributesUI {
 
     [SerializeField] private Text shieldProtectionValue;
 
-    public void UpdateShieldProtection(int value)
+    public void UpdateShieldProtection(float value)
     {
         shieldProtectionValue.text = value.ToString() + "%";
     }

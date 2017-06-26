@@ -8,8 +8,6 @@ public class DeathBehaviour : StateMachineBehaviour {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.GetComponent<Character>().MyRigidbody2D.velocity = Vector2.zero;
-
-        deathTimer = 0f;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -18,7 +16,7 @@ public class DeathBehaviour : StateMachineBehaviour {
 
         if (deathTimer >= respawnTime)
         {
-            animator.ResetTrigger("die");
+            deathTimer = 0f;
             animator.GetComponent<Character>().Die();
             animator.Play("Idle");
         }

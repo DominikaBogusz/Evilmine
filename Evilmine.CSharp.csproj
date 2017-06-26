@@ -69,12 +69,26 @@
     <Compile Include="Assets\Scripts\AnimationBehaviours\DamageBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\DeathBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\DigBehaviour.cs" />
+    <Compile Include="Assets\Scripts\AnimationBehaviours\GemRiftBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\JumpBehaviour.cs" />
     <Compile Include="Assets\Scripts\AnimationBehaviours\LandBehaviour.cs" />
     <Compile Include="Assets\Scripts\Attributes.cs" />
     <Compile Include="Assets\Scripts\AttributesUI.cs" />
+    <Compile Include="Assets\Scripts\BonusArea.cs" />
+    <Compile Include="Assets\Scripts\BonusManager.cs" />
+    <Compile Include="Assets\Scripts\Box.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Axe.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Bonus.cs" />
+    <Compile Include="Assets\Scripts\Collectables\GemRift.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Gold.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Heart.cs" />
+    <Compile Include="Assets\Scripts\Collectables\ICollectable.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Key.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Lightning.cs" />
+    <Compile Include="Assets\Scripts\Collectables\Shield.cs" />
+    <Compile Include="Assets\Scripts\Collectables\TimeBonus.cs" />
     <Compile Include="Assets\Scripts\DifficultyManager.cs" />
     <Compile Include="Assets\Scripts\EditorMenus.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
@@ -98,13 +112,16 @@
     <Compile Include="Assets\Scripts\PlayerStatistics.cs" />
     <Compile Include="Assets\Scripts\PlayerSword.cs" />
     <Compile Include="Assets\Scripts\PlayerUseManager.cs" />
+    <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Thorn.cs" />
+    <Compile Include="Assets\Scripts\Useables\Chest.cs" />
     <Compile Include="Assets\Scripts\Useables\Gem.cs" />
     <Compile Include="Assets\Scripts\Useables\IUseable.cs" />
     <Compile Include="Assets\Scripts\Useables\Ladder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Editor\CM Tools\TileMasterReadme.txt" />
+    <None Include="Assets\Sprites\gold_treasure_icons_16x16\Credits.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

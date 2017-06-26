@@ -9,6 +9,7 @@ public class Ladder : MonoBehaviour, IUseable {
     void Start()
     {
         player = Player.Instance;
+        Player.Instance.DeadEvent += new DeadEventHandler(GetOffLadder);
     }
 
     public void Use()
@@ -42,7 +43,6 @@ public class Ladder : MonoBehaviour, IUseable {
         if(other.tag == "UseManager")
         {
             GetOffLadder();
-            player.UseManager.Useable = null;
             Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), platformCollider, false);
         }
     }

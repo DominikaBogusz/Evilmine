@@ -149,7 +149,7 @@ public class Player : Character {
         {
             Attributes.Health -= damage;
 
-            if (!IsDead && OnGround)
+            if (!IsDead)
             {
                 AnimationManager.Damage();
                 StartCoroutine(TakeDamage());
@@ -177,7 +177,7 @@ public class Player : Character {
             {
                 AnimationManager.Protect();
             }
-            else if (!IsDead && OnGround)
+            else if (!IsDead)
             {
                 AnimationManager.Damage();
                 StartCoroutine(TakeDamage());
@@ -225,6 +225,14 @@ public class Player : Character {
         if (DeadEvent != null)
         {
             DeadEvent();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D info)
+    {
+        if (info.collider.tag == "Collectable")
+        {
+            info.collider.GetComponent<ICollectable>().Collect();
         }
     }
 }
