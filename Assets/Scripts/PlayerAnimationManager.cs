@@ -3,15 +3,13 @@
 public class PlayerAnimationManager : MonoBehaviour {
 
     private Player player;
-
-    private Animator animator;
+    
     private enum animLayer { GROUND, AIR, LADDER };
     private animLayer currentAnimLayer;
 
     void Start ()
     {
         player = Player.Instance;
-        animator = GetComponent<Animator>();
         currentAnimLayer = animLayer.GROUND;
     }
 	
@@ -19,14 +17,6 @@ public class PlayerAnimationManager : MonoBehaviour {
     {
         HandleLayers();
 	}
-
-    public void Flip()
-    {
-        player.FacingRight = !player.FacingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
 
     public void HandleLayers()
     {
@@ -45,7 +35,7 @@ public class PlayerAnimationManager : MonoBehaviour {
             case animLayer.AIR:
                 if (player.OnGround && !player.OnLadder)
                 {
-                    animator.SetBool("jump", false);
+                    player.MyAnimator.SetBool("jump", false);
                     SwitchToLayer(animLayer.GROUND);
                 }
                 if (player.OnLadder)
@@ -64,50 +54,71 @@ public class PlayerAnimationManager : MonoBehaviour {
 
     private void SwitchToLayer(animLayer nextAnimLayer)
     {
-        animator.SetLayerWeight((int)currentAnimLayer, 0);
-        animator.SetLayerWeight((int)nextAnimLayer, 1);
+        player.MyAnimator.SetLayerWeight((int)currentAnimLayer, 0);
+        player.MyAnimator.SetLayerWeight((int)nextAnimLayer, 1);
         currentAnimLayer = nextAnimLayer;
     }
 
     public void SetMovementSpeed(float speed)
     {
-        animator.SetFloat("speed", Mathf.Abs(speed));
+        player.MyAnimator.SetFloat("speed", Mathf.Abs(speed));
+    }
+    public void SetAttackSpeed(float speed)
+    {
+        player.MyAnimator.SetFloat("attackSpeed", Mathf.Abs(speed));
     }
     public void SetClimbSpeed(float speed)
     {
-        animator.SetFloat("climbSpeed", speed);
+        player.MyAnimator.SetFloat("climbSpeed", speed);
     }
 
     public void Attack()
     {
-        animator.SetTrigger("attack");
+        player.MyAnimator.SetTrigger("attack");
     }
     public void StartBlock()
     {
-        animator.SetBool("block", true);
+        player.MyAnimator.SetBool("block", true);
     }
     public void StopBlock()
     {
-        animator.SetBool("block", false);
+        player.MyAnimator.SetBool("block", false);
     }
     public void StartJump()
     {
-        animator.SetBool("jump", true);
+        player.MyAnimator.SetBool("jump", true);
     }
     public void StopJump()
     {
-        animator.SetBool("jump", false);
+        player.MyAnimator.SetBool("jump", false);
     }
     public void StartLand()
     {
-        animator.SetBool("land", true);
+        player.MyAnimator.SetBool("land", true);
     }
     public void StopLand()
     {
-        animator.SetBool("land", false);
+        player.MyAnimator.SetBool("land", false);
     }
     public void Dig()
     {
-        animator.SetTrigger("dig");
+        player.MyAnimator.SetTrigger("dig");
+    }
+    public void Protect()
+    {
+        player.MyAnimator.SetTrigger("protect");
+    }
+    public void Hurt()
+    {
+        player.MyAnimator.SetTrigger("hurt");
+    }
+    public void Die()
+    {
+        player.MyAnimator.SetTrigger("die");
+    }
+
+    public void Reset()
+    {
+        player.MyAnimator.SetBool("block", false);
     }
 }

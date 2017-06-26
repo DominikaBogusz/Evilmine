@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class Player : MonoBehaviour {
+public delegate void DeadEventHandler();
+
+public class Player : Character {
 
     private static Player instance;
     public static Player Instance
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = FindObjectOfType<Player>();
             }
@@ -15,34 +18,47 @@ public class Player : MonoBehaviour {
         }
     }
 
-    [SerializeField] private float movementSpeed = 5;
+    [SerializeField] private Transform startPoint;
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float jumpForce;
-    [SerializeField] private float climbSpeed = 5;
+    [SerializeField] private float climbSpeed;
 
-    public Rigidbody2D MyRigidbody2D { get; set; }
-    
+    public PlayerAttributes attributes { get; set; }
     public PlayerAnimationManager AnimationManager { get; set; }
     public PlayerUseManager UseManager { get; set; }
+    private SpriteRenderer spriteRenderer;
 
-    public bool FacingRight { get; set; }
-    public bool Attack { get; set; }
-    public bool Jump { get; set; }
-    public bool Block { get; set; }
-    public bool Dig { get; set; }
+    public bool Jumping { get; set; }
+    public bool Blocking { get; set; }
+    public bool Digging { get; set; }
     public bool OnGround { get; set; }
     public bool OnLadder { get; set; }
-    public bool CanMove { get; set; }
 
-    void Start ()
+    [SerializeField] private Collider2D shieldCollider;
+
+    private bool isImmortal = false;
+    [SerializeField] private float immortalTime = 1f;
+
+    public override bool IsDead
     {
-        MyRigidbody2D = GetComponent<Rigidbody2D>();
+        get
+        {
+            return attributes.Health <= 0;
+        }
+    }
+
+    public override void Start ()
+    {
+        base.Start();
+
         AnimationManager = GetComponent<PlayerAnimationManager>();
         UseManager = GetComponentInChildren<PlayerUseManager>();
-        FacingRight = true;
-        CanMove = true;  
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        attributes = GetComponent<PlayerAttributes>();
+        attributes.Init();
     }
 
     void Update()
@@ -52,14 +68,14 @@ public class Player : MonoBehaviour {
 
     public void Move(float horizontalMove, float verticalMove)
     {
-        if (!Attack && !OnLadder && CanMove)
+        if (!Attacking && !OnLadder)
         {
             MyRigidbody2D.velocity = new Vector2(horizontalMove * movementSpeed, MyRigidbody2D.velocity.y);
             AnimationManager.SetMovementSpeed(horizontalMove);
 
             if (horizontalMove > 0 && !FacingRight || horizontalMove < 0 && FacingRight)
             {
-                AnimationManager.Flip();
+                Flip();
             }
         }
         
@@ -69,7 +85,7 @@ public class Player : MonoBehaviour {
             if (OnGround && horizontalMove != 0)
             {
                 OnLadder = false;
-            }
+            } 
             if (OnGround)
             {
                 AnimationManager.SetClimbSpeed(0f);
@@ -85,16 +101,24 @@ public class Player : MonoBehaviour {
             AnimationManager.StartLand();
         }
 
-        if (OnGround && Jump)
+        if (OnGround && Jumping)
         {
-            Jump = false;
+            Jumping = false;
             MyRigidbody2D.AddForce(new Vector2(0, jumpForce));
         }
 
-        if (Dig)
+        if (Digging)
         {
-            Dig = false;
             AnimationManager.Dig();
+        }
+
+        if (Blocking)
+        {
+            shieldCollider.enabled = true;
+        }
+        else
+        {
+            shieldCollider.enabled = false;
         }
     }
 
@@ -113,5 +137,96 @@ public class Player : MonoBehaviour {
             }
         }
         return false;
+    }
+
+    public void EnvironmentDamage(int damage)
+    {
+        SwordHide();
+
+        if (!isImmortal)
+        {
+            StartCoroutine(TakeDamage(damage));
+        }
+    }
+
+    public void EnemyDamage(int damage)
+    {
+        SwordHide();
+
+        if (!isImmortal) 
+        {
+            if (Blocking)
+            {
+                TakeReducedDamage(damage);
+            }
+            else
+            {
+                StartCoroutine(TakeDamage(damage));
+            }
+        }
+    }
+
+    private void TakeReducedDamage(int damage)
+    {
+        attributes.Health -= damage - (damage * attributes.ShieldProtectionPercent) / 100;
+
+        if (!IsDead && OnGround)
+        {
+            AnimationManager.Protect();
+        }
+        else if (IsDead)
+        {
+            OnDeadEvent();
+            AnimationManager.Die();
+        }
+    }
+
+    private IEnumerator TakeDamage(int damage)
+    {
+        attributes.Health -= damage;
+
+        if (!IsDead && OnGround)
+        {
+            AnimationManager.Hurt();
+
+            isImmortal = true;
+            StartCoroutine(IndicateImmortal());
+            yield return new WaitForSeconds(immortalTime);
+            isImmortal = false;
+        }
+        else if (IsDead)
+        {
+            OnDeadEvent();
+            AnimationManager.Die();
+        }
+    }
+
+    private IEnumerator IndicateImmortal()
+    {
+        while (isImmortal)
+        {
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+    public event DeadEventHandler DeadEvent;
+
+    public void OnDeadEvent()
+    {
+        if(DeadEvent != null)
+        {
+            DeadEvent();
+        }
+    }
+
+    public override void Die()
+    {
+        attributes.Init();
+        transform.position = startPoint.position;
+
+        AnimationManager.Reset();
     }
 }

@@ -11,26 +11,30 @@ public class PlayerInputManager : MonoBehaviour {
 	
 	void Update ()
     {
-        HandleInput();
+        if(!player.TakingDamage && !player.IsDead && !player.Digging)
+        {
+            HandleInput();
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        player.Move(horizontal, vertical);
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            player.Move(horizontal, vertical);
+        } 
     }
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !player.Attack)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !player.Attacking)
         {
+            player.AnimationManager.SetAttackSpeed(player.attributes.AttackSpeed);
             player.AnimationManager.Attack();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !player.Jump && !player.OnLadder)
+        if (Input.GetKeyDown(KeyCode.Space) && !player.Jumping && !player.OnLadder)
         {
             player.AnimationManager.StartJump();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !player.Block)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !player.Blocking)
         {
             player.AnimationManager.StartBlock();
         }
