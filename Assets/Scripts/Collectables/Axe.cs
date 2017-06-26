@@ -4,7 +4,7 @@ public class Axe : TimeBonus {
 
     public override void Collect()
     {
-        BonusManager.Instance.IncreaseDamage(bonusValue, bonusTime);
+        BonusManager.Instance.IncreaseDamage((int)bonusValue, bonusTime);
         Destroy(gameObject);
     }
 }

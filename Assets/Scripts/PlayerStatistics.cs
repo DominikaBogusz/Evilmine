@@ -12,13 +12,11 @@ public class PlayerStatistics : MonoBehaviour {
 
     public void IncreaseKillCount()
     {
-        DifficultyManager.Instance.PlayerLevel++;
         killCount++;
     }
 
     public void IncreaseDeathCount()
     {
-        DifficultyManager.Instance.PlayerLevel--;
         deathCount++;
     }
 }

@@ -3,10 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class PauseUI : MonoBehaviour {
 
-    public void Activate()
+    void Update()
     {
-        Time.timeScale = 0.0f;
-        gameObject.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Resume();
+        }
     }
 
     public void BackToMenu()
@@ -16,6 +18,7 @@ public class PauseUI : MonoBehaviour {
 
     public void Resume()
     {
+        UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
         gameObject.SetActive(false);
     }

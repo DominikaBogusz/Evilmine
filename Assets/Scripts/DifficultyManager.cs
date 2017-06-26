@@ -1,8 +1,21 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DifficultyManager : MonoBehaviour {
+[System.Serializable]
+public class Fight
+{
+    public bool? won;
+    public enum Mark { GOOD, MEDIUM, BAD }
+    public Mark? mark;
 
+    public Fight(bool? won, Mark? mark)
+    {
+        this.won = won;
+        this.mark = mark;
+    }
+}
+
+public class DifficultyManager : MonoBehaviour
+{
     private static DifficultyManager instance;
     public static DifficultyManager Instance
     {
@@ -16,45 +29,87 @@ public class DifficultyManager : MonoBehaviour {
         }
     }
 
-    [SerializeField] private int minPlayerLevel;
-    [SerializeField] private int maxPlayerLevel;
-
-    private int playerLevel;
-    public int PlayerLevel
+    private int playerProsperity;
+    public int PlayerProsperity
     {
-        get { return playerLevel; }
+        get { return playerProsperity; }
         set
         {
-            if(playerLevel > (minPlayerLevel + maxPlayerLevel / 2) && playerLevel < value)
-            {
-                BonusManager.Instance.TimeBetweenGenerations += value / 100f;
-            }
-            else if (playerLevel < (minPlayerLevel + maxPlayerLevel / 2) && playerLevel > value)
-            {
-                BonusManager.Instance.TimeBetweenGenerations -= value / 50f;
-            }
-            playerLevel = Mathf.Clamp(value, minPlayerLevel, maxPlayerLevel);
+            playerProsperity = Mathf.Clamp(value, 0, 100);
         }
     }
 
-    public Dictionary<string, float> EnemyTypesDifficulty;
+    private Fight[] battleResults;
+
+    private int expectedEnemyLevel;
+    public int ExpectedEnemyLevel
+    {
+        get { return expectedEnemyLevel; }
+        set
+        {
+            expectedEnemyLevel = Mathf.Clamp(value, 1, 50);
+            EnemySpawner.Instance.DetermineEnemiesToSpawn(expectedEnemyLevel);
+        }
+    }
+
+    private int numberOfInterventions;
+    private int? previousIntervention;
 
     void Start()
     {
-        PlayerLevel = minPlayerLevel + maxPlayerLevel / 2;
-        EnemyTypesDifficulty = new Dictionary<string, float>();
+        battleResults = new Fight[2] { new Fight(null, null), new Fight(null, null) };
+        ExpectedEnemyLevel = Player.Instance.Attributes.Level.Get();
+        PlayerProsperity = 50;
     }
 
-    public enum ModificationFactor { HIGHLY_DECREASE = -2 , SLIGHTLY_DECREASE = -1, SLIGHTLY_INCREASE = 1, HIGHLY_INCREASE = 2 }
-
-    public void ChangeEnemyTypeDifficulty(string enemyType, ModificationFactor factor)
+    public void AddFightResult(bool won, Fight.Mark mark)
     {
-        float value = Random.Range(0.1f * (int)factor, 0.2f * (int)factor);
+        Debug.Log(won + ", " + mark);
 
-        if (!EnemyTypesDifficulty.ContainsKey(enemyType))
+        battleResults[1] = battleResults[0];
+        battleResults[0] = new Fight(won, mark);
+
+        CheckIfChangeDifficulty();
+    }
+
+    private void CheckIfChangeDifficulty()
+    {
+        int intervention = InterventionValue();
+
+        if (intervention < 0 || (intervention > 0 && !(previousIntervention > 0)))
         {
-            EnemyTypesDifficulty.Add(enemyType, 1.0f);
+            numberOfInterventions++;
+            ExpectedEnemyLevel += intervention;
+            Debug.Log(intervention);
+            previousIntervention = intervention;
         }
-        EnemyTypesDifficulty[enemyType] = Mathf.Clamp(EnemyTypesDifficulty[enemyType] + value, 0.1f, 2.0f);
+        else if(previousIntervention > 0)
+        {
+            previousIntervention = null;
+        }
+    }
+
+    private int InterventionValue()
+    {
+        if (battleResults[0].won == true && battleResults[1].won == true)
+        {
+            if ((battleResults[1].mark == Fight.Mark.BAD || battleResults[1].mark == Fight.Mark.MEDIUM) && battleResults[0].mark == Fight.Mark.BAD)
+            {
+                return -1;
+            }
+            else if ((battleResults[1].mark == Fight.Mark.BAD || battleResults[1].mark == Fight.Mark.MEDIUM) && battleResults[0].mark == Fight.Mark.MEDIUM)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        else if (battleResults[0].won == false)
+        {
+            return -1;
+        }
+        return 0;
     }
 }

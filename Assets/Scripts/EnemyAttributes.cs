@@ -1,42 +1,35 @@
 ﻿using UnityEngine;
 
-public class EnemyAttributes : Attributes {
+public class EnemyAttributes : MonoBehaviour {
 
-    private EnemyAttributesUI enemyAttributesUI;
+    [SerializeField] public Attribute Level;
+    [SerializeField] public Attribute Health;
+    [SerializeField] public Attribute Damage;
+    [SerializeField] public Attribute AttackSpeed;
+    [SerializeField] public Attribute AttackInterval;
 
-    void Awake()
+    public void Init()
     {
-        enemyAttributesUI = attributesUI as EnemyAttributesUI;
+        Level.Set(DifficultyManager.Instance.ExpectedEnemyLevel);
+
+        int steps = Level.max - Level.min + 1;
+
+        int healthChange = (Health.max * 2) / steps;
+        Health.max = (Level.Get() - Level.min + 1) * healthChange;
+        Health.Set(Health.max);
+
+        float damage = Damage.min + (AttributeChange(Damage, steps) * Level.Get());
+        Damage.Set((int)damage);
+
+        float attackSpeed = AttackSpeed.min + (AttributeChange(AttackSpeed, steps) * Level.Get());
+        AttackSpeed.Set((int)attackSpeed);
+
+        float attackInterval = AttackInterval.min + (AttributeChange(AttackInterval, steps) * ((Level.min + Level.max) - Level.Get()));
+        AttackInterval.Set((int)attackInterval);
     }
 
-    [SerializeField] private float minAttackInterval;
-    [SerializeField] private float maxAttackInterval;
-
-    private float attackInterval;
-    public float AttackInterval
+    float AttributeChange(Attribute attribute, int numberOfSteps)
     {
-        get { return attackInterval; }
-        set
-        {
-            attackInterval = Mathf.Clamp(value, minAttackInterval, maxAttackInterval);
-            enemyAttributesUI.UpdateAttackInterval(attackInterval);
-        }
-    }
-
-    public override void Init()
-    {
-        base.Init();
-        AttackInterval = (minAttackInterval + maxAttackInterval) / 2;
-    }
-
-    public void AccomodateToDifficultyLevel(string enemyName)
-    {
-        if (DifficultyManager.Instance.EnemyTypesDifficulty.ContainsKey(enemyName))
-        {
-            float level = DifficultyManager.Instance.EnemyTypesDifficulty[enemyName];
-            Damage = (minDamage + maxDamage) / 2 * level;
-            AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2 * level;
-            AttackInterval = (minAttackInterval + maxAttackInterval) / 2 * (1-(level-1));
-        }
+        return (float) (attribute.max - attribute.min) / numberOfSteps;
     }
 }

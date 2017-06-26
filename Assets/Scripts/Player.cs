@@ -45,10 +45,19 @@ public class Player : Character {
     {
         get
         {
-            return Attributes.Health <= 0;
+            return Attributes.Health.Get() <= 0;
         }
     }
-    public bool Died { get; set; }
+    
+    public bool Frozen { get; set; }
+
+    public bool CanMove
+    {
+        get
+        {
+            return !TakingDamage && !IsDead && !Digging && !Frozen;
+        }
+    }
 
     public override void Start ()
     {
@@ -169,28 +178,36 @@ public class Player : Character {
         if (Died) return;
         SwordHide();
 
-        float damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtectionPercent) / 100 : enemy.Attributes.Damage;
+        int damage = Blocking ? enemy.Attributes.Damage.Get() - (enemy.Attributes.Damage.Get() * Attributes.ShieldProtection.Get()) / 100 : enemy.Attributes.Damage.Get();
 
         if (!isImmortal)
         {
             Attributes.Health -= damage;
             enemy.Statistics.DamageMade += damage;
 
-            if (!IsDead && OnGround && Blocking)
+            if (!IsDead)
             {
-                AnimationManager.Protect();
+                if (Frozen)
+                {
+                    StartCoroutine(TakeDamage());
+                }
+                else if(OnGround && Blocking)
+                {
+                    AnimationManager.Protect();
+                }
+                else
+                {
+                    AnimationManager.Damage();
+                    StartCoroutine(TakeDamage());
+                }
             }
-            else if (!IsDead)
-            {
-                AnimationManager.Damage();
-                StartCoroutine(TakeDamage());
-            }
-            else if (IsDead)
+            else
             {
                 Died = true;
                 AnimationManager.Die();
                 OnDeadEvent();
-                enemy.Statistics.KillCount++;
+                enemy.Statistics.EvaluateFight();
+                enemy.Statistics.IncreaseKillCount();
             }
         }
     }
@@ -216,7 +233,9 @@ public class Player : Character {
 
     public override void Die()
     {
-        Attributes.Init();
+        DifficultyManager.Instance.PlayerProsperity -= 10;
+
+        Attributes.Health.Set(Attributes.Health.max);
         transform.position = respawnPoint.position;
 
         AnimationManager.Reset();
@@ -234,5 +253,21 @@ public class Player : Character {
     public void SetNewRespawnPoint(Transform point)
     {
         respawnPoint = point;
+    }
+
+    public void Freeze(float time, Enemy enemy)
+    {
+        MyRigidbody2D.velocity = Vector2.zero;
+        Frozen = true;
+        MyAnimator.speed = 0f;
+        StartCoroutine(StayFrozen(time));
+        EnemyDamage(enemy);
+    }
+
+    private IEnumerator StayFrozen(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Frozen = false;
+        MyAnimator.speed = 1f;
     }
 }

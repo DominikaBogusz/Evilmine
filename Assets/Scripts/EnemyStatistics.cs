@@ -1,163 +1,62 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public class EnemyStatistics : MonoBehaviour {
 
     private Enemy enemy;
     private Player player;
 
-    public int KillCount { get; set; }
+    private int killCount;
+
     public float DamageMade { get; set; }
-    private float damageMadeInPreviousBattles;
     public float DamageReceived { get; set; }
-    private float damageReceivedInPreviousBattles;
-
-    private List<float> BattleTimes;
-    private float BattleTimer;
-    public bool StartBattleTimer { get; set; }
-    public bool StopBattleTimer { get; set; }
-
-    public List<BattleResult> BattleResults;
-    public enum BattleResult { WON_EASILY, WON_MIDDLING, WON_HARDLY, LOST_NEARLY, LOST_MIDDLING, LOST_ENTIRELY, RUN_AWAY_HEALTHY, RUN_AWAY_BLEEDING, IGNORED }
 
     void Start()
     {
         enemy = GetComponent<Enemy>();
         player = Player.Instance;
-        BattleTimes = new List<float>();
     }
 
-    void Update()
+    public void IncreaseKillCount()
     {
-        CheckBattleTimes();
+        killCount++;
     }
 
-    private void CheckBattleTimes()
+    public void EvaluateFight()
     {
-        if (StartBattleTimer)
-        {
-            BattleTimer += Time.deltaTime;
-        }
-
-        if (StopBattleTimer)
-        {
-            StartBattleTimer = false;
-            StopBattleTimer = false;
-
-            BattleTimes.Add(BattleTimer);
-            BattleTimer = 0f;
-
-            BattleResults.Add(EvaluateBattle());
-            EvaluateEnemyDifficultyLevel();
-        }
-    }
-
-    private BattleResult EvaluateBattle()
-    {
-        float damageMade = DamageMade - damageMadeInPreviousBattles;
-        float damageReceived = DamageReceived - damageReceivedInPreviousBattles;
-
-        damageMadeInPreviousBattles += damageMade;
-        damageReceivedInPreviousBattles += damageReceived;
-
-        float playerMaxLife = player.Attributes.initialHealth;
-        float enemyMaxLife = enemy.Attributes.initialHealth;
+        float playerMaxLife = player.Attributes.Health.max;
+        float enemyMaxLife = enemy.Attributes.Health.max;
 
         if (enemy.IsDead)
         {
-            if (damageMade > playerMaxLife * 0.7)
+            if (DamageMade > playerMaxLife * 0.6)
             {
-                return BattleResult.WON_HARDLY;
+                DifficultyManager.Instance.AddFightResult(true, Fight.Mark.BAD);
+                DifficultyManager.Instance.PlayerProsperity -= 5;
             }
-            else if (damageMade <= playerMaxLife * 0.7 && damageMade >= playerMaxLife * 0.4)
+            else if (DamageMade <= playerMaxLife * 0.6 && DamageMade >= playerMaxLife * 0.3)
             {
-                DifficultyManager.Instance.PlayerLevel += 2;
-                return BattleResult.WON_MIDDLING;
+                DifficultyManager.Instance.AddFightResult(true, Fight.Mark.MEDIUM); 
             }
-            else if (damageMade < playerMaxLife * 0.4)
+            else if (DamageMade < playerMaxLife * 0.3)
             {
-                DifficultyManager.Instance.PlayerLevel += 4;
-                return BattleResult.WON_EASILY;
+                DifficultyManager.Instance.AddFightResult(true, Fight.Mark.GOOD);
+                DifficultyManager.Instance.PlayerProsperity += 5;
             }
         }
         else if (player.IsDead)
         {
-            if (damageReceived > enemyMaxLife * 0.7)
+            if (DamageReceived > enemyMaxLife * 0.6)
             {
-                return BattleResult.LOST_NEARLY;
+                DifficultyManager.Instance.AddFightResult(false, Fight.Mark.GOOD);
             }
-            else if (damageReceived <= enemyMaxLife * 0.7 && damageReceived >= enemyMaxLife * 0.4)
+            else if (DamageReceived <= enemyMaxLife * 0.6 && DamageReceived >= enemyMaxLife * 0.3)
             {
-                DifficultyManager.Instance.PlayerLevel -= 2;
-                return BattleResult.LOST_MIDDLING;
+                DifficultyManager.Instance.AddFightResult(false, Fight.Mark.MEDIUM);
             }
-            else if (damageReceived < enemyMaxLife * 0.4)
+            else if (DamageReceived < enemyMaxLife * 0.3)
             {
-                DifficultyManager.Instance.PlayerLevel -= 4;
-                return BattleResult.LOST_ENTIRELY;
+                DifficultyManager.Instance.AddFightResult(false, Fight.Mark.BAD);
             }
-        }
-        else if (damageReceived > 0)
-        {
-            if(player.Attributes.Health < playerMaxLife * 0.4)
-            {
-                DifficultyManager.Instance.PlayerLevel -= 4;
-                return BattleResult.RUN_AWAY_BLEEDING;
-            }
-            else
-            {
-                return BattleResult.RUN_AWAY_HEALTHY;
-            }
-        }
-
-        return BattleResult.IGNORED;
-    }
-
-    private void EvaluateEnemyDifficultyLevel()
-    {
-        switch (BattleResults[BattleResults.Count - 1])
-        {
-            case BattleResult.WON_EASILY:
-                DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_INCREASE);
-                    return;
-            case BattleResult.WON_MIDDLING:
-                DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_INCREASE);
-                    return;
-        }
-
-        int lostEntirelyCount = 0, lostMiddlingCount = 0, lostNearlyCount = 0;
-        foreach (BattleResult battleResult in BattleResults)
-        {
-            if(battleResult == BattleResult.LOST_ENTIRELY)
-            {
-                lostEntirelyCount++;
-            }
-            else if(battleResult == BattleResult.LOST_MIDDLING)
-            {
-                lostMiddlingCount++;
-            }
-            else if(battleResult == BattleResult.LOST_NEARLY)
-            {
-                lostNearlyCount++;
-            }
-        }
-
-        if(lostEntirelyCount + lostMiddlingCount >= 2)
-        {
-            DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.HIGHLY_DECREASE);
-        }
-        else if(lostMiddlingCount + lostNearlyCount >= 2)
-        {
-            DifficultyManager.Instance.ChangeEnemyTypeDifficulty(enemy.name, DifficultyManager.ModificationFactor.SLIGHTLY_DECREASE);
-        }
-
-        if(lostEntirelyCount + lostMiddlingCount >= 4)
-        {
-            enemy.Attributes.AccomodateToDifficultyLevel(enemy.name);
-        }
-        else if(lostMiddlingCount + lostNearlyCount >= 4)
-        {
-            enemy.Attributes.AccomodateToDifficultyLevel(enemy.name);
         }
     }
 }

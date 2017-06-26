@@ -11,7 +11,7 @@ public class PlayerInputManager : MonoBehaviour {
 	
 	void Update ()
     {
-        if(!player.TakingDamage && !player.IsDead && !player.Digging)
+        if(player.CanMove)
         {
             HandleInput();
 
@@ -25,7 +25,7 @@ public class PlayerInputManager : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && !player.Attacking)
         {
-            player.AnimationManager.SetAttackSpeed(player.Attributes.AttackSpeed);
+            player.AnimationManager.SetAttackSpeed(player.Attributes.AttackSpeed.Get() / 10f);
             player.AnimationManager.Attack();
         }
 

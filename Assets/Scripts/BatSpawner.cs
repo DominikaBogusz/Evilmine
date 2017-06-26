@@ -6,7 +6,7 @@ public class BatSpawner : MonoBehaviour {
 
     public Bat Spawn(Transform spawnPoint)
     {
-        float chance = DifficultyManager.Instance.PlayerLevel;
+        float chance = DifficultyManager.Instance.PlayerProsperity;
         float draw = Random.Range(0f, 100f);
 
         if (draw < chance)

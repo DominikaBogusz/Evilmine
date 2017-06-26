@@ -6,11 +6,11 @@ public class PlayerSword : MonoBehaviour {
     {
         if(other.tag == "Enemy")
         {
-            other.GetComponentInParent<Enemy>().PlayerDamage(Player.Instance.Attributes.Damage);
+            other.GetComponentInParent<Enemy>().PlayerDamage(Player.Instance.Attributes.Damage.Get());
         }
         else if(other.tag == "Bat")
         {
-            other.GetComponent<Bat>().Damage(Player.Instance.Attributes.Damage);
+            other.GetComponent<Bat>().Damage(Player.Instance.Attributes.Damage.Get());
         }
         else if(other.tag == "Box")
         {

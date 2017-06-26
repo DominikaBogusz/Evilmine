@@ -2,7 +2,7 @@
 
 public abstract class Bonus : MonoBehaviour, ICollectable {
 
-    [SerializeField] protected float bonusValue;
+    [SerializeField] protected int bonusValue;
 
     public abstract void Collect();
 

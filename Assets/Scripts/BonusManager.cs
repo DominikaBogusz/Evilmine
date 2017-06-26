@@ -50,45 +50,45 @@ public class BonusManager : MonoBehaviour {
         generated = false;
     }
 
-    public void IncreaseDamage(float value, float time)
+    public void IncreaseDamage(int value, float time)
     {
         bonusesUI.SetDamageBonus(value, time);
         StartCoroutine(IncreaseDamageCounting(value, time));
     }
 
-    private IEnumerator IncreaseDamageCounting(float value, float time)
+    private IEnumerator IncreaseDamageCounting(int value, float time)
     {
-        float store = Player.Instance.Attributes.Damage;
+        int store = Player.Instance.Attributes.Damage.Get();
         Player.Instance.Attributes.Damage += value;
         yield return new WaitForSeconds(time);
-        Player.Instance.Attributes.Damage = store;
+        Player.Instance.Attributes.Damage.Set(store);
     }
 
-    public void IncreaseAttackSpeed(float value, float time)
+    public void IncreaseAttackSpeed(int value, float time)
     {
         bonusesUI.SetAttackSpeedBonus(value, time);
         StartCoroutine(IncreaseAttackSpeedCounting(value, time));
     }
 
-    private IEnumerator IncreaseAttackSpeedCounting(float value, float time)
+    private IEnumerator IncreaseAttackSpeedCounting(int value, float time)
     {
-        float store = Player.Instance.Attributes.AttackSpeed;
+        int store = Player.Instance.Attributes.AttackSpeed.Get();
         Player.Instance.Attributes.AttackSpeed += value;
         yield return new WaitForSeconds(time);
-        Player.Instance.Attributes.AttackSpeed = store;
+        Player.Instance.Attributes.AttackSpeed.Set(store);
     }
 
-    public void IncreaseShieldProtection(float value, float time)
+    public void IncreaseShieldProtection(int value, float time)
     {
         bonusesUI.SetShieldProtectionBonus(value, time);
         StartCoroutine(IncreaseShieldProtectionCounting(value, time));
     }
 
-    private IEnumerator IncreaseShieldProtectionCounting(float value, float time)
+    private IEnumerator IncreaseShieldProtectionCounting(int value, float time)
     {
-        float store = Player.Instance.Attributes.ShieldProtectionPercent;
-        Player.Instance.Attributes.ShieldProtectionPercent += value;
+        int store = Player.Instance.Attributes.ShieldProtection.Get();
+        Player.Instance.Attributes.ShieldProtection += value;
         yield return new WaitForSeconds(time);
-        Player.Instance.Attributes.ShieldProtectionPercent = store;
+        Player.Instance.Attributes.ShieldProtection.Set(store);
     }
 }

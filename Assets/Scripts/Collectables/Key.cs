@@ -2,9 +2,16 @@
 
 public class Key : MonoBehaviour, ICollectable {
 
+    private GameObject chest;
+
+    public void SetChest(GameObject chest)
+    {
+        this.chest = chest;
+    }
+
     public void Collect()
     {
-        //TODO: collect key
+        chest.GetComponent<BoxCollider2D>().enabled = true;
         Destroy(gameObject);
     }
 }

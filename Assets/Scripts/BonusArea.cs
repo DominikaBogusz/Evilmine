@@ -33,7 +33,7 @@ public class BonusArea : MonoBehaviour {
 
     private bool GenerateHealthBonus()
     {
-        float chance = 100f - Player.Instance.Attributes.Health;
+        float chance = 100f - Player.Instance.Attributes.Health.Get();
         float draw = Random.Range(0f, 100f);
 
         if (draw < chance)
@@ -50,7 +50,7 @@ public class BonusArea : MonoBehaviour {
 
     private bool GenerateTimeBonus()
     {
-        int chance = 100 - DifficultyManager.Instance.PlayerLevel;
+        int chance = 100 - DifficultyManager.Instance.PlayerProsperity;
         int draw = Random.Range(0, 100);
 
         if (draw < chance)

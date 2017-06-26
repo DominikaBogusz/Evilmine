@@ -1,31 +1,59 @@
 ﻿using UnityEngine;
 
-public class PlayerAttributes : Attributes {
+public class PlayerAttributes : MonoBehaviour {
 
-    private PlayerAttributesUI playerAttributesUI;
+    [SerializeField] public Attribute Level;
+    [SerializeField] public Attribute Experience;
+    [SerializeField] public Attribute ExperienceToNextLevel;
+    [SerializeField] public Attribute Health;
+    [SerializeField] public Attribute Damage;
+    [SerializeField] public Attribute AttackSpeed;
+    [SerializeField] public Attribute ShieldProtection;
 
-    void Awake()
+    public int LearningPoints { get; set; }
+
+    public void Init()
     {
-        playerAttributesUI = attributesUI as PlayerAttributesUI;
+        Level.Set(1);
+        Experience.Set(Experience.min);
+        ExperienceToNextLevel.Set(ExperienceToNextLevel.min);
+        Health.Set(Health.max);
+        Damage.Set(Damage.min);
+        AttackSpeed.Set(AttackSpeed.min);
+        ShieldProtection.Set(ShieldProtection.min);
+        LearningPoints = 0;
     }
 
-    [SerializeField] private float minShieldProtectionPercent;
-    [SerializeField] private float maxShieldProtectionPercent;
+    public void GainExperience(int enemyLevel)
+    { 
+        int experienceToGain = 10;
 
-    private float shieldProtectionPercent;
-    public float ShieldProtectionPercent
-    {
-        get { return shieldProtectionPercent; }
-        set
+        int diff = enemyLevel - Level.Get();
+        if (diff > 0)
         {
-            shieldProtectionPercent = Mathf.Clamp(value, minShieldProtectionPercent, maxShieldProtectionPercent);
-            playerAttributesUI.UpdateShieldProtection(shieldProtectionPercent);
+            experienceToGain = experienceToGain * (diff+1);
         }
+        else if (diff < 0)
+        {
+            experienceToGain = experienceToGain / (-diff+1);
+        }
+
+        Experience += experienceToGain;
+        CheckIfLevelUp();
     }
 
-    public override void Init()
+    private void CheckIfLevelUp()
     {
-        base.Init();
-        ShieldProtectionPercent = (minShieldProtectionPercent + maxShieldProtectionPercent) / 2;
+        if (Experience.Get() < ExperienceToNextLevel.Get())
+        {
+            return;
+        }
+        else
+        {
+            LearningPoints++;
+            Level += 1;
+            ExperienceToNextLevel += ExperienceToNextLevel.Get();
+            CheckIfLevelUp();
+        }
     }
 }

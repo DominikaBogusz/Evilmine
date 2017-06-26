@@ -13,7 +13,8 @@ public abstract class Character : MonoBehaviour {
     public bool Attacking { get; set; }
     public bool TakingDamage { get; set; }
     public abstract bool IsDead { get; }
-  
+    public bool Died { get; set; }
+
     [SerializeField] private Collider2D swordCollider;
 
     [SerializeField] private Transform[] dontFlipUI;
@@ -51,7 +52,10 @@ public abstract class Character : MonoBehaviour {
 
     public void SwordHide()
     {
-        swordCollider.enabled = false;
+        if(swordCollider != null)
+        {
+            swordCollider.enabled = false;
+        }
     }
 
     public event DeadEventHandler DeadEvent;

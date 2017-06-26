@@ -4,7 +4,7 @@ public class Lightning : TimeBonus {
 
     public override void Collect()
     {
-        BonusManager.Instance.IncreaseAttackSpeed(bonusValue, bonusTime);
+        BonusManager.Instance.IncreaseAttackSpeed((int)bonusValue, bonusTime);
         Destroy(gameObject);
     }
 }

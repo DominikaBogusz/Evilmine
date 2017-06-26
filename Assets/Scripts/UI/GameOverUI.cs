@@ -3,12 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameOverUI : MonoBehaviour {
 
-    public void Activate()
-    {
-        Time.timeScale = 0.0f;
-        gameObject.SetActive(true);
-    }
-
     public void BackToMenu()
     {
         Time.timeScale = 1.0f;
@@ -17,6 +11,7 @@ public class GameOverUI : MonoBehaviour {
 
     public void Retry()
     {
+        UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
