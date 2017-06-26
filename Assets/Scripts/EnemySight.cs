@@ -13,7 +13,6 @@ public class EnemySight : MonoBehaviour {
     {
         if(other.tag == "Player")
         {
-            Physics2D.IgnoreCollision(enemy.GetComponent<BoxCollider2D>(), other, true);
             GetComponent<BoxCollider2D>().size = new Vector2(9f, 4f);
             enemy.SetTarget(other.gameObject);
         }

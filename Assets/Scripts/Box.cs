@@ -10,7 +10,8 @@ public class Box : MonoBehaviour {
 	public void GenerateStuff()
     {
         GetComponentInParent<SpriteRenderer>().enabled = false;
-        Instantiate(particlesPrefab, transform.position, Quaternion.identity);
+        GameObject particles = Instantiate(particlesPrefab, transform.position, Quaternion.identity) as GameObject;
+        Destroy(particles, 1f);
 
         int random = Random.Range(0, dropsPrefabs.Count);
         Instantiate(dropsPrefabs[random], transform.position, Quaternion.identity);

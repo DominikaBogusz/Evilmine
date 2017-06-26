@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour {
         Physics2D.IgnoreLayerCollision(20, 15, false);
 
         Physics2D.IgnoreLayerCollision(11, 13, true);
+        Physics2D.IgnoreLayerCollision(11, 11, true);
     }
 
     void Awake()

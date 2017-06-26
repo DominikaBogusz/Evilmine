@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public delegate void DeadEventHandler();
-
 public class Player : Character {
 
     private static Player instance;
@@ -18,7 +16,8 @@ public class Player : Character {
         }
     }
 
-    [SerializeField] private Transform startPoint;
+    [SerializeField] private Transform respawnPoint;
+
     [SerializeField] private Transform[] groundPoints;
     [SerializeField] private float groundRadius;
     [SerializeField] private LayerMask whatIsGround;
@@ -49,6 +48,7 @@ public class Player : Character {
             return Attributes.Health <= 0;
         }
     }
+    public bool Died { get; set; }
 
     public override void Start ()
     {
@@ -143,6 +143,7 @@ public class Player : Character {
 
     public void EnvironmentDamage(int damage)
     {
+        if (Died) return;
         SwordHide();
 
         if (!isImmortal)
@@ -164,30 +165,32 @@ public class Player : Character {
 
     public void EnemyDamage(Enemy enemy)
     {
+        if (Died) return;
         SwordHide();
 
         float damage = Blocking ? enemy.Attributes.Damage - (enemy.Attributes.Damage * Attributes.ShieldProtectionPercent) / 100 : enemy.Attributes.Damage;
 
-        if (!isImmortal) 
+        if (!isImmortal && !IsDead)
         {
             Attributes.Health -= damage;
             enemy.Statistics.DamageMade += damage;
 
-            if (!IsDead && OnGround && Blocking)
+            if (OnGround && Blocking)
             {
                 AnimationManager.Protect();
             }
-            else if (!IsDead)
+            else
             {
                 AnimationManager.Damage();
                 StartCoroutine(TakeDamage());
             }
-            else if (IsDead)
-            {
-                AnimationManager.Die();
-                OnDeadEvent();
-                enemy.Statistics.KillCount++;
-            }
+        }
+        else if (IsDead)
+        {
+            Died = true;
+            AnimationManager.Die();
+            OnDeadEvent();
+            enemy.Statistics.KillCount++;
         }
     }
 
@@ -213,19 +216,10 @@ public class Player : Character {
     public override void Die()
     {
         Attributes.Init();
-        transform.position = startPoint.position;
+        transform.position = respawnPoint.position;
 
         AnimationManager.Reset();
-    }
-
-    public event DeadEventHandler DeadEvent;
-
-    public void OnDeadEvent()
-    {
-        if (DeadEvent != null)
-        {
-            DeadEvent();
-        }
+        Died = false;
     }
 
     private void OnCollisionEnter2D(Collision2D info)
@@ -234,5 +228,10 @@ public class Player : Character {
         {
             info.collider.GetComponent<ICollectable>().Collect();
         }
+    }
+
+    public void SetNewRespawnPoint(Transform point)
+    {
+        respawnPoint = point;
     }
 }

@@ -31,9 +31,9 @@ public class EnemyAttributes : Attributes {
 
     public void AccomodateToDifficultyLevel(string enemyName)
     {
-        if (DifficultyManager.EnemyTypesDifficulty.ContainsKey(enemyName))
+        if (DifficultyManager.Instance.EnemyTypesDifficulty.ContainsKey(enemyName))
         {
-            float level = DifficultyManager.EnemyTypesDifficulty[enemyName];
+            float level = DifficultyManager.Instance.EnemyTypesDifficulty[enemyName];
             Damage = (minDamage + maxDamage) / 2 * level;
             AttackSpeed = (minAttackSpeed + maxAttackSpeed) / 2 * level;
             AttackInterval = (minAttackInterval + maxAttackInterval) / 2 * (1-(level-1));

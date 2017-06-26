@@ -3,16 +3,51 @@ using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour {
 
-    public static Dictionary<string, float> EnemyTypesDifficulty;
+    private static DifficultyManager instance;
+    public static DifficultyManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<DifficultyManager>();
+            }
+            return instance;
+        }
+    }
+
+    [SerializeField] private int minPlayerLevel;
+    [SerializeField] private int maxPlayerLevel;
+
+    private int playerLevel;
+    public int PlayerLevel
+    {
+        get { return playerLevel; }
+        set
+        {
+            if(playerLevel > (minPlayerLevel + maxPlayerLevel / 2) && playerLevel < value)
+            {
+                BonusManager.Instance.TimeBetweenGenerations += value / 100f;
+            }
+            else if (playerLevel < (minPlayerLevel + maxPlayerLevel / 2) && playerLevel > value)
+            {
+                BonusManager.Instance.TimeBetweenGenerations -= value / 50f;
+            }
+            playerLevel = Mathf.Clamp(value, minPlayerLevel, maxPlayerLevel);
+        }
+    }
+
+    public Dictionary<string, float> EnemyTypesDifficulty;
 
     void Start()
     {
+        PlayerLevel = minPlayerLevel + maxPlayerLevel / 2;
         EnemyTypesDifficulty = new Dictionary<string, float>();
     }
 
     public enum ModificationFactor { HIGHLY_DECREASE = -2 , SLIGHTLY_DECREASE = -1, SLIGHTLY_INCREASE = 1, HIGHLY_INCREASE = 2 }
 
-    public static void ChangeEnemyTypeDifficulty(string enemyType, ModificationFactor factor)
+    public void ChangeEnemyTypeDifficulty(string enemyType, ModificationFactor factor)
     {
         float value = Random.Range(0.1f * (int)factor, 0.2f * (int)factor);
 

@@ -20,8 +20,21 @@ public class BonusManager : MonoBehaviour {
     [SerializeField] public Bonus healthBonus;
     [SerializeField] public List<TimeBonus> timeBonuses;
 
-    private float timeBetweenGenerations = 10f;
+    [SerializeField] private float minTimeBetweenGenerations;
+    [SerializeField] private float maxTimeBetweenGenerations;
+    private float timeBetweenGenerations;
+    public float TimeBetweenGenerations
+    {
+        get { return timeBetweenGenerations; }
+        set { timeBetweenGenerations = Mathf.Clamp(value, minTimeBetweenGenerations, maxTimeBetweenGenerations); }
+    }
+
     public bool generated;
+
+    void Start()
+    {
+        TimeBetweenGenerations = 10f;
+    }
 
     public void CountDownToGenerate()
     {

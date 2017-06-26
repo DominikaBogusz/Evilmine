@@ -2,16 +2,23 @@
 
 public class PlayerStatistics : MonoBehaviour {
 
-    public int KillCount { get; set; }
-    public int DeathCount { get; set; }
+    private int killCount;
+    private int deathCount;
 
     void Start()
     {
-        Player.Instance.DeadEvent += new DeadEventHandler(IncreaseDeathCount);
+        Player.Instance.DeadEvent += new DeadEventHandler(IncreaseDeathCount); 
     }
 
-    private void IncreaseDeathCount()
+    public void IncreaseKillCount()
     {
-        DeathCount++;
+        DifficultyManager.Instance.PlayerLevel++;
+        killCount++;
+    }
+
+    public void IncreaseDeathCount()
+    {
+        DifficultyManager.Instance.PlayerLevel--;
+        deathCount++;
     }
 }

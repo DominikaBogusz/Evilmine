@@ -39,6 +39,8 @@ public class Enemy : Character {
     {
         base.Start();
 
+        Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), Player.Instance.GetComponent<BoxCollider2D>(), true);
+
         Player.Instance.DeadEvent += new DeadEventHandler(RemoveTarget);
 
         ChangeState(new IdleState());
@@ -137,7 +139,10 @@ public class Enemy : Character {
     {
         SwordHide();
 
-        TakeDamage(damage);
+        if (!IsDead)
+        {
+            TakeDamage(damage);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -152,14 +157,16 @@ public class Enemy : Character {
         else
         {
             Statistics.StopBattleTimer = true;
+            transform.GetChild(0).gameObject.SetActive(false);
 
             MyAnimator.SetTrigger("die");
+            OnDeadEvent();
         }
     }
     
     public override void Die()
     {
         Destroy(gameObject);
-        Player.Instance.Statistics.KillCount++;
+        Player.Instance.Statistics.IncreaseKillCount();
     }
 }
