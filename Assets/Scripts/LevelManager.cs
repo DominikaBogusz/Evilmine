@@ -24,11 +24,13 @@ public class LevelManager : MonoBehaviour {
     {
         GameplayPersistentObjects = new List<GameObject>();
         ActiveScene = SceneManager.GetActiveScene().buildIndex;
+
+        GameplayPersistentObjects.Add(gameObject);
     }
 
     public void LoadLevel(int scene)
     {
-        if(scene == 0 || scene == 2)
+        /*if(scene == 0 || scene == 2)
         {
             foreach (GameObject go in GameplayPersistentObjects)
             {
@@ -45,6 +47,22 @@ public class LevelManager : MonoBehaviour {
             {
                 DontDestroyOnLoad(go);
             }
+        }
+        */
+
+        if(scene <= ActiveScene)
+        {
+            for (int i = 1; i < GameplayPersistentObjects.Count; i++)
+            {
+                GameObject go = GameplayPersistentObjects[i];
+                if (go != null) Destroy(go);
+            }
+            GameplayPersistentObjects.RemoveRange(1, GameplayPersistentObjects.Count - 1);
+        }
+
+        foreach (GameObject go in GameplayPersistentObjects)
+        {
+            DontDestroyOnLoad(go);
         }
 
         ActiveScene = scene;

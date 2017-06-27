@@ -62,7 +62,7 @@ public class Player : Character {
     public int MaxLivesCount { get; set; }
     public int ActiveLivesCount { get; set; }
 
-    public override void Start ()
+    public override void Start()
     {
         base.Start();
 

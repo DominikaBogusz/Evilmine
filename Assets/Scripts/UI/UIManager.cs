@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
         ActiveUI = true;
         Time.timeScale = 0.0f;
         ui.SetActive(true);
+        Cursor.visible = true;
     }
 
     public void EnableWaveUI(WaveSpawner waveSpawner)

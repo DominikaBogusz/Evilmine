@@ -90,6 +90,7 @@ public class SummaryUI : MonoBehaviour
         Time.timeScale = 1.0f;
         LevelManager.Instance.LoadLevel(2);
         gameObject.SetActive(false);
+        Cursor.visible = false;
     }
 
     public void LoadNextLevel()
@@ -101,6 +102,7 @@ public class SummaryUI : MonoBehaviour
             LevelManager.Instance.LoadLevel(LevelManager.Instance.ActiveScene + 1);
         }
         gameObject.SetActive(false);
+        Cursor.visible = false;
     }
 
     void OnDisable()

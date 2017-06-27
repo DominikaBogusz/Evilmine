@@ -17,6 +17,7 @@ public class IntroUI : MonoBehaviour {
     public void Play()
     {
         LevelManager.Instance.LoadLevel(LevelManager.Instance.ActiveScene + 1);
+        Cursor.visible = false;
     }
 
     public void Return()

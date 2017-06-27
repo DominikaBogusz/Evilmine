@@ -27,7 +27,7 @@ public class Bat : Character {
     public Transform LeftEdge { get; set; }
     public Transform RightEdge { get; set; }
 
-    public override void Start ()
+    public override void Start()
     {
         base.Start();
         Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), Player.Instance.GetComponent<BoxCollider2D>(), true);

@@ -52,7 +52,7 @@ public class Enemy : Character {
 
     [SerializeField] private ParticleSystem bloodParticles;
 
-    public override void Start ()
+    public override void Start()
     {
         base.Start();
 

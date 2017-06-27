@@ -66,8 +66,6 @@ public class DifficultyManager : MonoBehaviour
 
     public void AddFightResult(bool won, Fight.Mark mark)
     {
-        Debug.Log(won + ", " + mark);
-
         battleResults[1] = battleResults[0];
         battleResults[0] = new Fight(won, mark);
 
@@ -82,7 +80,6 @@ public class DifficultyManager : MonoBehaviour
         {
             numberOfInterventions++;
             ExpectedEnemyLevel += intervention;
-            Debug.Log(intervention);
             previousIntervention = intervention;
         }
         else if(previousIntervention > 0)

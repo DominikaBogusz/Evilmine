@@ -12,6 +12,7 @@ public class PauseUI : MonoBehaviour {
 
     public void BackToMenu()
     {
+        Time.timeScale = 1.0f;
         LevelManager.Instance.LoadLevel(0);
     }
 
@@ -20,5 +21,6 @@ public class PauseUI : MonoBehaviour {
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
         gameObject.SetActive(false);
+        Cursor.visible = false;
     }
 }

@@ -4,6 +4,11 @@ public class MainMenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject controlsUI;
 
+    void Start()
+    {
+        Cursor.visible = true;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
@@ -29,7 +34,6 @@ public class MainMenuUI : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Quitting the game...");
         Application.Quit();
     }
 }

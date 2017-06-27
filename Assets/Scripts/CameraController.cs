@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour {
         Physics2D.IgnoreLayerCollision(11, 11, true);
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (touchingLeft)
         {

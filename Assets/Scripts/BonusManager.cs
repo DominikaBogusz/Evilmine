@@ -17,11 +17,7 @@ public class BonusManager : MonoBehaviour {
         }
     }
 
-    private BonusesUI bonusesUI;
-    public void SetBonusesUI(BonusesUI bonusesUI)
-    {
-        this.bonusesUI = bonusesUI;
-    }
+    [SerializeField] private BonusesUI bonusesUI;
 
     [SerializeField] public Bonus healthBonus;
     [SerializeField] public List<TimeBonus> timeBonuses;
@@ -39,6 +35,8 @@ public class BonusManager : MonoBehaviour {
 
     void Start()
     {
+        LevelManager.Instance.GameplayPersistentObjects.Add(gameObject);
+
         TimeBetweenGenerations = 10f;
     }
 

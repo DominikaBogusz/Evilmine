@@ -13,5 +13,6 @@ public class GameOverUI : MonoBehaviour {
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
         LevelManager.Instance.LoadLevel(2);
+        Cursor.visible = false;
     }
 }

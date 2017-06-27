@@ -45,6 +45,7 @@ public class UpgradeUI : MonoBehaviour {
         UIManager.Instance.ActiveUI = false;
         Time.timeScale = 1.0f;
         gameObject.SetActive(false);
+        Cursor.visible = false;
     }
 
     void UpdateLevel()

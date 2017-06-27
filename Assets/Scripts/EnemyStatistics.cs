@@ -26,9 +26,6 @@ public class EnemyStatistics : MonoBehaviour {
         float playerMaxLife = player.Attributes.Health.max;
         float enemyMaxLife = enemy.Attributes.ActualMaxHealth;
 
-        Debug.Log("Damage taken: " + DamageMade + ", player max life: " + playerMaxLife);
-        Debug.Log("Damage made: " + DamageReceived + ", enemy max life: " + enemyMaxLife);
-
         if (enemy.IsDead)
         {
             if (DamageMade > playerMaxLife * 0.6)
